@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ProductDrilldownMaster extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'drilldown_id',
+        'drilldown_type',
+        'parent_id',
+        'drilldown_code',
+        'drilldown_description',
+        'drilldown_description_arabic',
+        'upload_status',
+        'station_id',
+        'drilldown_status',
+        'drilldown_image',
+        'cr_by',
+        'cr_on',
+        'mod_by',
+        'mod_on',
+    ];
+}

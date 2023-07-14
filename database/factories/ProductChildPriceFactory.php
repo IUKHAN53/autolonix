@@ -1,0 +1,42 @@
+<?php
+
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductChildPrice>
+ */
+class ProductChildPriceFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'product_child_price_id' => $this->faker->randomNumber(),
+            'product_id' => $this->faker->randomNumber(),
+            'unique_id' => $this->faker->randomNumber(),
+            'price_level_id' => $this->faker->randomNumber(),
+            'service_id' => $this->faker->randomNumber(),
+            'unit_price' => $this->faker->randomFloat(4, 0, 9999),
+            'ot_amount1' => $this->faker->randomFloat(4, 0, 9999),
+            'ot_amount2' => $this->faker->randomFloat(4, 0, 9999),
+            'ot_amount3' => $this->faker->randomFloat(4, 0, 9999),
+            'ot_amount4' => $this->faker->randomFloat(4, 0, 9999),
+            'ot_rate1' => $this->faker->randomFloat(2, 0, 9999),
+            'ot_rate2' => $this->faker->randomFloat(2, 0, 9999),
+            'ot_rate3' => $this->faker->randomFloat(2, 0, 9999),
+            'ot_rate4' => $this->faker->randomFloat(2, 0, 9999),
+            'upload_status_p' => $this->faker->randomElement(['status1', 'status2', 'status3']),
+            'cr_by' => $this->faker->text(10),
+            'cr_on' => $this->faker->dateTime(),
+            'mod_by' => $this->faker->text(10),
+            'mod_on' => $this->faker->dateTime(),
+            'station_id' => $this->faker->randomNumber(),
+        ];
+    }
+}
