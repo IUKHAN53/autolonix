@@ -46,7 +46,12 @@ class ProductController extends Controller
         $brands = ProductDrilldownMaster::query()->brand()->parent()->get();
         $departments = ProductDrilldownMaster::query()->department()->parent()->get();
         $uom = ProductMaster::UOM;
-        return response()->json($categories);
+        return response()->json([
+            'categories' => $categories,
+            'brands' => $brands,
+            'departments' => $departments,
+            'uom' => $uom,
+        ]);
     }
 
     /**
