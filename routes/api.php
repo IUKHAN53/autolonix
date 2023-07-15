@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::prefix('subcategories')->group(function () {
         Route::post('/', [ProductController::class, 'getSubCategories']);
-        Route::post('/', [DrilldownController::class, 'subcategoryStore']);
+        Route::post('/store', [DrilldownController::class, 'subcategoryStore']);
         Route::get('/{id}', [DrilldownController::class, 'show']);
         Route::put('/{id}', [DrilldownController::class, 'subcategoryUpdate']);
         Route::delete('/{id}', [DrilldownController::class, 'destroy']);
