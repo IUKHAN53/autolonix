@@ -25,4 +25,30 @@ class ProductDrilldownMaster extends Model
         'mod_by',
         'mod_on',
     ];
+
+    public function scopeParent($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    public function scopeChild($query)
+    {
+        return $query->whereNotNull('parent_id');
+    }
+
+    public function scopeCategory($query)
+    {
+        return $query->where('drilldown_type', 'Category');
+    }
+
+    public function scopeBrand($query)
+    {
+        return $query->where('drilldown_type', 'Brand');
+    }
+
+    public function scopeDepartment($query)
+    {
+        return $query->where('drilldown_type', 'Department');
+    }
+
 }

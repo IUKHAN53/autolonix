@@ -74,4 +74,11 @@ class AuthController extends Controller
         return $request->user();
     }
 
+    public function logout(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $user->tokens()->delete();
+        return response()->json(['status' => true, 'message' => 'Logout successfully']);
+    }
+
 }

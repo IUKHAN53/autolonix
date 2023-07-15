@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\ProductChild;
+use App\Models\ProductMaster;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,9 +24,8 @@ class ProductChildFactory extends Factory
     public function definition()
     {
         return [
-            'product_child_id' => $this->faker->randomNumber(),
-            'product_id' => $this->faker->randomNumber(),
-            'unique_id' => $this->faker->randomNumber(),
+            'product_id' => ProductMaster::query()->inRandomOrder()->first()->id,
+            'unique_id' => ProductMaster::query()->inRandomOrder()->first()->id,
             'pack_qty' => $this->faker->randomFloat(4, 0, 9999),
             'station_id' => $this->faker->randomNumber(),
             'qty_on_hand' => $this->faker->randomFloat(4, 0, 9999),
@@ -47,11 +47,8 @@ class ProductChildFactory extends Factory
             'location' => $this->faker->word,
             'r_status_c' => $this->faker->randomElement(['status1', 'status2', 'status3']),
             'upload_status_c' => $this->faker->randomElement(['status1', 'status2', 'status3']),
-            'cr_by' => strtoupper($this->faker->lexify('??????')),
+            'cr_by' => User::query()->inRandomOrder()->first()->id,
             'cr_on' => $this->faker->dateTime(),
-            'mod_by' => strtoupper($this->faker->lexify('??????')),
-            'mod_on' => $this->faker->dateTime(),
-            'user_id' => User::query()->inRandomOrder()->first()->id,
         ];
     }
 }

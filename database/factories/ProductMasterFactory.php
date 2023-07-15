@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\ProductDrilldownMaster;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -11,17 +12,16 @@ class ProductMasterFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => $this->faker->randomNumber(),
             'product_code' => $this->faker->text(50),
             'barcode' => $this->faker->text(50),
             'product_name' => $this->faker->text(150),
             'product_name_arabic' => $this->faker->text(150),
             'specification' => $this->faker->text(250),
-            'category_id' => $this->faker->randomNumber(),
-            'sub_category_id' => $this->faker->randomNumber(),
-            'sub_sub_category_id' => $this->faker->randomNumber(),
-            'product_brand_id' => $this->faker->randomNumber(),
-            'department_id' => $this->faker->randomNumber(),
+            'category_id' => ProductDrilldownMaster::query()->category()->parent()->inRandomOrder()->first()->id ?? null,
+            'sub_category_id' => ProductDrilldownMaster::query()->category()->child()->inRandomOrder()->first()->id ?? null,
+            'sub_sub_category_id' => ProductDrilldownMaster::query()->category()->child()->inRandomOrder()->first()->id ?? null,
+            'product_brand_id' => ProductDrilldownMaster::query()->brand()->inRandomOrder()->first()->id ?? null,
+            'department_id' => ProductDrilldownMaster::query()->department()->inRandomOrder()->first()->id ?? null,
             'unit' => $this->faker->text(50),
             'pack_qty' => $this->faker->randomFloat(4, 0, 9999),
             'pack_details' => $this->faker->text(10),
@@ -39,11 +39,8 @@ class ProductMasterFactory extends Factory
             'upload_status' => $this->faker->text(10),
             'product_type' => $this->faker->text(10),
             'product_image' => $this->faker->imageUrl(),
-            'cr_by' => $this->faker->text(10),
+            'cr_by' => User::query()->inRandomOrder()->first()->id,
             'cr_on' => $this->faker->dateTime(),
-            'mod_by' => $this->faker->text(10),
-            'mod_on' => $this->faker->dateTime(),
-            'user_id' => User::query()->inRandomOrder()->first()->id,
         ];
     }
 }

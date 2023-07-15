@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AccountHeadMaster;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,10 +19,11 @@ class DatabaseSeeder extends Seeder
              'email' => 'test@example.com',
          ]);
          $this->call([
+             ProductDrilldownMasterSeeder::class,
+             AccountHeadMasterSeeder::class,
              ProductMasterSeeder::class,
              ProductChildSeeder::class,
              ProductChildPriceSeeder::class,
-             ProductDrilldownMasterSeeder::class,
          ]);
     }
 }

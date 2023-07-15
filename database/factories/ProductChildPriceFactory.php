@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\ProductMaster;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +19,8 @@ class ProductChildPriceFactory extends Factory
     public function definition()
     {
         return [
-            'product_child_price_id' => $this->faker->randomNumber(),
-            'product_id' => $this->faker->randomNumber(),
-            'unique_id' => $this->faker->randomNumber(),
+            'product_id' => ProductMaster::query()->inRandomOrder()->first()->id,
+            'unique_id' => ProductMaster::query()->inRandomOrder()->first()->id,
             'price_level_id' => $this->faker->randomNumber(),
             'service_id' => $this->faker->randomNumber(),
             'unit_price' => $this->faker->randomFloat(4, 0, 9999),
@@ -32,10 +33,8 @@ class ProductChildPriceFactory extends Factory
             'ot_rate3' => $this->faker->randomFloat(2, 0, 9999),
             'ot_rate4' => $this->faker->randomFloat(2, 0, 9999),
             'upload_status_p' => $this->faker->randomElement(['status1', 'status2', 'status3']),
-            'cr_by' => $this->faker->text(10),
+            'cr_by' => User::query()->inRandomOrder()->first()->id,
             'cr_on' => $this->faker->dateTime(),
-            'mod_by' => $this->faker->text(10),
-            'mod_on' => $this->faker->dateTime(),
             'station_id' => $this->faker->randomNumber(),
         ];
     }

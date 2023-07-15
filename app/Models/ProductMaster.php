@@ -46,9 +46,14 @@ class ProductMaster extends Model
         'user_id',
     ];
 
+    const UOM = ['Packet', 'Kg', 'Ltr', 'Mtr', 'Set', 'Box', 'Bag', 'Roll', 'Bundle', 'Pair', 'Dozen', 'Nos', 'Unit', 'Others'];
+
     // Relationship with User model
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    // Relationship with ProductDetail model
+
 }

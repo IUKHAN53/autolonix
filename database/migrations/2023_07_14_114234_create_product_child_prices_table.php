@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_child_prices', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_child_price_id');
-            $table->bigInteger('product_id');
-            $table->bigInteger('unique_id');
-            $table->bigInteger('price_level_id');
-            $table->bigInteger('service_id');
+            $table->bigInteger('price_level_id')->nullable();
+            $table->bigInteger('service_id')->nullable();
             $table->decimal('unit_price', 19, 4)->nullable();
             $table->decimal('ot_amount1', 19, 4)->nullable();
             $table->decimal('ot_amount2', 19, 4)->nullable();
@@ -27,12 +24,14 @@ return new class extends Migration
             $table->decimal('ot_rate2', 18, 2)->nullable();
             $table->decimal('ot_rate3', 18, 2)->nullable();
             $table->decimal('ot_rate4', 18, 2)->nullable();
-            $table->char('upload_status_p', 10);
-            $table->char('cr_by', 10);
-            $table->dateTime('cr_on');
-            $table->char('mod_by', 10);
-            $table->dateTime('mod_on');
-            $table->bigInteger('station_id');
+            $table->char('upload_status_p', 10)->nullable();
+            $table->dateTime('cr_on')->nullable();
+            $table->dateTime('mod_on')->nullable();
+            $table->bigInteger('station_id')->nullable();
+            $table->foreignId('product_id')->constrained('product_masters')->onDelete('cascade');
+            $table->foreignId('unique_id')->constrained('product_masters')->onDelete('cascade');
+            $table->foreignId('cr_by')->nullable()->constrained('users');
+            $table->foreignId('mod_by')->nullable()->constrained('users');
             $table->timestamps();
         });
     }
