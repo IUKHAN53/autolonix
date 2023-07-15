@@ -1,0 +1,92 @@
+<div class="content-panel">
+  <h2>Create New Product</h2>
+  <form class="content-box" (ngSubmit)="submitForm(productModel)">
+    <div class="form-section">
+      <div class="section-30">
+        <p>Product Code</p>
+        <input type="text" placeholder="Product Code">
+        <p>Product Description</p>
+        <input type="text" placeholder="Product description">
+        <p>Product Description - Arabic</p>
+        <input type="text" placeholder="Product Description- Arabic">
+        <p>Category</p>
+        <select name="">
+          <option value="">Select Category</option>
+        </select>
+        <p>Sub Category</p>
+        <select name="">
+          <option value="">Select Sub Category</option>
+        </select>
+        <p>Sub Sub Category</p>
+        <select name="">
+          <option value="">Select Sub Sub Category</option>
+        </select>
+        <p>Brand</p>
+        <select name="">
+          <option value="">Select Brand</option>
+        </select>
+        <p>Department</p>
+        <select name="">
+          <option value="">Select Department</option>
+        </select>
+
+        <div class="section-50">
+          <p>Product UOM</p>
+          <select name="">
+            <option value="">Select Product UOM</option>
+          </select>
+        </div>
+        <div class="section-50">
+          <p>Packet Details</p>
+          <input type="text" placeholder="100 gm">
+        </div>
+        <p>Product Type</p>
+        <select name="">
+          <option value="">Select Product Type</option>
+        </select>
+      </div>
+      <div class="section-70">
+        <p>Barcode</p>
+        <input type="text" placeholder="Product Barcode">
+        <p>Specification</p>
+        <textarea rows="10" placeholder="Product Specification"></textarea>
+        <div class="section-70">
+          <p>Supplier Name</p>
+          <input type="text" placeholder="Supplier Nam">
+        </div>
+        <div class="section-30">
+          <p>Stock Qty</p>
+          <input type="number" placeholder="Stock Qty">
+        </div>
+        <div class="section-50">
+          <p>Product Cost</p>
+          <input type="number" placeholder="Product Cost">
+          <p>Margin (%)</p>
+          <input type="number" placeholder="Margin (%)">
+          <p>Margin (Amount)</p>
+          <input type="number" placeholder="Margin (Amount)">
+        </div>
+        <div class="section-50">
+          <p>Selling Price</p>
+          <input type="number" placeholder="Selling Price">
+          <p>VAT %</p>
+          <select name="">
+            <option value="">Select VAT</option>
+          </select>
+          <p>Price Inclusive VAT</p>
+          <input type="number" placeholder="Price Inclusive VAT">
+        </div>
+          product image
+        <div>
+        </div>
+      </div>
+    </div>
+    <div class="form-footer">
+
+      <a routerLink="/product/all" class="btn-cancel" style="text-decoration: none">
+        Back to list
+      </a>
+      <button type="submit" class="btn-save">Save</button>
+    </div>
+  </form>
+</div>

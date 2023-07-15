@@ -1,0 +1,59 @@
+<div class="menu-panel">
+  <ul>
+    <p>Home</p>
+    <a routerLink="/dashboard">
+      <li [routerLinkActive]="currentRoute==='/dashboard' ? 'active' : ''">Dashboard</li>
+    </a>
+  </ul>
+  <ul>
+    <p>Items</p>
+    <a routerLink="/product/all">
+      <li [routerLinkActive]="currentRoute==='/product/all' ? 'active' : ''">Products</li>
+    </a>
+    <a href="categorylist.html">
+      <li>Category</li>
+    </a>
+    <a href="subcategorylist.html">
+      <li>Sub Category</li>
+    </a>
+  </ul>
+  <ul>
+    <p>Sale</p>
+    <a href="customerlist.html">
+      <li>Customers</li>
+    </a>
+    <a href="estimatelist.html">
+      <li>Estimate</li>
+    </a>
+    <a href="invoicelist.html">
+      <li>Invoice</li>
+    </a>
+    <a href="paymentlist.html">
+      <li>Payment</li>
+    </a>
+  </ul>
+  <ul>
+    <p>Purchase</p>
+    <a href="vendorlist.html">
+      <li>Vendors</li>
+    </a>
+    <a href="expenselist.html">
+      <li>Expenses</li>
+    </a>
+  </ul>
+  <ul>
+    <p>Report</p>
+    <a href="salesreport.html">
+      <li>Sales Report</li>
+    </a>
+    <a href="expensereport.html">
+      <li>Expense Report</li>
+    </a>
+  </ul>
+  <ul>
+    <p>User</p>
+    <a href="#">
+      <li>Logout</li>
+    </a>
+  </ul>
+</div>

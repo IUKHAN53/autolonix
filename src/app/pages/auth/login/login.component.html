@@ -1,0 +1,13 @@
+<form (submit)="login()" class="login-box-content">
+  <p>Username</p>
+  <input type="text" [(ngModel)]="userModel.email" name="email" placeholder="Enter username" required>
+<!--  <small>Email field is required</small>-->
+  <p>Password</p>
+  <input type="password" [(ngModel)]="userModel.password" name="password" placeholder="Enter Password" required>
+  <button type="submit">Login</button>
+  <div style="text-align: center; margin-top: 20px">
+    <a routerLink="/register" style="text-decoration: none;">Create Account</a>
+  </div>
+  <!--  <a href="home.html">-->
+  <!--  </a>-->
+</form>
