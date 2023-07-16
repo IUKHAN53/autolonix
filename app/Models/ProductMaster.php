@@ -65,17 +65,17 @@ class ProductMaster extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categoryData()
+    public function category()
     {
         return $this->belongsTo(ProductDrilldownMaster::class, 'category_id', 'drilldown_id');
     }
 
-    public function subCategoryData()
+    public function subCategory()
     {
         return $this->belongsTo(ProductDrilldownMaster::class, 'sub_category_id', 'drilldown_id');
     }
 
-    public function subSubCategoryData()
+    public function subSubCategory()
     {
         return $this->belongsTo(ProductDrilldownMaster::class, 'sub_sub_category_id', 'drilldown_id');
     }
