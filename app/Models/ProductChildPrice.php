@@ -34,4 +34,10 @@ class ProductChildPrice extends Model
         'station_id',
     ];
 
+
+    public function product()
+    {
+        return $this->belongsTo(ProductMaster::class);
+    }
+
 }

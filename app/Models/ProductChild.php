@@ -47,4 +47,10 @@ class ProductChild extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // Relationship with ProductMaster model
+    public function product()
+    {
+        return $this->belongsTo(ProductMaster::class);
+    }
 }

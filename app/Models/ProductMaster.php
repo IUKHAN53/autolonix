@@ -44,7 +44,6 @@ class ProductMaster extends Model
         'cr_on',
         'mod_by',
         'mod_on',
-        'user_id',
     ];
 
     const UOM = ['Packet', 'Kg', 'Ltr', 'Mtr', 'Set', 'Box', 'Bag', 'Roll', 'Bundle', 'Pair', 'Dozen', 'Nos', 'Unit', 'Others'];
@@ -89,4 +88,15 @@ class ProductMaster extends Model
     {
         return $this->belongsTo(ProductDrilldownMaster::class, 'department_id');
     }
+
+    public function child()
+    {
+        return $this->hasOne(ProductChild::class, 'product_id');
+    }
+
+    public function childPrice()
+    {
+        return $this->hasOne(ProductChildPrice::class, 'product_id');
+    }
+
 }
