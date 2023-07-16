@@ -24,7 +24,7 @@ class ProductController extends Controller
         $sortField = $request->input('sort_field', 'id');
         $sortOrder = $request->input('sort_order', 'asc');
 
-        $query = ProductMaster::query()->with(['category', 'sub_category', 'sub_sub_category', 'department', 'product_brand']);
+        $query = ProductMaster::query()->with(['category', 'subCategory', 'subSubCategory', 'department', 'brand']);
 
         // Sorting
         $query->orderBy($sortField, $sortOrder);
@@ -156,10 +156,10 @@ class ProductController extends Controller
         $data['ot_amount1'] = $product_child_price->ot_amount1;
 
         $data['category'] = $product->category;
-        $data['sub_category'] = $product->sub_category;
-        $data['sub_sub_category'] = $product->sub_sub_category;
+        $data['sub_category'] = $product->subCategory;
+        $data['sub_sub_category'] = $product->subSubCategory;
         $data['department'] = $product->department;
-        $data['product_brand'] = $product->product_brand;
+        $data['product_brand'] = $product->brand;
 
 
         return response()->json($data);
