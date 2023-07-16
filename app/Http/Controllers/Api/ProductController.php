@@ -24,7 +24,7 @@ class ProductController extends Controller
         $sortField = $request->input('sort_field', 'id');
         $sortOrder = $request->input('sort_order', 'asc');
 
-        $query = ProductMaster::query();
+        $query = ProductMaster::query()->with(['category', 'sub_category', 'sub_sub_category', 'department', 'product_brand']);
 
         // Sorting
         $query->orderBy($sortField, $sortOrder);
