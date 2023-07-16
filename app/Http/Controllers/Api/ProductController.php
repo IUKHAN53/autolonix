@@ -155,6 +155,10 @@ class ProductController extends Controller
         $data['ot_rate1'] = $product_child_price->ot_rate1;
         $data['ot_amount1'] = $product_child_price->ot_amount1;
 
+        $data['category'] = $product->categoryData;
+        $data['sub_category'] = $product->sub_categoryData;
+        $data['sub_sub_category'] = $product->sub_sub_categoryData;
+
         return response()->json($data);
     }
 
