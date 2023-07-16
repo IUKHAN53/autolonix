@@ -83,6 +83,15 @@ class ProductController extends Controller
         $product->product_type = $request->input('product_type');
         $product->cr_by = $request->user()->id;
         $product->cr_on = now();
+
+        if($request->hasFile('product_image')){
+            $image = $request->file('product_image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/uploads/products');
+            $image->move($destinationPath, $name);
+            $product->product_image = $name;
+        }
+
         $product->save();
 
         $product_child = new ProductChild();
@@ -134,6 +143,7 @@ class ProductController extends Controller
         $data['unit'] = $product->unit;
         $data['pack_details'] = $product->pack_details;
         $data['product_type'] = $product->product_type;
+        $data['product_image'] = $product->product_image;
 
         $data['last_supplier_id'] = $product_child->last_supplier_id;
         $data['last_purchase_cost'] = $product_child->last_purchase_cost;
@@ -253,6 +263,7 @@ class ProductController extends Controller
                 'unit' => 'required|in:' . implode(',', ProductMaster::UOM),
                 'pack_details' => 'required|numeric',
                 'product_type' => 'required|string|max:10',
+                'product_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'last_supplier_id' => 'required',
                 'pack_qty' => 'required',
                 'last_purchase_cost' => 'required',
@@ -277,6 +288,7 @@ class ProductController extends Controller
                 'unit' => 'in:' . implode(',', ProductMaster::UOM),
                 'pack_details' => 'numeric',
                 'product_type' => 'string|max:10',
+                'product_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'last_supplier_id' => '',
                 'pack_qty' => '',
                 'last_purchase_cost' => '',

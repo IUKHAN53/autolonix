@@ -35,10 +35,9 @@ return new class extends Migration
             $table->text('remarks')->nullable();
             $table->char('upload_status', 10)->default('PENDING');
             $table->string('product_type', 10)->nullable();
-            $table->binary('product_image')->nullable();
+            $table->string('product_image')->nullable();
             $table->dateTime('cr_on')->nullable();
             $table->dateTime('mod_on')->nullable();
-//            $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('category_id')->nullable()->constrained('product_drilldown_masters');
             $table->foreignId('sub_category_id')->nullable()->constrained('product_drilldown_masters');
             $table->foreignId('sub_sub_category_id')->nullable()->constrained('product_drilldown_masters');

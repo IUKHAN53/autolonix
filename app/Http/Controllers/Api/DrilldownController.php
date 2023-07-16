@@ -42,7 +42,7 @@ class DrilldownController extends Controller
         $validatedData = Validator::make($request->all(), [
             'drilldown_code' => 'required|string|max:50',
             'drilldown_description' => 'required|string|max:250',
-            'drilldown_image' => 'nullable|string',
+            'drilldown_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validatedData->fails()) {
@@ -52,10 +52,18 @@ class DrilldownController extends Controller
         $category = new ProductDrilldownMaster();
         $category->drilldown_code = $request->input('drilldown_code');
         $category->drilldown_description = $request->input('drilldown_description');
-        $category->drilldown_image = $request->input('drilldown_image');
         $category->cr_on = now();
         $category->cr_by = $request->user()->id;
         $category->drilldown_type = 'Category';
+
+        if($request->hasFile('drilldown_image')){
+            $image = $request->file('product_image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/uploads/drilldowns');
+            $image->move($destinationPath, $name);
+            $category->drilldown_image = $name;
+        }
+
         $category->save();
 
         return response()->json($category, 201);
@@ -66,7 +74,7 @@ class DrilldownController extends Controller
         $validatedData = Validator::make($request->all(), [
             'drilldown_code' => 'nullable|string|max:50',
             'drilldown_description' => 'nullable|string|max:250',
-            'drilldown_image' => 'nullable|string',
+            'drilldown_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validatedData->fails()) {
@@ -76,9 +84,17 @@ class DrilldownController extends Controller
         $category = ProductDrilldownMaster::findOrFail($id);
         $category->drilldown_code = $request->input('drilldown_code', $category->drilldown_code);
         $category->drilldown_description = $request->input('drilldown_description', $category->drilldown_description);
-        $category->drilldown_image = $request->input('drilldown_image', $category->drilldown_image);
         $category->mod_by = $request->user()->id;
         $category->mod_on = now();
+
+        if($request->hasFile('drilldown_image')){
+            $image = $request->file('product_image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/uploads/drilldowns');
+            $image->move($destinationPath, $name);
+            $category->drilldown_image = $name;
+        }
+
         $category->save();
 
         return response()->json($category);
@@ -99,7 +115,7 @@ class DrilldownController extends Controller
             'parent_id' => 'required',
             'drilldown_code' => 'required|string|max:50',
             'drilldown_description' => 'required|string|max:250',
-            'drilldown_image' => 'nullable|string',
+            'drilldown_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validatedData->fails()) {
@@ -110,7 +126,15 @@ class DrilldownController extends Controller
         $subcategory->drilldown_type = 'Category';
         $subcategory->drilldown_code = $request->input('drilldown_code');
         $subcategory->drilldown_description = $request->input('drilldown_description');
-        $subcategory->drilldown_image = $request->input('drilldown_image');
+
+        if($request->hasFile('drilldown_image')){
+            $image = $request->file('product_image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/uploads/drilldowns');
+            $image->move($destinationPath, $name);
+            $subcategory->drilldown_image = $name;
+        }
+
         $subcategory->cr_by = $request->user()->id;
         $subcategory->cr_on = now();
         $subcategory->save();
@@ -124,7 +148,7 @@ class DrilldownController extends Controller
             'parent_id' => 'required',
             'drilldown_code' => 'nullable|string|max:50',
             'drilldown_description' => 'nullable|string|max:250',
-            'drilldown_image' => 'nullable|string',
+            'drilldown_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validatedData->fails()) {
@@ -135,7 +159,13 @@ class DrilldownController extends Controller
 
         $subcategory->drilldown_code = $request->input('drilldown_code', $subcategory->drilldown_code);
         $subcategory->drilldown_description = $request->input('drilldown_description', $subcategory->drilldown_description);
-        $subcategory->drilldown_image = $request->input('drilldown_image', $subcategory->drilldown_image);
+        if($request->hasFile('drilldown_image')){
+            $image = $request->file('product_image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/uploads/drilldowns');
+            $image->move($destinationPath, $name);
+            $subcategory->drilldown_image = $name;
+        }
         $subcategory->parent_id = $request->input('parent_id', $subcategory->parent_id);
         $subcategory->mod_by = $request->user()->id;
         $subcategory->mod_on = now();

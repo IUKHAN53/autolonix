@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class ProductDrilldownMaster extends Model
 {
@@ -25,6 +26,11 @@ class ProductDrilldownMaster extends Model
         'mod_by',
         'mod_on',
     ];
+
+    public function getDrilldownImageAttribute($value): ?string
+    {
+        return $value ? Storage::url('/uploads/drilldowns/' . $value) : null;
+    }
 
     public function scopeParent($query)
     {

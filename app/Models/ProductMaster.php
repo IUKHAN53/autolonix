@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class ProductMaster extends Model
 {
@@ -47,6 +48,16 @@ class ProductMaster extends Model
     ];
 
     const UOM = ['Packet', 'Kg', 'Ltr', 'Mtr', 'Set', 'Box', 'Bag', 'Roll', 'Bundle', 'Pair', 'Dozen', 'Nos', 'Unit', 'Others'];
+
+    public function getProductImageAttribute($value)
+    {
+        return $value ? Storage::url('/uploads/product_images/' . $value) : null;
+    }
+
+    public function getUom()
+    {
+        return self::UOM;
+    }
 
     // Relationship with User model
     public function user()
