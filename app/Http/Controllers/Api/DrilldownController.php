@@ -24,7 +24,8 @@ class DrilldownController extends Controller
         if ($request->type == 'list') {
             $categories = $query->pluck("drilldown_code", "id");
         } else {
-            $categories = $query->paginate($perPage);
+//            $categories = $query->paginate($perPage);
+            $categories = $query->get();
         }
 
         return response()->json($categories);

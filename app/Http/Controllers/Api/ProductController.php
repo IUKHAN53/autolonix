@@ -30,7 +30,8 @@ class ProductController extends Controller
         $query->orderBy($sortField, $sortOrder);
 
         // Pagination
-        $products = $query->paginate($perPage);
+//        $products = $query->paginate($perPage);
+        $products = $query->get();
 
         return response()->json($products);
     }
@@ -241,7 +242,8 @@ class ProductController extends Controller
         if ($request->type == "list") {
             $categories = $categories->pluck('drilldown_code', 'id');
         } else {
-            $categories = $categories->paginate($perPage);
+//            $categories = $categories->paginate($perPage);
+            $categories = $categories->get();
         }
         return response()->json($categories);
     }
