@@ -87,7 +87,7 @@ class ProductController extends Controller
 
         if($request->hasFile('product_image')){
             $image = $request->file('product_image')->store('uploads/products');
-            $product->drilldown_image = $image;
+            $product->product_image = $image;
         }
         $product->save();
 
@@ -194,7 +194,7 @@ class ProductController extends Controller
         $product->mod_by = $request->user()->id;
         if($request->hasFile('product_image')){
             $image = $request->file('product_image')->store('uploads/products');
-            $product->drilldown_image = $image;
+            $product->product_image = $image;
         }
         $product->mod_on = now();
 
@@ -243,6 +243,7 @@ class ProductController extends Controller
         $categories = ProductDrilldownMaster::query()->category();
         $categories = $categories->orderBy($sortField, $sortOrder);
         if ($parent_id)
+            $categories = $categories->where('parent_id', $parent_id);
             $categories = $categories->where('parent_id', $parent_id);
         else
             $categories = $categories->child();
