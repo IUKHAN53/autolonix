@@ -47,7 +47,7 @@ class DrilldownController extends Controller
         ]);
 
         if ($validatedData->fails()) {
-            return response()->json($validatedData->errors(), 422);
+            return response()->json(['error' => $validatedData->errors()], 401);
         }
 
         $category = new ProductDrilldownMaster();
@@ -79,7 +79,7 @@ class DrilldownController extends Controller
         ]);
 
         if ($validatedData->fails()) {
-            return response()->json($validatedData->errors(), 422);
+            return response()->json(['error' => $validatedData->errors()], 401);
         }
 
         $category = ProductDrilldownMaster::findOrFail($id);
@@ -120,7 +120,7 @@ class DrilldownController extends Controller
         ]);
 
         if ($validatedData->fails()) {
-            return response()->json($validatedData->errors(), 422);
+            return response()->json(['error' => $validatedData->errors()], 401);
         }
         $subcategory = new ProductDrilldownMaster();
         $subcategory->parent_id = $request->input('parent_id');
@@ -153,7 +153,7 @@ class DrilldownController extends Controller
         ]);
 
         if ($validatedData->fails()) {
-            return response()->json($validatedData->errors(), 422);
+            return response()->json(['error' => $validatedData->errors()], 401);
         }
 
         $subcategory = ProductDrilldownMaster::findOrFail($id);

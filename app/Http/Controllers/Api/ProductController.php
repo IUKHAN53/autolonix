@@ -65,7 +65,7 @@ class ProductController extends Controller
     {
         $validatedData = Validator::make($request->all(), $this->rules('store'));
         if ($validatedData->fails()) {
-            return response()->json($validatedData->errors(), 422);
+            return response()->json(['error' => $validatedData->errors()], 401);
         }
 
         $product = new ProductMaster();
@@ -175,8 +175,8 @@ class ProductController extends Controller
     public function update(Request $request, $id): JsonResponse
     {
         $validatedData = Validator::make($request->all(), $this->rules('update'));
-        if ($validatedData) {
-            return response()->json($validatedData->errors(), 422);
+        if ($validatedData->fails()) {
+            return response()->json(['error' => $validatedData->errors()], 401);
         }
         $product = ProductMaster::findOrFail($id);
         $product_child = ProductChild::where('product_id', $product->id)->first();
