@@ -30,8 +30,8 @@ return new class extends Migration
             $table->bigInteger('station_id')->nullable();
             $table->foreignId('product_id')->constrained('product_masters')->onDelete('cascade');
             $table->foreignId('unique_id')->constrained('product_masters')->onDelete('cascade');
-            $table->foreignId('cr_by')->nullable()->constrained('users');
-            $table->foreignId('mod_by')->nullable()->constrained('users');
+            $table->foreignId('cr_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('mod_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }

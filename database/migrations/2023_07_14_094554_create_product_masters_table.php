@@ -38,13 +38,13 @@ return new class extends Migration
             $table->string('product_image')->nullable();
             $table->dateTime('cr_on')->nullable();
             $table->dateTime('mod_on')->nullable();
-            $table->foreignId('category_id')->nullable()->constrained('product_drilldown_masters');
-            $table->foreignId('sub_category_id')->nullable()->constrained('product_drilldown_masters');
-            $table->foreignId('sub_sub_category_id')->nullable()->constrained('product_drilldown_masters');
-            $table->foreignId('product_brand_id')->nullable()->constrained('product_drilldown_masters');
-            $table->foreignId('department_id')->nullable()->constrained('product_drilldown_masters');
-            $table->foreignId('cr_by')->nullable()->constrained('users');
-            $table->foreignId('mod_by')->nullable()->constrained('users');
+            $table->foreignId('category_id')->nullable()->constrained('product_drilldown_masters')->onDelete('set null');;
+            $table->foreignId('sub_category_id')->nullable()->constrained('product_drilldown_masters')->onDelete('set null');;
+            $table->foreignId('sub_sub_category_id')->nullable()->constrained('product_drilldown_masters')->onDelete('set null');;
+            $table->foreignId('product_brand_id')->nullable()->constrained('product_drilldown_masters')->onDelete('set null');;
+            $table->foreignId('department_id')->nullable()->constrained('product_drilldown_masters')->onDelete('set null');;
+            $table->foreignId('cr_by')->nullable()->constrained('users')->onDelete('set null');;
+            $table->foreignId('mod_by')->nullable()->constrained('users')->onDelete('set null');;
             $table->timestamps();
         });
     }

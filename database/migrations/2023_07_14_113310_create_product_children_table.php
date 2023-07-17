@@ -34,9 +34,9 @@ return new class extends Migration
             $table->string('location', 100)->nullable();
             $table->char('r_status_c', 10)->default('ACTIVE');
             $table->char('upload_status_c', 10)->default('PENDING');
-            $table->foreignId('cr_by')->nullable()->constrained('users');
+            $table->foreignId('cr_by')->nullable()->constrained('users')->onDelete('set null');
             $table->dateTime('cr_on')->nullable();
-            $table->foreignId('mod_by')->nullable()->constrained('users');
+            $table->foreignId('mod_by')->nullable()->constrained('users')->onDelete('set null');
             $table->dateTime('mod_on')->nullable();
 //            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('product_masters')->onDelete('cascade');

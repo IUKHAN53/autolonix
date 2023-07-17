@@ -23,8 +23,8 @@ return new class extends Migration {
             $table->string('drilldown_image')->nullable();
             $table->dateTime('cr_on')->nullable();
             $table->dateTime('mod_on')->nullable();
-            $table->foreignId('cr_by')->nullable()->constrained('users');
-            $table->foreignId('mod_by')->nullable()->constrained('users');
+            $table->foreignId('cr_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('mod_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }
