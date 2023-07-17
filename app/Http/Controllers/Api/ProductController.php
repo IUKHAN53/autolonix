@@ -244,7 +244,6 @@ class ProductController extends Controller
         $categories = $categories->orderBy($sortField, $sortOrder);
         if ($parent_id)
             $categories = $categories->where('parent_id', $parent_id);
-            $categories = $categories->where('parent_id', $parent_id);
         else
             $categories = $categories->child();
         if ($request->type == "list") {
