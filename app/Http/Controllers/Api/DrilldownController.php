@@ -33,7 +33,7 @@ class DrilldownController extends Controller
 
     public function show($id)
     {
-        $category = ProductDrilldownMaster::findOrFail($id);
+        $category = ProductDrilldownMaster::with('children')->findOrFail($id);
 
         return response()->json($category);
     }
