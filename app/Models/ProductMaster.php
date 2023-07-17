@@ -48,11 +48,6 @@ class ProductMaster extends Model
 
     const UOM = ['Packet', 'Kg', 'Ltr', 'Mtr', 'Set', 'Box', 'Bag', 'Roll', 'Bundle', 'Pair', 'Dozen', 'Nos', 'Unit', 'Others'];
 
-    public function getProductImageAttribute($value)
-    {
-        return $value ? url('/').Storage::url('uploads/product_images/' . $value) : null;
-    }
-
     public function getUom()
     {
         return self::UOM;

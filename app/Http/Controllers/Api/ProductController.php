@@ -86,13 +86,9 @@ class ProductController extends Controller
         $product->cr_on = now();
 
         if($request->hasFile('product_image')){
-            $image = $request->file('product_image');
-            $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/uploads/products');
-            $image->move($destinationPath, $name);
-            $product->product_image = $name;
+            $image = $request->file('product_image')->store('uploads/products');
+            $product->drilldown_image = $image;
         }
-
         $product->save();
 
         $product_child = new ProductChild();
@@ -196,6 +192,10 @@ class ProductController extends Controller
         $product->pack_details = $request->input('pack_details') ?? $product->pack_details;
         $product->product_type = $request->input('product_type') ?? $product->product_type;
         $product->mod_by = $request->user()->id;
+        if($request->hasFile('product_image')){
+            $image = $request->file('product_image')->store('uploads/products');
+            $product->drilldown_image = $image;
+        }
         $product->mod_on = now();
 
         $product_child->last_supplier_id = $request->input('last_supplier_id') ?? $product_child->last_supplier_id;

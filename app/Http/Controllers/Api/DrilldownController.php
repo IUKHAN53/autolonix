@@ -86,11 +86,8 @@ class DrilldownController extends Controller
         $category->mod_on = now();
 
         if($request->hasFile('drilldown_image')){
-            $image = $request->file('drilldown_image');
-            $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/uploads/drilldowns');
-            $image->move($destinationPath, $name);
-            $category->drilldown_image = $name;
+            $image = $request->file('drilldown_image')->store('uploads/drilldowns');
+            $category->drilldown_image = $image;
         }
 
         $category->save();
@@ -126,11 +123,8 @@ class DrilldownController extends Controller
         $subcategory->drilldown_description = $request->input('drilldown_description');
 
         if($request->hasFile('drilldown_image')){
-            $image = $request->file('drilldown_image');
-            $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/uploads/drilldowns');
-            $image->move($destinationPath, $name);
-            $subcategory->drilldown_image = $name;
+            $image = $request->file('drilldown_image')->store('uploads/drilldowns');
+            $subcategory->drilldown_image = $image;
         }
 
         $subcategory->cr_by = $request->user()->id;
@@ -158,11 +152,8 @@ class DrilldownController extends Controller
         $subcategory->drilldown_code = $request->input('drilldown_code', $subcategory->drilldown_code);
         $subcategory->drilldown_description = $request->input('drilldown_description', $subcategory->drilldown_description);
         if($request->hasFile('drilldown_image')){
-            $image = $request->file('drilldown_image');
-            $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/uploads/drilldowns');
-            $image->move($destinationPath, $name);
-            $subcategory->drilldown_image = $name;
+            $image = $request->file('drilldown_image')->store('uploads/drilldowns');
+            $subcategory->drilldown_image = $image;
         }
         $subcategory->parent_id = $request->input('parent_id', $subcategory->parent_id);
         $subcategory->mod_by = $request->user()->id;
