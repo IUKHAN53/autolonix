@@ -50,7 +50,7 @@ class ProductMaster extends Model
 
     public function getProductImageAttribute($value)
     {
-        return $value ? Storage::url('/uploads/product_images/' . $value) : null;
+        return $value ? url('/').'/'.Storage::url('/uploads/product_images/' . $value) : null;
     }
 
     public function getUom()

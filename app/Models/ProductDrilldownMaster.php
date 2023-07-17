@@ -29,7 +29,7 @@ class ProductDrilldownMaster extends Model
 
     public function getDrilldownImageAttribute($value): ?string
     {
-        return $value ? Storage::url('/uploads/drilldowns/' . $value) : null;
+        return $value ? url('/').'/'.Storage::url('/uploads/drilldowns/' . $value) : null;
     }
 
     public function scopeParent($query)

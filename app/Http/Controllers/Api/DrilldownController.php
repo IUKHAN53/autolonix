@@ -58,7 +58,7 @@ class DrilldownController extends Controller
         $category->drilldown_type = 'Category';
 
         if($request->hasFile('drilldown_image')){
-            $image = $request->file('product_image');
+            $image = $request->file('drilldown_image');
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/uploads/drilldowns');
             $image->move($destinationPath, $name);
@@ -89,7 +89,7 @@ class DrilldownController extends Controller
         $category->mod_on = now();
 
         if($request->hasFile('drilldown_image')){
-            $image = $request->file('product_image');
+            $image = $request->file('drilldown_image');
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/uploads/drilldowns');
             $image->move($destinationPath, $name);
@@ -129,7 +129,7 @@ class DrilldownController extends Controller
         $subcategory->drilldown_description = $request->input('drilldown_description');
 
         if($request->hasFile('drilldown_image')){
-            $image = $request->file('product_image');
+            $image = $request->file('drilldown_image');
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/uploads/drilldowns');
             $image->move($destinationPath, $name);
@@ -161,7 +161,7 @@ class DrilldownController extends Controller
         $subcategory->drilldown_code = $request->input('drilldown_code', $subcategory->drilldown_code);
         $subcategory->drilldown_description = $request->input('drilldown_description', $subcategory->drilldown_description);
         if($request->hasFile('drilldown_image')){
-            $image = $request->file('product_image');
+            $image = $request->file('drilldown_image');
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/uploads/drilldowns');
             $image->move($destinationPath, $name);
