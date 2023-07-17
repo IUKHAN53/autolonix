@@ -26,8 +26,8 @@ export class HttpService {
 
   httpOptions: any = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      // 'Content-Type': 'application/json',
+      // 'Accept': 'application/json',
       'Authorization': 'Bearer ' + this.tokenService.getToken()
     })
   };
@@ -56,8 +56,8 @@ export class HttpService {
       console.error('An error occurred:', error.error)
       return of(null);
     } else {
-      this._error.withError(error.status, error.message);
-      return throwError({error: error.message, status: error.status})
+      this._error.withError(error.status, error.error);
+      return throwError({error: error.error, status: error.status})
     }
   }
 

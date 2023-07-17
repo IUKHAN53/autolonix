@@ -6,6 +6,7 @@
     <a routerLink="/product/create">
       <button>New Product</button>
     </a>
+
   </div>
 
   <div class="content-box">
@@ -17,43 +18,48 @@
       [rowData]="allProducts"
       [animateRows]="true"
       [pagination]="true"
+      [paginationPageSize]="10"
+      [loadingCellRenderer]="loadingCellRenderer"
+      [loadingCellRendererParams]="loadingCellRendererParams"
       (gridReady)="onGridReady($event)"
     ></ag-grid-angular>
-<!--    <table datatable class="table table-striped table-bordered">-->
-<!--      <thead class="text-center">-->
-<!--      <th>Sl No</th>-->
-<!--      <th>Product Name</th>-->
-<!--      <th>Product Code</th>-->
-<!--      <th>Description</th>-->
-<!--      <th>Category</th>-->
-<!--      <th>Price</th>-->
-<!--      <th>Cost</th>-->
-<!--      <th>Image</th>-->
-<!--      <th>Actions</th>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-<!--      <tr *ngFor="let product of allProducts; let i=index">-->
-<!--        <td>{{i + 1}}</td>-->
-<!--        <td>{{product.product_name}}</td>-->
-<!--        <td>{{product.product_code}}</td>-->
-<!--        <td>{{product.description}}</td>-->
-<!--        <td>{{''}}</td>-->
-<!--        <td></td>-->
-<!--        <td></td>-->
-<!--        <td>-->
-<!--          <img *ngIf="product.product_name" [src]="product.product_image" class="rounded" style="max-width: 50px"-->
-<!--               alt="">-->
-<!--          <img *ngIf="!product.product_name"-->
-<!--               src="https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png"-->
-<!--               class="rounded" style="max-width: 50px" alt="">-->
-<!--        </td>-->
-<!--        <td>-->
-<!--          <div class="d-flex justify-content-center align-items-center">-->
-<!--            <a href="#" class="text-danger" (click)="deleteProduct($event, product.id)"><i class="fas fa-trash-alt"></i></a>-->
-<!--          </div>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      </tbody>-->
-<!--    </table>-->
+
+
+    <!--    <table datatable class="table table-striped table-bordered">-->
+    <!--      <thead class="text-center">-->
+    <!--      <th>Sl No</th>-->
+    <!--      <th>Product Name</th>-->
+    <!--      <th>Product Code</th>-->
+    <!--      <th>Description</th>-->
+    <!--      <th>Category</th>-->
+    <!--      <th>Price</th>-->
+    <!--      <th>Cost</th>-->
+    <!--      <th>Image</th>-->
+    <!--      <th>Actions</th>-->
+    <!--      </thead>-->
+    <!--      <tbody>-->
+    <!--      <tr *ngFor="let product of allProducts; let i=index">-->
+    <!--        <td>{{i + 1}}</td>-->
+    <!--        <td>{{product.product_name}}</td>-->
+    <!--        <td>{{product.product_code}}</td>-->
+    <!--        <td>{{product.description}}</td>-->
+    <!--        <td>{{''}}</td>-->
+    <!--        <td></td>-->
+    <!--        <td></td>-->
+    <!--        <td>-->
+    <!--          <img *ngIf="product.product_name" [src]="product.product_image" class="rounded" style="max-width: 50px"-->
+    <!--               alt="">-->
+    <!--          <img *ngIf="!product.product_name"-->
+    <!--               src="https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png"-->
+    <!--               class="rounded" style="max-width: 50px" alt="">-->
+    <!--        </td>-->
+    <!--        <td>-->
+    <!--          <div class="d-flex justify-content-center align-items-center">-->
+    <!--            <a href="#" class="text-danger" (click)="deleteProduct($event, product.id)"><i class="fas fa-trash-alt"></i></a>-->
+    <!--          </div>-->
+    <!--        </td>-->
+    <!--      </tr>-->
+    <!--      </tbody>-->
+    <!--    </table>-->
   </div>
 </div>

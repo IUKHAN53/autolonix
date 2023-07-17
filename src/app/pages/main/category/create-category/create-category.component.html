@@ -1,5 +1,11 @@
 <div class="content-panel">
   <h2>Create New Category</h2>
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+  <div class="alert alert-danger" *ngIf="errors.length>0">
+    <ul class="d-flex flex-wrap gap-3">
+      <li class="ms-3" *ngFor="let error of errors">{{error ? error : 'Errors'}}</li>
+    </ul>
+  </div>
   <div class="content-box">
     <div class="form-section">
       <form class="section-30" (submit)="saveCategory($event)">
@@ -8,13 +14,31 @@
         <p>Category Description</p>
         <textarea rows="5" style="width: 100% !important;" name="drilldown_description" [(ngModel)]="categoryModel.drilldown_description" placeholder="Category Description"></textarea>
         <p>Category Image</p>
-        <input type="file" style="width: 100% !important;" placeholder="Category Image">
-
+        <input type="file" name="drilldown_image" (change)="processFile($event)" style="width: 100% !important;" placeholder="Category Image">
+        <img [src]="imagePreview" class="w-100 rounded" alt="">
         <div class="form-footer">
           <a routerLink="/category/all">
             <button class="btn-cancel">Back to list</button>
           </a>
-          <button type="submit" class="btn-save">Save</button>
+          <button type="submit" class="btn-save">
+            <span *ngIf="!loading">Save</span>
+            <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
+                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                 y="0px"
+                 viewBox="0 0 100 100" enable-background="new 0 0 0 0">
+              <path fill="#fff"
+                    d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+                <animateTransform
+                  attributeName="transform"
+                  attributeType="XML"
+                  type="rotate"
+                  dur="1s"
+                  from="0 50 50"
+                  to="360 50 50"
+                  repeatCount="indefinite"/>
+              </path>
+            </svg>
+          </button>
         </div>
       </form>
     </div>

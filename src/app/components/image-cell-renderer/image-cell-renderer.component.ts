@@ -11,6 +11,7 @@ export class ImageCellRendererComponent implements ICellRendererAngularComp {
 
   agInit(params: any): void {
     this.params = params.data.product_image;
+    // this.params = '';
   }
 
   refresh(params: any): boolean {

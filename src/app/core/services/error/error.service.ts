@@ -87,14 +87,14 @@ export class ErrorService {
     switch (errorCode) {
       case CustomErrorCode.UN_KNOWN:
         // this._ui.openErrorSnackBar("Server is Down");
-        alert("Server is Down");
+        console.error("Server is Down");
         break;
       case ClientError.HTTP_400_BAD_REQUEST:
         // this._ui.openErrorSnackBar('Type Corrent Credientials');
-        alert('Type Current Credentials');
+        console.error('Type Current Credentials');
         break;
       default:
-        alert('Unknown Error Code');
+        console.error('Unknown Error Code');
         break;
     }
   }

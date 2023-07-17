@@ -1,10 +1,33 @@
 <form (submit)="login()" class="login-box-content">
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+  <div class="alert alert-danger" *ngIf="errors.length>0">
+    <ul>
+      <li *ngFor="let error of errors">{{error ? error : 'Errors'}}</li>
+    </ul>
+  </div>
   <p>Username</p>
-  <input type="text" [(ngModel)]="userModel.email" name="email" placeholder="Enter username" required>
+  <input type="text" [(ngModel)]="userModel.email" class="w-100" name="email" placeholder="Enter username" required>
 <!--  <small>Email field is required</small>-->
   <p>Password</p>
-  <input type="password" [(ngModel)]="userModel.password" name="password" placeholder="Enter Password" required>
-  <button type="submit">Login</button>
+  <input type="password" [(ngModel)]="userModel.password" class="w-100" name="password" placeholder="Enter Password" required>
+  <button type="submit">
+    <span *ngIf="!loading">Login</span>
+    <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+         y="0px"
+         viewBox="0 0 100 100" enable-background="new 0 0 0 0">
+      <path fill="#fff"
+            d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+        <animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="rotate"
+          dur="1s"
+          from="0 50 50"
+          to="360 50 50"
+          repeatCount="indefinite"/>
+      </path>
+    </svg>
+  </button>
   <div style="text-align: center; margin-top: 20px">
     <a routerLink="/register" style="text-decoration: none;">Create Account</a>
   </div>

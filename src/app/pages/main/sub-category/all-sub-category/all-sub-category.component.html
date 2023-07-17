@@ -25,6 +25,8 @@
       [rowData]="allCategories"
       [animateRows]="true"
       [pagination]="true"
+      [loadingCellRenderer]="loadingCellRenderer"
+      [loadingCellRendererParams]="loadingCellRendererParams"
       (gridReady)="onGridReady($event)"
     ></ag-grid-angular>
     <!--    <table class="table table-striped table-bordered">-->

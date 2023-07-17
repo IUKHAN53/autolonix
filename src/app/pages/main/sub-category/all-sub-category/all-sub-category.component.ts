@@ -4,6 +4,9 @@ import {ApiMethod} from "../../../../core/services/const";
 import Swal, {SweetAlertOptions} from "sweetalert2";
 import {ColDef, GridReadyEvent} from "ag-grid-community";
 import {ActionCellRendererComponent} from "../../../../components/action-cell-renderer/action-cell-renderer.component";
+import {
+  CustomLoadingCellRenderer
+} from "../../../../components/custom-loading-cell-renderer/custom-loading-cell-renderer.component";
 
 @Component({
   selector: 'app-all-sub-category',
@@ -57,6 +60,11 @@ export class AllSubCategoryComponent {
   public defaultColDef: ColDef = {
     sortable: true,
     filter: true,
+  };
+
+  public loadingCellRenderer: any = CustomLoadingCellRenderer;
+  public loadingCellRendererParams: any = {
+    loadingMessage: 'One moment please...',
   };
 
   allSubCategories: any = []

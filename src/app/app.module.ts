@@ -9,7 +9,7 @@ import {ImageCellRendererComponent} from "./components/image-cell-renderer/image
 @NgModule({
   declarations: [
     AppComponent,
-    ImageCellRendererComponent
+    ImageCellRendererComponent,
   ],
   imports: [
     BrowserModule,

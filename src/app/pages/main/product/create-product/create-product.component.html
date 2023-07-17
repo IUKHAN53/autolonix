@@ -1,6 +1,12 @@
 <div class="content-panel">
   <h2>Create New Product</h2>
-  <form class="content-box" (ngSubmit)="submitForm(productModel)">
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+  <div class="alert alert-danger" *ngIf="errors.length>0">
+    <ul class="d-flex flex-wrap gap-3">
+      <li class="ms-3" *ngFor="let error of errors">{{error ? error : 'Errors'}}</li>
+    </ul>
+  </div>
+  <form class="content-box" (ngSubmit)="submitForm()">
     <div class="form-section">
       <div class="section-30">
         <p>Product Name</p>
@@ -49,16 +55,16 @@
           <p>Product UOM</p>
           <select name="unit" style="width: 100%!important;" [(ngModel)]="productModel.unit">
             <option value="">Select Product UOM</option>
-            <option *ngFor="let uom of dropdowns.uom; let i = index;" [value]="i">{{uom}}</option>
+            <option *ngFor="let uom of dropdowns.uom; let i = index;" [value]="uom">{{uom}}</option>
           </select>
         </div>
         <div class="section-50">
           <p>Packet Details</p>
-          <input type="text" style="width: 100%!important;" name="pack_details" [(ngModel)]="productModel.pack_details"
+          <input type="number" style="width: 100%!important;" name="pack_details" [(ngModel)]="productModel.pack_details"
                  placeholder="100 gm">
         </div>
         <p>Product Type</p>
-        <input type="text" style="width: 100%!important;" name="product_type" [(ngModel)]="productModel.product_type">
+        <input type="text" style="width: 100%!important;" name="product_type" maxlength="10" [(ngModel)]="productModel.product_type">
       </div>
       <div class="section-70">
         <p>Barcode</p>
@@ -81,6 +87,10 @@
           <input type="number" name="it_rate1" [(ngModel)]="productModel.it_rate1" placeholder="Margin (%)">
           <p>Margin (Amount)</p>
           <input type="number" name="it_amount1" [(ngModel)]="productModel.it_amount1" placeholder="Margin (Amount)">
+          <p>Product Image</p>
+          <input type="file" (change)="processFile($event)" style="width: 100% !important;"
+                 placeholder="Product Image">
+
         </div>
         <div class="section-50">
           <p>Selling Price</p>
@@ -90,6 +100,7 @@
           <p>Price Inclusive VAT</p>
           <input type="number" name="ot_amount1" [(ngModel)]="productModel.ot_amount1"
                  placeholder="Price Inclusive VAT">
+          <img [src]="imagePreview" class="w-100 rounded" height="300" alt="">
         </div>
       </div>
     </div>
@@ -98,7 +109,24 @@
       <a routerLink="/product/all" class="btn-cancel" style="text-decoration: none">
         Back to list
       </a>
-      <button type="submit" class="btn-save">Save</button>
+      <button type="submit" class="btn-save">
+        <span *ngIf="!loading">Save</span>
+        <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+             y="0px"
+             viewBox="0 0 100 100" enable-background="new 0 0 0 0">
+          <path fill="#fff"
+                d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+            <animateTransform
+              attributeName="transform"
+              attributeType="XML"
+              type="rotate"
+              dur="1s"
+              from="0 50 50"
+              to="360 50 50"
+              repeatCount="indefinite"/>
+          </path>
+        </svg>
+      </button>
     </div>
   </form>
 </div>

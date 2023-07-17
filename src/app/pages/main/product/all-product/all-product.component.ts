@@ -2,9 +2,12 @@ import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from
 import {HttpService} from "../../../../core/services/http/http.service";
 import {ApiMethod} from "../../../../core/services/const";
 import Swal, {SweetAlertOptions} from "sweetalert2";
-import {ColDef, GridReadyEvent} from "ag-grid-community";
+import {ColDef, GridReadyEvent, RowModelType} from "ag-grid-community";
 import {ImageCellRendererComponent} from "../../../../components/image-cell-renderer/image-cell-renderer.component";
 import {ActionCellRendererComponent} from "../../../../components/action-cell-renderer/action-cell-renderer.component";
+import {
+  CustomLoadingCellRenderer
+} from "../../../../components/custom-loading-cell-renderer/custom-loading-cell-renderer.component";
 
 @Component({
   selector: 'app-all-product',
@@ -43,7 +46,7 @@ export class AllProductComponent {
       field: 'category',
       cellRenderer: (params: any) => {
         const value = params.value
-        return value.drilldown_code
+        return value ? value.drilldown_code : ''
       }
     },
     {headerName: 'Price', field: 'product_name'},
@@ -69,6 +72,14 @@ export class AllProductComponent {
     sortable: true,
     filter: true,
   };
+
+  public loadingCellRenderer: any = CustomLoadingCellRenderer;
+  public loadingCellRendererParams: any = {
+    loadingMessage: 'One moment please...',
+  };
+  public loadingIndicator = {indicatorType: 'Shimmer'};
+  public cacheBlockSize = 20;
+  public maxBlocksInCache = 10;
 
   onGridReady(params: GridReadyEvent) {
     this.getAllProducts()
