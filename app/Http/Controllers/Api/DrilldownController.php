@@ -60,7 +60,7 @@ class DrilldownController extends Controller
         if($request->hasFile('drilldown_image')){
             $image = $request->file('drilldown_image');
             $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/uploads/drilldowns');
+            $destinationPath = 'uploads/drilldowns';
             $image->storeAs($destinationPath, $name);
             $category->drilldown_image = $name;
         }
