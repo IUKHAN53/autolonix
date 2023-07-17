@@ -1,0 +1,45 @@
+<div class="content-panel">
+  <div class="page-header">
+    <h2>Category List</h2>
+  </div>
+  <div class="create-btn-block">
+    <a routerLink="/category/create">
+      <button>New Category</button>
+    </a>
+  </div>
+
+  <div class="content-box">
+    <ag-grid-angular
+      style="width: 100%; height: calc(100vh - 200px);"
+      class="ag-theme-alpine"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [rowData]="allCategories"
+      [animateRows]="true"
+      [pagination]="true"
+      (gridReady)="onGridReady($event)"
+    ></ag-grid-angular>
+<!--    <table class="table table-striped table-bordered">-->
+<!--      <thead class="text-center">-->
+<!--      <th>Sl No</th>-->
+<!--      <th>Category Code</th>-->
+<!--      <th>Category Description</th>-->
+<!--      <th>Image</th>-->
+<!--      <th>Actions</th>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let category of allCategories; let i=index">-->
+<!--        <td>{{i + 1}}</td>-->
+<!--        <td>{{category.drilldown_code}}</td>-->
+<!--        <td>{{category.drilldown_description}}</td>-->
+<!--        <td></td>-->
+<!--        <td>-->
+<!--          <div class="d-flex align-items-center justify-content-center">-->
+<!--            <a href="#" class="text-danger" (click)="deleteCategory($event, category.id)"><i class="fas fa-trash-alt"></i></a>-->
+<!--          </div>-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+  </div>
+</div>

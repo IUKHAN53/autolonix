@@ -10,10 +10,10 @@
     <a routerLink="/product/all">
       <li [routerLinkActive]="currentRoute==='/product/all' ? 'active' : ''">Products</li>
     </a>
-    <a href="categorylist.html">
+    <a routerLink="/category/all">
       <li>Category</li>
     </a>
-    <a href="subcategorylist.html">
+    <a routerLink="/sub-category/all">
       <li>Sub Category</li>
     </a>
   </ul>
@@ -52,7 +52,7 @@
   </ul>
   <ul>
     <p>User</p>
-    <a href="#">
+    <a href="#" (click)="logout($event)">
       <li>Logout</li>
     </a>
   </ul>

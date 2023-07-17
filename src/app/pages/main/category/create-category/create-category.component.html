@@ -1,0 +1,23 @@
+<div class="content-panel">
+  <h2>Create New Category</h2>
+  <div class="content-box">
+    <div class="form-section">
+      <form class="section-30" (submit)="saveCategory($event)">
+        <p>Category Code</p>
+        <input type="text" style="width: 100% !important;" placeholder="Category Code" name="drilldown_code" [(ngModel)]="categoryModel.drilldown_code">
+        <p>Category Description</p>
+        <textarea rows="5" style="width: 100% !important;" name="drilldown_description" [(ngModel)]="categoryModel.drilldown_description" placeholder="Category Description"></textarea>
+        <p>Category Image</p>
+        <input type="file" style="width: 100% !important;" placeholder="Category Image">
+
+        <div class="form-footer">
+          <a routerLink="/category/all">
+            <button class="btn-cancel">Back to list</button>
+          </a>
+          <button type="submit" class="btn-save">Save</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

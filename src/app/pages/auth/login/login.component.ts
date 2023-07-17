@@ -24,7 +24,6 @@ export class LoginComponent {
         if (response.access_token) {
           this.tokenService.saveToken(response.access_token)
           this.router.navigate(['dashboard']).then(r => window.location.reload());
-
         }
       },
       err => console.error(err.error),

@@ -1,0 +1,30 @@
+<div class="content-panel">
+  <h2>Create New Sub Category</h2>
+  <div class="content-box">
+    <div class="form-section">
+      <form (submit)="saveSubCategory($event)" class="section-30">
+        <p>Category</p>
+        <select name="parent_id" [(ngModel)]="subCategoryModel.parent_id">
+          <option value="">Select Parent Category</option>
+          <option *ngFor="let dropdown of allCategories"
+                  [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
+        </select>
+        <p>Sub Category Code</p>
+        <input type="text" style="width: 100% !important;" [(ngModel)]="subCategoryModel.drilldown_code" name="drilldown_code" placeholder="Sub Category Code">
+        <p>Sub Category Description</p>
+        <textarea name="drilldown_description" [(ngModel)]="subCategoryModel.drilldown_description" style="width: 100% !important;" rows="5"
+                  placeholder="Sub Category Description"></textarea>
+        <p>Sub Category Image</p>
+        <input type="file" style="width: 100% !important;" placeholder="Sub Category Image">
+
+        <div class="form-footer">
+          <a routerLink="sub-category/all">
+            <button class="btn-cancel">Back to list</button>
+          </a>
+          <button type="submit" class="btn-save">Save</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

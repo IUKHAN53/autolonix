@@ -1,9 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { ErrorHandler, Injectable } from '@angular/core';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {ErrorHandler, Injectable} from '@angular/core';
+import {catchError, Observable, of, throwError} from 'rxjs';
 import {environment} from "../../../../environments/environment";
-import { ErrorService } from '../error/error.service';
-import { AuthEndPoints, ApiMethod } from '../const';
+import {ErrorService} from '../error/error.service';
+import {AuthEndPoints, ApiMethod} from '../const';
+import {StorageService} from "../storage/storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,35 +20,44 @@ export class HttpService {
     method: 'POST',
     mode: 'no-cors'
   }
-  constructor(private http:HttpClient, private _error: ErrorService) { }
 
-  requestCall(apiMethod:string, method:ApiMethod, data?:any): Observable<any> {
+  constructor(private http: HttpClient, private tokenService: StorageService, private _error: ErrorService) {
+  }
+
+  httpOptions: any = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + this.tokenService.getToken()
+    })
+  };
+
+  requestCall(apiEndPoint: string, method: ApiMethod, data?: any): Observable<any> {
     switch (method) {
       case ApiMethod.POST:
-        return this.http.post(`${environment.apiUrl}/${apiMethod}`, data)
-        .pipe(catchError(err=>this.handleError(err, this)))
+        return this.http.post(`${environment.apiUrl}/${apiEndPoint}`, data, this.httpOptions)
+          .pipe(catchError(err => this.handleError(err, this)))
       case ApiMethod.GET:
-        return this.http.get(`${environment.apiUrl}/${apiMethod}`)
-        .pipe(catchError((err)=>this.handleError(err, this)))
+        return this.http.get(`${environment.apiUrl}/${apiEndPoint}`, this.httpOptions)
+          .pipe(catchError((err) => this.handleError(err, this)))
       case ApiMethod.PUT:
-        return this.http.put(`${environment.apiUrl}/${apiMethod}`, data)
-        .pipe(catchError((err)=>this.handleError(err, this)))
+        return this.http.put(`${environment.apiUrl}/${apiEndPoint}`, data, this.httpOptions)
+          .pipe(catchError((err) => this.handleError(err, this)))
       case ApiMethod.DELETE:
-        return this.http.delete(`${environment.apiUrl}/${apiMethod}`, data)
-        .pipe(catchError((err)=>this.handleError(err, this)))
+        return this.http.delete(`${environment.apiUrl}/${apiEndPoint}`, this.httpOptions)
+          .pipe(catchError((err) => this.handleError(err, this)))
       default:
         return of(null)
     }
   }
 
-  handleError(error:HttpErrorResponse, _self: this): Observable<any>
-  {
-    if(error.error instanceof ErrorEvent) {
+  handleError(error: HttpErrorResponse, _self: this): Observable<any> {
+    if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error)
       return of(null);
     } else {
       this._error.withError(error.status, error.message);
-      return throwError({error:error.message, status: error.status})
+      return throwError({error: error.message, status: error.status})
     }
   }
 

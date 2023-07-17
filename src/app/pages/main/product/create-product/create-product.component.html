@@ -3,81 +3,93 @@
   <form class="content-box" (ngSubmit)="submitForm(productModel)">
     <div class="form-section">
       <div class="section-30">
+        <p>Product Name</p>
+        <input type="text" name="product_name" style="width: 100%!important;" [(ngModel)]="productModel.product_name"
+               placeholder="Product Name">
         <p>Product Code</p>
-        <input type="text" placeholder="Product Code">
+        <input type="text" name="product_code" style="width: 100%!important;" [(ngModel)]="productModel.product_code"
+               placeholder="Product Code">
         <p>Product Description</p>
-        <input type="text" placeholder="Product description">
-        <p>Product Description - Arabic</p>
-        <input type="text" placeholder="Product Description- Arabic">
+        <input type="text" name="description" style="width: 100%!important;" [(ngModel)]="productModel.description"
+               placeholder="Product description">
+        <!--        <p>Product Description - Arabic</p>-->
+        <!--        <input type="text" placeholder="Product Description- Arabic">-->
         <p>Category</p>
-        <select name="">
+        <select name="category_id" [(ngModel)]="productModel.category_id" (change)="getSubCategories($event, 'sub')">
           <option value="">Select Category</option>
+          <option *ngFor="let dropdown of dropdowns.categories"
+                  [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
         </select>
         <p>Sub Category</p>
-        <select name="">
+        <select name="sub_category_id" [(ngModel)]="productModel.sub_category_id"
+                (change)="getSubCategories($event, 'subSub')">
           <option value="">Select Sub Category</option>
+          <option *ngFor="let subCategory of subCategories"
+                  [value]="subCategory.id">{{subCategory.drilldown_code}}</option>
         </select>
         <p>Sub Sub Category</p>
-        <select name="">
+        <select name="sub_sub_category_id" [(ngModel)]="productModel.sub_sub_category_id">
           <option value="">Select Sub Sub Category</option>
+          <option *ngFor="let subSubCategory of subSubCategories"
+                  [value]="subSubCategory.id">{{subSubCategory.drilldown_code}}</option>
         </select>
         <p>Brand</p>
-        <select name="">
+        <select name="brand_id" [(ngModel)]="productModel.brand_id">
           <option value="">Select Brand</option>
+          <option *ngFor="let dropdown of dropdowns.brands" [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
         </select>
         <p>Department</p>
-        <select name="">
+        <select name="department_id" [(ngModel)]="productModel.department_id">
           <option value="">Select Department</option>
+          <option *ngFor="let dropdown of dropdowns.departments"
+                  [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
         </select>
 
         <div class="section-50">
           <p>Product UOM</p>
-          <select name="">
+          <select name="unit" style="width: 100%!important;" [(ngModel)]="productModel.unit">
             <option value="">Select Product UOM</option>
+            <option *ngFor="let uom of dropdowns.uom; let i = index;" [value]="i">{{uom}}</option>
           </select>
         </div>
         <div class="section-50">
           <p>Packet Details</p>
-          <input type="text" placeholder="100 gm">
+          <input type="text" style="width: 100%!important;" name="pack_details" [(ngModel)]="productModel.pack_details"
+                 placeholder="100 gm">
         </div>
         <p>Product Type</p>
-        <select name="">
-          <option value="">Select Product Type</option>
-        </select>
+        <input type="text" style="width: 100%!important;" name="product_type" [(ngModel)]="productModel.product_type">
       </div>
       <div class="section-70">
         <p>Barcode</p>
-        <input type="text" placeholder="Product Barcode">
+        <input type="text" name="barcode" [(ngModel)]="productModel.barcode" placeholder="Product Barcode">
         <p>Specification</p>
-        <textarea rows="10" placeholder="Product Specification"></textarea>
+        <textarea rows="10" name="specification" [(ngModel)]="productModel.specification"
+                  placeholder="Product Specification"></textarea>
         <div class="section-70">
           <p>Supplier Name</p>
           <input type="text" placeholder="Supplier Nam">
         </div>
         <div class="section-30">
           <p>Stock Qty</p>
-          <input type="number" placeholder="Stock Qty">
+          <input type="number" name="pack_qty" [(ngModel)]="productModel.pack_qty" placeholder="Stock Qty">
         </div>
         <div class="section-50">
           <p>Product Cost</p>
-          <input type="number" placeholder="Product Cost">
+          <input type="number" name="unit_price" [(ngModel)]="productModel.unit_price" placeholder="Product Cost">
           <p>Margin (%)</p>
-          <input type="number" placeholder="Margin (%)">
+          <input type="number" name="it_rate1" [(ngModel)]="productModel.it_rate1" placeholder="Margin (%)">
           <p>Margin (Amount)</p>
-          <input type="number" placeholder="Margin (Amount)">
+          <input type="number" name="it_amount1" [(ngModel)]="productModel.it_amount1" placeholder="Margin (Amount)">
         </div>
         <div class="section-50">
           <p>Selling Price</p>
           <input type="number" placeholder="Selling Price">
           <p>VAT %</p>
-          <select name="">
-            <option value="">Select VAT</option>
-          </select>
+          <input type="number" name="ot_rate1" [(ngModel)]="productModel.ot_rate1">
           <p>Price Inclusive VAT</p>
-          <input type="number" placeholder="Price Inclusive VAT">
-        </div>
-          product image
-        <div>
+          <input type="number" name="ot_amount1" [(ngModel)]="productModel.ot_amount1"
+                 placeholder="Price Inclusive VAT">
         </div>
       </div>
     </div>

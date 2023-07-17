@@ -149,8 +149,8 @@ body {
 }
 
 .content-panel {
-    width: calc(100% - 440px);
-    height: calc(100vh - 50px);
+    width: calc(100% - 300px);
+    height: 100vh;
     overflow: scroll;
     float: left;
     display: block;
@@ -347,5 +347,4 @@ body {
     cursor: pointer;
     margin-left: 15px;
 }
-
 /* ----------- Main Page Start----------------------------------------------------------------- */

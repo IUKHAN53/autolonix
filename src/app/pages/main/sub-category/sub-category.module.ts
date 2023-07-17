@@ -4,19 +4,20 @@ import {RouterModule, Routes} from "@angular/router";
 
 const routes: Routes = [
   {
-    path: 'product',
+    path: 'sub-category',
     children: [
       {
         path: 'all',
-        loadChildren: () => import('./all-product/all-product.module').then(m => m.AllProductModule)
+        loadChildren: () => import('./all-sub-category/all-sub-category.module').then(m => m.AllSubCategoryModule)
       },
       {
         path: 'create',
-        loadChildren: () => import('./create-product/create-product.module').then(m => m.CreateProductModule)
+        loadChildren: () => import('./create-sub-category/create-sub-category.module').then(m => m.CreateSubCategoryModule)
       }
     ]
   }
 ];
+
 
 @NgModule({
   declarations: [],
@@ -25,5 +26,5 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ]
 })
-export class ProductModule {
+export class SubCategoryModule {
 }
