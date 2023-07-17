@@ -27,6 +27,11 @@ class ProductDrilldownMaster extends Model
         'mod_on',
     ];
 
+    public function getDrilldownImageAttribute($value): ?string
+    {
+        return $value ? url('/').Storage::url($value) : null;
+    }
+
     public function scopeParent($query)
     {
         return $query->whereNull('parent_id');
