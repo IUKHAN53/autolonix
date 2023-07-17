@@ -27,6 +27,11 @@ class ProductDrilldownMaster extends Model
         'mod_on',
     ];
 
+    public function children()
+    {
+        return $this->hasMany(ProductDrilldownMaster::class, 'parent_id', 'id');
+    }
+
     public function getDrilldownImageAttribute($value): ?string
     {
         return $value ? Storage::url($value) : null;

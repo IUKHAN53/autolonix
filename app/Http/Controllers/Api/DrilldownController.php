@@ -10,7 +10,7 @@ class DrilldownController extends Controller
 {
     public function index(Request $request)
     {
-        $query = ProductDrilldownMaster::query();
+        $query = ProductDrilldownMaster::query()->with('children');
 
         // Sorting
         if ($request->has('sort_by')) {
