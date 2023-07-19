@@ -115,7 +115,7 @@ class DrilldownController extends Controller
             ->exists())
         {
             return response()->json([
-                'message' => 'Cannot delete category, because it has products'
+                'message' => 'Cannot delete. Because it has Products associated with it.'
             ], 400);
         }
         ProductDrilldownMaster::query()->where('parent_id', $id)->delete();
