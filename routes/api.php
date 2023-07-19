@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DrilldownController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -32,6 +33,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/{id}', [DrilldownController::class, 'show']);
         Route::post('/update/{id}', [DrilldownController::class, 'subcategoryUpdate']);
         Route::delete('/{id}', [DrilldownController::class, 'destroy']);
+    });
+
+//    Customers
+    Route::prefix('customers')->group(function () {
+        Route::get('/', [CustomerController::class, 'index']);
+        Route::get('/create', [CustomerController::class, 'create']);
+        Route::post('/', [CustomerController::class, 'store']);
+        Route::get('/{id}', [CustomerController::class, 'show']);
+        Route::post('/update/{id}', [CustomerController::class, 'update']);
+        Route::delete('/{id}', [CustomerController::class, 'destroy']);
     });
 });
 

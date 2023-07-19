@@ -22,7 +22,7 @@ class DrilldownController extends Controller
             if ($request->type == 'brand') {
                 $query = $query->brand();
             } else if ($request->type == 'department') {
-                $query = $query->department()->parent()->get();
+                $query = $query->department();
             } else {
                 $query = $query->category();
             }
@@ -31,6 +31,8 @@ class DrilldownController extends Controller
         }
         if(isset($request->parent_id)){
             $query = $query->where('parent_id', $request->parent_id);
+        }else{
+            $query = $query->parent();
         }
         return response()->json($query->get());
     }
