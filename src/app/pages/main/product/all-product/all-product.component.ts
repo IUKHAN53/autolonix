@@ -8,6 +8,7 @@ import {ActionCellRendererComponent} from "../../../../components/action-cell-re
 import {
   CustomLoadingCellRenderer
 } from "../../../../components/custom-loading-cell-renderer/custom-loading-cell-renderer.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-all-product',
@@ -23,7 +24,7 @@ export class AllProductComponent {
   perPage: number = 0
   total: number = 0
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private router: Router) {
     this.getAllProducts()
   }
 
@@ -61,7 +62,7 @@ export class AllProductComponent {
           this.deleteProduct(value)
         },
         editClick: (value: any) => {
-          alert(value)
+          this.router.navigate(['/product/edit', value])
         }
       }
     },

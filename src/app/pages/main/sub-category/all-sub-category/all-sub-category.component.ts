@@ -7,6 +7,7 @@ import {ActionCellRendererComponent} from "../../../../components/action-cell-re
 import {
   CustomLoadingCellRenderer
 } from "../../../../components/custom-loading-cell-renderer/custom-loading-cell-renderer.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-all-sub-category',
@@ -14,7 +15,7 @@ import {
   styleUrls: ['./all-sub-category.component.css']
 })
 export class AllSubCategoryComponent {
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private router: Router) {
     this.getDropdowns()
     this.getAllSubCategories()
   }
@@ -30,12 +31,12 @@ export class AllSubCategoryComponent {
       }
     },
     {
-      headerName: 'Category Code',
+      headerName: 'Sub Category Code',
       field: 'drilldown_code',
       flex: 1
     },
     {
-      headerName: 'Category Description',
+      headerName: 'Sub Category Description',
       field: 'drilldown_description',
       flex: 1
     },
@@ -48,7 +49,7 @@ export class AllSubCategoryComponent {
           this.deleteSubCategory(value)
         },
         editClick: (value: any) => {
-          alert(value)
+          this.router.navigate(['/sub-category/edit', value])
         }
       },
       sortable: false,

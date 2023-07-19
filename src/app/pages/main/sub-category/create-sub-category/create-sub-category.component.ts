@@ -26,6 +26,7 @@ export class CreateSubCategoryComponent {
   subCategoryModel: any = {
     parent_id: 0,
     drilldown_code: '',
+    drilldown_type: 'Category',
     drilldown_description: '',
     drilldown_image: null
   }
@@ -57,6 +58,7 @@ export class CreateSubCategoryComponent {
     formData.append('drilldown_code', this.subCategoryModel.drilldown_code)
     formData.append('drilldown_description', this.subCategoryModel.drilldown_description)
     formData.append('drilldown_image', this.subCategoryModel.drilldown_image)
+    formData.append('drilldown_type', this.subCategoryModel.drilldown_type)
     this.httpService.requestCall('subcategories/store', ApiMethod.POST, formData)
       .subscribe({
         next: (response) => {

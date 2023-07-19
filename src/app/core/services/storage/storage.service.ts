@@ -32,7 +32,6 @@ export class StorageService {
   }
 
   public saveUser(user:any) {
-    delete user.UserPassword;
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, this._util.encrypt(JSON.stringify(user)));
   }

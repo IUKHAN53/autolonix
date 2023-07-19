@@ -13,6 +13,10 @@ const routes: Routes = [
       {
         path: 'create',
         loadChildren: () => import('./create-product/create-product.module').then(m => m.CreateProductModule)
+      },
+      {
+        path: 'edit/:id',
+        loadChildren: () => import('./edit-product/edit-product.module').then(m => m.EditProductModule)
       }
     ]
   }

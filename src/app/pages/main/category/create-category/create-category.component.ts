@@ -23,6 +23,7 @@ export class CreateCategoryComponent {
   categoryModel: any = {
     drilldown_code: '',
     drilldown_description: '',
+    drilldown_type: 'Category',
     drilldown_image: null
   }
 
@@ -39,7 +40,8 @@ export class CreateCategoryComponent {
     formData.append('drilldown_code', this.categoryModel.drilldown_code)
     formData.append('drilldown_description', this.categoryModel.drilldown_description)
     formData.append('drilldown_image', this.categoryModel.drilldown_image)
-    this.httpService.requestCall('categories', ApiMethod.POST, formData)
+    formData.append('drilldown_type', this.categoryModel.drilldown_type)
+    this.httpService.requestCall('categories/store', ApiMethod.POST, formData)
       .subscribe({
         next: (response) => {
           this.loading = false

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ICellRendererAngularComp} from "ag-grid-angular";
 import {ICellRendererParams} from "ag-grid-community";
 
@@ -10,9 +10,12 @@ import {ICellRendererParams} from "ag-grid-community";
 export class ActionCellRendererComponent implements ICellRendererAngularComp {
 
   private params: any;
+  private roleId: any;
 
   agInit(params: any): void {
     this.params = params;
+    console.log(this.params)
+    this.roleId = this.params.roleId
   }
 
   handleDelete(event: Event) {

@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import {SweetAlertOptions} from 'sweetalert2';
 import {ColDef, GridReadyEvent} from "ag-grid-community";
 import {ActionCellRendererComponent} from "../../../../components/action-cell-renderer/action-cell-renderer.component";
+import {Router} from "@angular/router";
+import {StorageService} from "../../../../core/services/storage/storage.service";
 
 @Component({
   selector: 'app-all-category',
@@ -12,8 +14,9 @@ import {ActionCellRendererComponent} from "../../../../components/action-cell-re
   styleUrls: ['./all-category.component.css']
 })
 export class AllCategoryComponent {
-  constructor(private httpService: HttpService) {
+  constructor(private storage: StorageService, private httpService: HttpService, private router: Router) {
     this.getAllCategories()
+    this.currentUser = this.storage.getUser()
   }
 
   public columnDefs: ColDef[] = [
@@ -45,7 +48,7 @@ export class AllCategoryComponent {
           this.deleteCategory(value)
         },
         editClick: (value: any) => {
-          alert(value)
+          this.router.navigate(['/category/edit', value])
         }
       },
       sortable: false,
@@ -60,26 +63,35 @@ export class AllCategoryComponent {
   };
 
   allCategories: any = []
+  currentUser: any = {}
   currentPage: number = 0
   from: number = 0
   to: number = 0
   lastPage: number = 0
   perPage: number = 0
   total: number = 0
+  errorMessage: string = ''
 
   onGridReady(params: GridReadyEvent) {
     this.getAllCategories()
   }
 
   getAllCategories(): void {
-    this.httpService.requestCall('categories', ApiMethod.GET)
+    this.httpService.requestCall('categories', ApiMethod.POST)
       .subscribe({
         next: (response) => {
           if (response) {
             this.allCategories = response
           }
         },
-        error: (error) => console.error(error),
+        error: (error) => {
+          if (error.error.message) {
+            this.errorMessage = error.error.message
+          }
+          setTimeout(() => {
+            this.errorMessage = ''
+          }, 3000)
+        },
         complete: () => console.log('Observer got a complete notification')
       })
   }
@@ -103,7 +115,14 @@ export class AllCategoryComponent {
                 this.getAllCategories()
               })
             },
-            error: (error) => console.error(error),
+            error: (error) => {
+              if (error.error.message) {
+                this.errorMessage = error.error.message
+              }
+              setTimeout(() => {
+                this.errorMessage = ''
+              }, 3000)
+            },
             complete: () => console.log('Observer got a complete notification')
           })
       } else if (result.dismiss === Swal.DismissReason.cancel) {

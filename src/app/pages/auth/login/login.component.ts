@@ -3,8 +3,9 @@ import {HttpService} from "../../../core/services/http/http.service";
 import {StorageService} from "../../../core/services/storage/storage.service";
 import {Router} from "@angular/router";
 import {ApiMethod} from "../../../core/services/const";
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {extractErrorMessages} from "../../../core/services/util/extractErrorMessages";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent {
   errorMessage: string = ''
   errors: any = {}
 
-  constructor(private httpService: HttpService, private tokenService: StorageService, private router: Router) {
+  constructor(private http: HttpClient, private httpService: HttpService, private tokenService: StorageService, private router: Router) {
   }
 
   login() {
@@ -30,9 +31,17 @@ export class LoginComponent {
         this.loading = false
         if (response.access_token) {
           this.tokenService.saveToken(response.access_token)
-          this.router.navigate(['dashboard']).then(r => window.location.reload());
+          this.http.post(`${environment.apiUrl}/me`, {}, {
+            headers: new HttpHeaders({
+              'Authorization': 'Bearer ' + response.access_token
+            })
+          }).subscribe({
+            next: (response) => {
+              this.tokenService.saveUser(response)
+              this.router.navigate(['dashboard']).then(r => window.location.reload());
+            }
+          })
         }
-        console.log(response)
       },
       (err: HttpErrorResponse) => {
         this.loading = false
