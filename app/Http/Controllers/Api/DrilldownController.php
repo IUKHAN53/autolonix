@@ -109,7 +109,7 @@ class DrilldownController extends Controller
             ->Orwhere('sub_category_id', $id)
             ->Orwhere('sub_sub_category_id', $id)
             ->Orwhere('department_id', $id)
-            ->Orwhere('brand_id', $id)
+            ->Orwhere('product_brand_id', $id)
             ->exists())
         {
             return response()->json([
