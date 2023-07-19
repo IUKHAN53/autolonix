@@ -49,7 +49,7 @@ class DrilldownController extends Controller
         $validatedData = Validator::make($request->all(), [
             'drilldown_code' => 'required|string|max:50',
             'drilldown_description' => 'required|string|max:250',
-            'drilldown_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'drilldown_image' => 'nullable|sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'drilldown_type' => 'nullable',
         ]);
 
@@ -79,7 +79,7 @@ class DrilldownController extends Controller
         $validatedData = Validator::make($request->all(), [
             'drilldown_code' => 'nullable|string|max:50',
             'drilldown_description' => 'nullable|string|max:250',
-            'drilldown_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'drilldown_image' => 'nullable|sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'drilldown_type' => 'nullable',
         ]);
 

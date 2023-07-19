@@ -35,7 +35,7 @@ class CustomerController extends Controller
     {
         $customer = AccountHeadMaster::findOrFail($id);
 
-        $validator = Validator::make($request->all(), $this->getValidationRules($id));
+        $validator = Validator::make($request->all(), $this->getValidationRules());
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
@@ -52,10 +52,10 @@ class CustomerController extends Controller
         return response()->json(['message' => 'AccountHeadMaster deleted successfully'], 200);
     }
 
-    private function getValidationRules($customerId = null)
+    private function getValidationRules()
     {
         return [
-            'account_code' => ['required', 'string', 'max:255', Rule::unique('account_head_masters')->ignore($customerId)],
+            'account_code' => ['required', 'string', 'max:255'],
             'account_name' => 'required|string|max:255',
             'telephone' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',

@@ -9,6 +9,7 @@ use App\Models\ProductMaster;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -70,49 +71,58 @@ class ProductController extends Controller
             return response()->json(['error' => $validatedData->errors()], 401);
         }
 
-        $product = new ProductMaster();
-        $product->product_code = $request->input('product_code');
-        $product->barcode = $request->input('barcode');
-        $product->product_name = $request->input('product_name');
-        $product->specification = $request->input('specification');
-        $product->category_id = $request->input('category_id');
-        $product->sub_category_id = $request->input('sub_category_id');
-        $product->sub_sub_category_id = $request->input('sub_sub_category_id');
-        $product->department_id = $request->input('department_id');
-        $product->product_brand_id = $request->input('product_brand_id');
-        $product->description = $request->input('description');
-        $product->unit = $request->input('unit');
-        $product->pack_details = $request->input('pack_details');
-        $product->product_type = $request->input('product_type');
-        $product->cr_by = $request->user()->id;
-        $product->cr_on = now();
+        try {
+            DB::beginTransaction();
+            $product = new ProductMaster();
+            $product->product_code = $request->input('product_code');
+            $product->barcode = $request->input('barcode');
+            $product->product_name = $request->input('product_name');
+            $product->specification = $request->input('specification');
+            $product->category_id = $request->input('category_id');
+            $product->sub_category_id = $request->input('sub_category_id');
+            $product->sub_sub_category_id = $request->input('sub_sub_category_id');
+            $product->department_id = $request->input('department_id');
+            $product->product_brand_id = $request->input('product_brand_id');
+            $product->description = $request->input('description');
+            $product->unit = $request->input('unit');
+            $product->pack_details = $request->input('pack_details');
+            $product->product_type = $request->input('product_type');
+            $product->cr_by = $request->user()->id;
+            $product->cr_on = now();
 
-        if($request->hasFile('product_image')){
-            $image = $request->file('product_image')->store('uploads/products');
-            $product->product_image = $image;
+            if($request->hasFile('product_image')){
+                $image = $request->file('product_image')->store('uploads/products');
+                $product->product_image = $image;
+            }
+            $product->save();
+
+            $product_child = new ProductChild();
+            $product_child->product_id = $product->id;
+            $product_child->unique_id = $product->id;
+            $product_child->last_supplier_id = $request->input('last_supplier_id');
+            $product_child->last_purchase_cost = $request->input('last_purchase_cost');
+            $product_child->it_rate1 = $request->input('it_rate1');
+            $product_child->it_amount1 = $request->input('it_amount1');
+            $product_child->cr_by = $request->user()->id;
+            $product_child->cr_on = now();
+            $product_child->save();
+
+            $product_child_price = new ProductChildPrice();
+            $product_child_price->product_id = $product->id;
+            $product_child_price->unique_id = $product->id;
+            $product_child_price->unit_price = $request->input('unit_price');
+            $product_child_price->ot_rate1 = $request->input('ot_rate1');
+            $product_child_price->ot_amount1 = $request->input('ot_amount1');
+            $product_child_price->cr_by = $request->user()->id;
+            $product_child_price->cr_on = now();
+            $product_child_price->save();
+            DB::commit();
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return response()->json(['error' => $exception->getMessage()], 401);
         }
-        $product->save();
 
-        $product_child = new ProductChild();
-        $product_child->product_id = $product->id;
-        $product_child->unique_id = $product->id;
-        $product_child->last_supplier_id = $request->input('last_supplier_id');
-        $product_child->last_purchase_cost = $request->input('last_purchase_cost');
-        $product_child->it_rate1 = $request->input('it_rate1');
-        $product_child->it_amount1 = $request->input('it_amount1');
-        $product_child->cr_by = $request->user()->id;
-        $product_child->cr_on = now();
-        $product_child->save();
 
-        $product_child_price = new ProductChildPrice();
-        $product_child_price->product_id = $product->id;
-        $product_child_price->unique_id = $product->id;
-        $product_child_price->unit_price = $request->input('unit_price');
-        $product_child_price->ot_rate1 = $request->input('ot_rate1');
-        $product_child_price->ot_amount1 = $request->input('ot_amount1');
-        $product_child_price->cr_by = $request->user()->id;
-        $product_child_price->cr_on = now();
-        $product_child_price->save();
         return response()->json($product, 201);
     }
 
@@ -193,11 +203,11 @@ class ProductController extends Controller
         $product->pack_details = $request->input('pack_details') ?? $product->pack_details;
         $product->product_type = $request->input('product_type') ?? $product->product_type;
         $product->mod_by = $request->user()->id;
+        $product->mod_on = now();
         if($request->hasFile('product_image')){
             $image = $request->file('product_image')->store('uploads/products');
             $product->product_image = $image;
         }
-        $product->mod_on = now();
 
         $product_child->last_supplier_id = $request->input('last_supplier_id') ?? $product_child->last_supplier_id;
         $product_child->last_purchase_cost = $request->input('last_purchase_cost') ?? $product_child->last_purchase_cost;
@@ -273,7 +283,7 @@ class ProductController extends Controller
                 'unit' => 'required|in:' . implode(',', ProductMaster::UOM),
                 'pack_details' => 'required|numeric',
                 'product_type' => 'required|string|max:10',
-                'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'product_image' => 'nullable|sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'last_supplier_id' => 'required',
                 'pack_qty' => 'required',
                 'last_purchase_cost' => 'required',
@@ -298,7 +308,7 @@ class ProductController extends Controller
                 'unit' => 'in:' . implode(',', ProductMaster::UOM),
                 'pack_details' => 'numeric',
                 'product_type' => 'string|max:10',
-                'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'product_image' => 'nullable|sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'last_supplier_id' => '',
                 'pack_qty' => '',
                 'last_purchase_cost' => '',
