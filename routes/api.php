@@ -14,7 +14,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/create', [ProductController::class, 'create']);
         Route::post('/', [ProductController::class, 'store']);
         Route::get('/{id}', [ProductController::class, 'show']);
-        Route::put('/{id}', [ProductController::class, 'update']);
+        Route::post('/update/{id}', [ProductController::class, 'update']);
         Route::delete('/{id}', [ProductController::class, 'destroy']);
     });
 
@@ -22,7 +22,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/', [DrilldownController::class, 'index']);
         Route::post('/store', [DrilldownController::class, 'store']);
         Route::get('/{id}', [DrilldownController::class, 'show']);
-        Route::put('/{id}', [DrilldownController::class, 'update']);
+        Route::post('/update/{id}', [DrilldownController::class, 'update']);
         Route::delete('/{id}', [DrilldownController::class, 'destroy']);
     });
 
@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/', [ProductController::class, 'getSubCategories']);
         Route::post('/store', [DrilldownController::class, 'subcategoryStore']);
         Route::get('/{id}', [DrilldownController::class, 'show']);
-        Route::put('/{id}', [DrilldownController::class, 'subcategoryUpdate']);
+        Route::post('/update/{id}', [DrilldownController::class, 'subcategoryUpdate']);
         Route::delete('/{id}', [DrilldownController::class, 'destroy']);
     });
 });
