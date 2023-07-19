@@ -19,7 +19,7 @@ class CustomerController extends Controller
         $validator = Validator::make($request->all(), $this->getValidationRules());
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['error' => $validator->errors()], 422);
         }
 
         $customer = AccountHeadMaster::create($request->all());
@@ -38,7 +38,7 @@ class CustomerController extends Controller
         $validator = Validator::make($request->all(), $this->getValidationRules($id));
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['error' => $validator->errors()], 422);
         }
 
         $customer->update($request->all());
@@ -54,7 +54,7 @@ class CustomerController extends Controller
 
     private function getValidationRules($customerId = null)
     {
-        $rules = [
+        return [
             'account_code' => ['required', 'string', 'max:255', Rule::unique('account_head_masters')->ignore($customerId)],
             'account_name' => 'required|string|max:255',
             'telephone' => 'nullable|string|max:255',
@@ -64,7 +64,5 @@ class CustomerController extends Controller
             'city' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
         ];
-
-        return $rules;
     }
 }
