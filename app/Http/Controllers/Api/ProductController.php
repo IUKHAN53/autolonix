@@ -47,11 +47,13 @@ class ProductController extends Controller
         $brands = ProductDrilldownMaster::query()->brand()->parent()->get();
         $departments = ProductDrilldownMaster::query()->department()->parent()->get();
         $uom = ProductMaster::UOM;
+        $product_type = ProductMaster::PRODUCT_TYPE;
         return response()->json([
             'categories' => $categories,
             'brands' => $brands,
             'departments' => $departments,
             'uom' => $uom,
+            'product_type' => $product_type,
         ]);
     }
 
@@ -142,21 +144,20 @@ class ProductController extends Controller
         $data['product_type'] = $product->product_type;
         $data['product_image'] = $product->product_image;
 
-        $data['last_supplier_id'] = $product_child->last_supplier_id;
-        $data['last_purchase_cost'] = $product_child->last_purchase_cost;
-        $data['it_rate1'] = $product_child->it_rate1;
-        $data['it_amount1'] = $product_child->it_amount1;
+        $data['last_supplier_id'] = $product_child->last_supplier_id ?? null;
+        $data['last_purchase_cost'] = $product_child->last_purchase_cost ?? null;
+        $data['it_rate1'] = $product_child->it_rate1 ?? null;
+        $data['it_amount1'] = $product_child->it_amount1 ?? null;
 
-        $data['unit_price'] = $product_child_price->unit_price;
-        $data['ot_rate1'] = $product_child_price->ot_rate1;
-        $data['ot_amount1'] = $product_child_price->ot_amount1;
+        $data['unit_price'] = $product_child_price->unit_price ?? null;
+        $data['ot_rate1'] = $product_child_price->ot_rate1 ?? null;
+        $data['ot_amount1'] = $product_child_price->ot_amount1 ?? null;
 
-        $data['category'] = $product->category;
-        $data['sub_category'] = $product->subCategory;
-        $data['sub_sub_category'] = $product->subSubCategory;
-        $data['department'] = $product->department;
-        $data['product_brand'] = $product->brand;
-
+        $data['category'] = $product->category ?? null;
+        $data['sub_category'] = $product->subCategory ?? null;
+        $data['sub_sub_category'] = $product->subSubCategory ?? null;
+        $data['department'] = $product->department ?? null;
+        $data['product_brand'] = $product->brand ?? null;
 
         return response()->json($data);
     }
@@ -262,8 +263,8 @@ class ProductController extends Controller
                 'product_code' => 'required|max:255',
                 'barcode' => 'required|max:255',
                 'product_name' => 'required|max:255',
-                'specification' => 'required|string|max:250',
-                'category_id' => 'nullable|exists:product_drilldown_masters,id',
+                'specification' => 'nullable|string|max:250',
+                'category_id' => 'required|exists:product_drilldown_masters,id',
                 'sub_category_id' => 'nullable|exists:product_drilldown_masters,id',
                 'sub_sub_category_id' => 'nullable|exists:product_drilldown_masters,id',
                 'department_id' => 'nullable|exists:product_drilldown_masters,id',
@@ -272,7 +273,7 @@ class ProductController extends Controller
                 'unit' => 'required|in:' . implode(',', ProductMaster::UOM),
                 'pack_details' => 'required|numeric',
                 'product_type' => 'required|string|max:10',
-                'product_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'last_supplier_id' => 'required',
                 'pack_qty' => 'required',
                 'last_purchase_cost' => 'required',
@@ -297,7 +298,7 @@ class ProductController extends Controller
                 'unit' => 'in:' . implode(',', ProductMaster::UOM),
                 'pack_details' => 'numeric',
                 'product_type' => 'string|max:10',
-                'product_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'last_supplier_id' => '',
                 'pack_qty' => '',
                 'last_purchase_cost' => '',

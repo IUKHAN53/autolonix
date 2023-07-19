@@ -46,7 +46,17 @@ class ProductMaster extends Model
         'mod_on',
     ];
 
-    const UOM = ['Packet', 'Kg', 'Ltr', 'Mtr', 'Set', 'Box', 'Bag', 'Roll', 'Bundle', 'Pair', 'Dozen', 'Nos', 'Unit', 'Others'];
+    const UOM = [
+        'PCS',
+        'KiloGram',
+        'LT',
+        'PACK',
+    ];
+
+    const PRODUCT_TYPE = [
+        'STOCK',
+        'NONSTOCK',
+    ];
 
     public function getProductImageAttribute($value): ?string
     {

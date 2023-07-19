@@ -19,8 +19,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::prefix('categories')->group(function () {
-        Route::get('/', [DrilldownController::class, 'index']);
-        Route::post('/', [DrilldownController::class, 'store']);
+        Route::post('/', [DrilldownController::class, 'index']);
+        Route::post('/store', [DrilldownController::class, 'store']);
         Route::get('/{id}', [DrilldownController::class, 'show']);
         Route::put('/{id}', [DrilldownController::class, 'update']);
         Route::delete('/{id}', [DrilldownController::class, 'destroy']);

@@ -58,4 +58,6 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    const ROLES = [1 => 'User', 2 => 'Admin', 3 => 'Super Admin'];
 }
