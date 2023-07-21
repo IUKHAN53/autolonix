@@ -102,6 +102,7 @@ export class CreateProductComponent {
         next: response => {
           this.loading = false
           if (response) {
+            // console.log(response)
             this.router.navigate(['/product/all']).then(r => window.location.reload());
           }
         },

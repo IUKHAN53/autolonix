@@ -40,7 +40,7 @@ export class CreateSubCategoryComponent {
   imagePreview: string = 'https://samyak.co.in/wp-content/uploads/2021/04/image.jpg'
 
   getDropdowns(): void {
-    this.httpService.requestCall('categories', ApiMethod.GET)
+    this.httpService.requestCall('categories', ApiMethod.POST)
       .subscribe({
         next: (data) => {
           this.allCategories = data
