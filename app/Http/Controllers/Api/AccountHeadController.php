@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountHeadMaster;
@@ -9,10 +9,23 @@ use Illuminate\Support\Facades\Validator;
 
 class AccountHeadController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-
-        return AccountHeadMaster::all();
+        $query = AccountHeadMaster::query();
+        if ($request->has('sort_by')) {
+            $sortDirection = $request->input('sort_direction', 'asc');
+            $query->orderBy($request->input('sort_by'), $sortDirection);
+        }
+        if ($request->has('type')) {
+            if ($request->type == 'customer') {
+                $data = $query->where('parent_account_id', AccountHeadMaster::CUSTOMER_TYPE)->get();
+            }else if ($request->type == 'supplier') {
+                $data = $query->where('parent_account_id', AccountHeadMaster::SUPPLIER_TYPE)->get();
+            }else{
+                $data = $query->where('parent_account_id', null)->get();
+            }
+        }
+        return response()->json($data);
     }
 
     public function store(Request $request)
@@ -23,8 +36,17 @@ class AccountHeadController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        $customer = AccountHeadMaster::create($request->all());
-        return response()->json($customer, 201);
+        $account_head = AccountHeadMaster::create($request->all());
+        if ($request->has('account_type')) {
+            if ($request->type == 'customer'){
+                $account_head->parent_account_id = AccountHeadMaster::CUSTOMER_TYPE;
+            }else if ($request->type == 'supplier'){
+                $account_head->parent_account_id = AccountHeadMaster::SUPPLIER_TYPE;
+            }
+            $account_head->save();
+        }
+
+        return response()->json($account_head, 201);
     }
 
     public function show($id)
