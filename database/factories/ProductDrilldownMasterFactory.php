@@ -27,7 +27,6 @@ class ProductDrilldownMasterFactory extends Factory
             'upload_status' => $this->faker->text(50),
             'station_id' => $this->faker->randomNumber(),
             'drilldown_status' => $this->faker->text(20),
-            'drilldown_image' => $this->faker->imageUrl(),
             'cr_by' => User::query()->inRandomOrder()->first()->id,
             'cr_on' => $this->faker->dateTime(),
         ];
