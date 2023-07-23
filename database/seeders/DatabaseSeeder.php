@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\AccountHeadMaster;
+use App\Models\GlobalSettings;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'role_id' => 2,
         ]);
         $this->call([
+            GlobalSettingsSeeder::class,
             ProductDrilldownMasterSeeder::class,
             AccountHeadMasterSeeder::class,
             ProductMasterSeeder::class,

@@ -9,7 +9,7 @@ class AccountHeadMaster extends Model
 {
     use HasFactory;
 
-    protected $table = 'account_head_master';
+    protected $table = 'account_head_masters';
 
     protected $guarded = [];
 
