@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_child_prices', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('product_child_price_id', 50)->nullable();
+            $table->bigInteger('product_child_price_id')->nullable();
             $table->bigInteger('price_level_id')->nullable();
             $table->bigInteger('service_id')->nullable();
             $table->decimal('unit_price', 19, 4)->nullable();
