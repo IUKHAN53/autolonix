@@ -2,39 +2,39 @@
   <ul>
     <p>Home</p>
     <a routerLink="/dashboard">
-      <li [routerLinkActive]="currentRoute==='/dashboard' ? 'active' : ''">Dashboard</li>
+      <li routerLinkActive="active">Dashboard</li>
     </a>
   </ul>
   <ul>
     <p>Items</p>
     <a routerLink="/product/all">
-      <li [routerLinkActive]="currentRoute==='/product/all' ? 'active' : ''">Products</li>
+      <li routerLinkActive="active">Products</li>
     </a>
     <a routerLink="/category/all">
-      <li>Category</li>
+      <li routerLinkActive="active">Category</li>
     </a>
     <a routerLink="/sub-category/all">
-      <li>Sub Category</li>
+      <li routerLinkActive="active">Sub Category</li>
     </a>
 <!--    <a routerLink="/sub-category/all">-->
 <!--      <li>Sub Sub Category</li>-->
 <!--    </a>-->
     <a routerLink="/brand/all">
-      <li>Brands</li>
+      <li routerLinkActive="active">Brands</li>
     </a>
     <a routerLink="/department/all">
-      <li>Departments</li>
+      <li routerLinkActive="active">Departments</li>
     </a>
   </ul>
   <ul>
     <p>Sale</p>
-    <a href="customerlist.html">
-      <li>Customers</li>
+    <a routerLink="/customer/all">
+      <li routerLinkActive="active">Customers</li>
     </a>
     <a href="estimatelist.html">
       <li>Estimate</li>
     </a>
-    <a href="invoicelist.html">
+    <a routerLink="/invoice/all">
       <li>Invoice</li>
     </a>
     <a href="paymentlist.html">
@@ -43,10 +43,10 @@
   </ul>
   <ul>
     <p>Purchase</p>
-    <a href="vendorlist.html">
-      <li>Vendors</li>
+    <a routerLink="/vendor/all">
+      <li routerLinkActive="active">Vendors</li>
     </a>
-    <a href="expenselist.html">
+    <a routerLink="/expense/all">
       <li>Expenses</li>
     </a>
   </ul>

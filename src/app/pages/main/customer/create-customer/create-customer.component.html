@@ -1,0 +1,61 @@
+<div class="content-panel">
+  <h2>Create New Customer</h2>
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+  <div class="alert alert-danger" *ngIf="errors.length>0">
+    <ul class="d-flex flex-wrap gap-3">
+      <li class="ms-3" *ngFor="let error of errors">{{error ? error : 'Errors'}}</li>
+    </ul>
+  </div>
+  <div class="content-box">
+    <div class="form-section">
+      <form class="w-100" (submit)="saveCustomer($event)">
+        <div class="section-50">
+          <p>Customer Code</p>
+          <input type="text" style="width: 100% !important;" placeholder="Customer Code" name="account_code" [(ngModel)]="customerModel.account_code">
+          <p>Customer Name</p>
+          <input type="text" style="width: 100% !important;" placeholder="Customer Name" name="account_name" [(ngModel)]="customerModel.account_name">
+          <p>Telephone</p>
+          <input type="text" style="width: 100% !important;" placeholder="Telephone" name="telephone" [(ngModel)]="customerModel.telephone">
+          <p>Email address</p>
+          <input type="text" style="width: 100% !important;" placeholder="Email address" name="email" [(ngModel)]="customerModel.email">
+          <p>TRN</p>
+          <input type="text" style="width: 100% !important;" placeholder="TRN" name="trn_no" [(ngModel)]="customerModel.trn_no">
+        </div>
+        <div class="section-50">
+          <p>Address</p>
+          <textarea rows="5" name="address" style="width: 100% !important;" [(ngModel)]="customerModel.address"
+                    placeholder="Customer address"></textarea>
+          <p>City</p>
+          <input type="text" style="width: 100% !important;" placeholder="City" name="city" [(ngModel)]="customerModel.city">
+          <p>Country</p>
+          <input type="text" style="width: 100% !important;" placeholder="Country" name="country" [(ngModel)]="customerModel.country">
+        </div>
+        <div class="form-footer">
+          <a routerLink="/customer/all">
+            <button class="btn-cancel">Back to list</button>
+          </a>
+          <button type="submit" class="btn-save">
+            <span *ngIf="!loading">Save</span>
+            <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
+                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                 y="0px"
+                 viewBox="0 0 100 100" enable-background="new 0 0 0 0">
+              <path fill="#fff"
+                    d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+                <animateTransform
+                  attributeName="transform"
+                  attributeType="XML"
+                  type="rotate"
+                  dur="1s"
+                  from="0 50 50"
+                  to="360 50 50"
+                  repeatCount="indefinite"/>
+              </path>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

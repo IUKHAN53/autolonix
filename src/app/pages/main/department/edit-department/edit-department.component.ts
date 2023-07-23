@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpService} from "../../../../core/services/http/http.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiMethod} from "../../../../core/services/const";
@@ -14,7 +14,7 @@ class ImageSnippet {
   templateUrl: './edit-department.component.html',
   styleUrls: ['./edit-department.component.css']
 })
-export class EditDepartmentComponent {
+export class EditDepartmentComponent implements OnInit{
   categoryId: string | null = '';
   categoryDetail: any = {}
 

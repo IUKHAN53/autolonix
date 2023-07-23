@@ -92,12 +92,6 @@ export class AllProductComponent {
         response => {
           if (response) {
             this.allProducts = response
-            // this.currentPage = response.current_page
-            // this.from = response.from
-            // this.to = response.to
-            // this.lastPage = response.last_page
-            // this.perPage = response.per_page
-            // this.total = response.total
           }
         }
       )

@@ -25,9 +25,9 @@ export class CreateProductComponent {
     barcode: "",
     product_name: "",
     specification: "",
-    category_id: 0,
-    sub_category_id: 0,
-    sub_sub_category_id: 0,
+    category_id: "",
+    sub_category_id: "",
+    sub_sub_category_id: "",
     description: "",
     unit: "",
     pack_details: 0,
@@ -42,7 +42,7 @@ export class CreateProductComponent {
     unit_price: 0,
     ot_rate1: 0,
     ot_amount1: 0,
-    product_image: null
+    product_image: ""
   }
 
   dropdowns: any = []

@@ -1,0 +1,89 @@
+<div class="content-panel">
+  <div class="page-header">
+    <h2>Purchase List</h2>
+  </div>
+  <div class="create-btn-block">
+    <a routerLink="/expense/create">
+      <button>New Purchase</button>
+    </a>
+  </div>
+
+  <div class="content-box">
+    <div class="alert alert-danger mb-3" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="form-section">
+          <form class="w-100" (submit)="searchReport($event)">
+            <div class="d-flex flex-wrap gap-2">
+              <div>
+                <p>Inv.#</p>
+                <input type="text" name="invoice_no" class="w-100" placeholder="Invoice #">
+              </div>
+              <div>
+                <p>Supplier Name</p>
+                <select name="customer_name">
+                  <option value="">Select customer</option>
+                </select>
+              </div>
+              <div>
+                <p>Date From</p>
+                <input type="date" name="date_from" class="w-100" placeholder="Date From">
+              </div>
+              <div>
+                <p>Date To</p>
+                <input type="date" name="date_to" class="w-100" placeholder="Date To">
+              </div>
+
+              <div>
+                <p>Payment Mode</p>
+                <select name="pay_mode">
+                  <option value="">Select</option>
+                  <option value="" selected>Cash</option>
+                </select>
+              </div>
+
+              <div>
+                <button type="button" class="btn-save mt-4">
+                  <span *ngIf="!loading">Search</span>
+                  <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
+                       xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                       y="0px"
+                       viewBox="0 0 100 100" enable-background="new 0 0 0 0">
+                    <path fill="#fff"
+                          d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+                      <animateTransform
+                        attributeName="transform"
+                        attributeType="XML"
+                        type="rotate"
+                        dur="1s"
+                        from="0 50 50"
+                        to="360 50 50"
+                        repeatCount="indefinite"/>
+                    </path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <ag-grid-angular
+          style="width: 100%; height: calc(100vh - 200px);"
+          class="ag-theme-alpine"
+          [columnDefs]="columnDefs"
+          [defaultColDef]="defaultColDef"
+          [rowData]="allInvoices"
+          [animateRows]="true"
+          [pagination]="true"
+          [paginationPageSize]="10"
+          (gridReady)="onGridReady($event)"
+        ></ag-grid-angular>
+      </div>
+    </div>
+
+  </div>
+</div>

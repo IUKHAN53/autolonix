@@ -1,0 +1,25 @@
+<div class="content-panel">
+  <div class="page-header">
+    <h2>Customer List</h2>
+  </div>
+  <div class="create-btn-block">
+    <a routerLink="/customer/create">
+      <button>New Customer</button>
+    </a>
+  </div>
+
+  <div class="content-box">
+    <div class="alert alert-danger mb-3" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+    <ag-grid-angular
+      style="width: 100%; height: calc(100vh - 200px);"
+      class="ag-theme-alpine"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [rowData]="allCustomers"
+      [animateRows]="true"
+      [pagination]="true"
+      [paginationPageSize]="10"
+      (gridReady)="onGridReady($event)"
+    ></ag-grid-angular>
+  </div>
+</div>
