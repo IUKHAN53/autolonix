@@ -185,47 +185,53 @@ class ProductController extends Controller
         if ($validatedData->fails()) {
             return response()->json(['error' => $validatedData->errors()], 401);
         }
-        $product = ProductMaster::findOrFail($id);
-        $product_child = ProductChild::where('product_id', $product->id)->first();
-        $product_child_price = ProductChildPrice::where('product_id', $product->id)->first();
+        try {
+            DB::beginTransaction();
 
-        $product->product_code = $request->input('product_code') ?? $product->product_code;
-        $product->barcode = $request->input('barcode') ?? $product->barcode;
-        $product->product_name = $request->input('product_name') ?? $product->product_name;
-        $product->specification = $request->input('specification') ?? $product->specification;
-        $product->category_id = $request->input('category_id') ?? $product->category_id;
-        $product->sub_category_id = $request->input('sub_category_id') ?? $product->sub_category_id;
-        $product->sub_sub_category_id = $request->input('sub_sub_category_id') ?? $product->sub_sub_category_id;
-        $product->department_id = $request->input('department_id') ?? $product->department_id;
-        $product->product_brand_id = $request->input('product_brand_id') ?? $product->product_brand_id;
-        $product->description = $request->input('description') ?? $product->description;
-        $product->unit = $request->input('unit') ?? $product->unit;
-        $product->pack_details = $request->input('pack_details') ?? $product->pack_details;
-        $product->product_type = $request->input('product_type') ?? $product->product_type;
-        $product->mod_by = $request->user()->id;
-        $product->mod_on = now();
-        if($request->hasFile('product_image')){
-            $image = $request->file('product_image')->store('uploads/products');
-            $product->product_image = $image;
+            $product = ProductMaster::findOrFail($id);
+            $product_child = ProductChild::where('product_id', $product->id)->first();
+            $product_child_price = ProductChildPrice::where('product_id', $product->id)->first();
+
+            $product->product_code = $request->input('product_code') ?? $product->product_code;
+            $product->barcode = $request->input('barcode') ?? $product->barcode;
+            $product->product_name = $request->input('product_name') ?? $product->product_name;
+            $product->specification = $request->input('specification') ?? $product->specification;
+            $product->category_id = $request->input('category_id') ?? $product->category_id;
+            $product->sub_category_id = $request->input('sub_category_id') ?? $product->sub_category_id;
+            $product->sub_sub_category_id = $request->input('sub_sub_category_id') ?? $product->sub_sub_category_id;
+            $product->department_id = $request->input('department_id') ?? $product->department_id;
+            $product->product_brand_id = $request->input('product_brand_id') ?? $product->product_brand_id;
+            $product->description = $request->input('description') ?? $product->description;
+            $product->unit = $request->input('unit') ?? $product->unit;
+            $product->pack_details = $request->input('pack_details') ?? $product->pack_details;
+            $product->product_type = $request->input('product_type') ?? $product->product_type;
+            $product->mod_by = $request->user()->id;
+            $product->mod_on = now();
+            if ($request->hasFile('product_image')) {
+                $image = $request->file('product_image')->store('uploads/products');
+                $product->product_image = $image;
+            }
+
+            $product_child->last_supplier_id = $request->input('last_supplier_id') ?? $product_child->last_supplier_id;
+            $product_child->last_purchase_cost = $request->input('last_purchase_cost') ?? $product_child->last_purchase_cost;
+            $product_child->it_rate1 = $request->input('it_rate1') ?? $product_child->it_rate1;
+            $product_child->it_amount1 = $request->input('it_amount1') ?? $product_child->it_amount1;
+            $product_child->mod_by = $request->user()->id;
+            $product_child->mod_on = now();
+
+            $product_child_price->unit_price = $request->input('unit_price') ?? $product_child_price->unit_price;
+            $product_child_price->ot_rate1 = $request->input('ot_rate1') ?? $product_child_price->ot_rate1;
+            $product_child_price->ot_amount1 = $request->input('ot_amount1') ?? $product_child_price->ot_amount1;
+            $product_child_price->mod_by = $request->user()->id;
+            $product_child_price->mod_on = now();
+
+            $product->save();
+            $product_child->save();
+            $product_child_price->save();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 401);
         }
-
-        $product_child->last_supplier_id = $request->input('last_supplier_id') ?? $product_child->last_supplier_id;
-        $product_child->last_purchase_cost = $request->input('last_purchase_cost') ?? $product_child->last_purchase_cost;
-        $product_child->it_rate1 = $request->input('it_rate1') ?? $product_child->it_rate1;
-        $product_child->it_amount1 = $request->input('it_amount1') ?? $product_child->it_amount1;
-        $product_child->mod_by = $request->user()->id;
-        $product_child->mod_on = now();
-
-        $product_child_price->unit_price = $request->input('unit_price') ?? $product_child_price->unit_price;
-        $product_child_price->ot_rate1 = $request->input('ot_rate1') ?? $product_child_price->ot_rate1;
-        $product_child_price->ot_amount1 = $request->input('ot_amount1') ?? $product_child_price->ot_amount1;
-        $product_child_price->mod_by = $request->user()->id;
-        $product_child_price->mod_on = now();
-
-        $product->save();
-        $product_child->save();
-        $product_child_price->save();
-
         return response()->json($product);
     }
 

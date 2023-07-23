@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('product_drilldown_masters', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('drilldown_id')->nullable();
             $table->string('drilldown_type', 50);
             $table->integer('parent_id')->nullable();
             $table->string('drilldown_code', 50);

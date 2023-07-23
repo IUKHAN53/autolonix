@@ -59,5 +59,5 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    const ROLES = [1 => 'User', 2 => 'Admin', 3 => 'Super Admin'];
+    const ROLES = [1 => 'User', 2 => 'Admin', 3 => 'Sales Man'];
 }

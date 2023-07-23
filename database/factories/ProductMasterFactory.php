@@ -12,15 +12,13 @@ class ProductMasterFactory extends Factory
     public function definition(): array
     {
         return [
+            'product_id' => $this->faker->numberBetween(1, 9999),
             'product_code' => $this->faker->text(50),
             'barcode' => $this->faker->text(50),
             'product_name' => $this->faker->text(150),
             'product_name_arabic' => $this->faker->text(150),
             'specification' => $this->faker->text(250),
             'category_id' => ProductDrilldownMaster::query()->category()->parent()->inRandomOrder()->first()->id ?? null,
-            'sub_category_id' => ProductDrilldownMaster::query()->category()->child()->inRandomOrder()->first()->id ?? null,
-            'sub_sub_category_id' => ProductDrilldownMaster::query()->category()->child()->inRandomOrder()->first()->id ?? null,
-            'product_brand_id' => ProductDrilldownMaster::query()->brand()->inRandomOrder()->first()->id ?? null,
             'department_id' => ProductDrilldownMaster::query()->department()->inRandomOrder()->first()->id ?? null,
             'unit' => $this->faker->text(50),
             'pack_qty' => $this->faker->randomFloat(4, 0, 9999),
@@ -38,7 +36,6 @@ class ProductMasterFactory extends Factory
             'remarks' => $this->faker->text(),
             'upload_status' => $this->faker->text(10),
             'product_type' => $this->faker->text(10),
-            'product_image' => $this->faker->imageUrl(),
             'cr_by' => User::query()->inRandomOrder()->first()->id,
             'cr_on' => $this->faker->dateTime(),
         ];

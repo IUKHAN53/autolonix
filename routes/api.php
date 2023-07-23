@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\DrilldownController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\CustomerController;
+namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -36,12 +33,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
 //    Customers
-    Route::prefix('customers')->group(function () {
-        Route::get('/', [CustomerController::class, 'index']);
-        Route::post('/', [CustomerController::class, 'store']);
-        Route::get('/{id}', [CustomerController::class, 'show']);
-        Route::post('/update/{id}', [CustomerController::class, 'update']);
-        Route::delete('/{id}', [CustomerController::class, 'destroy']);
+    Route::prefix('account-head')->group(function () {
+        Route::post('/', [AccountHeadController::class, 'index']);
+        Route::post('/store', [AccountHeadController::class, 'store']);
+        Route::get('/{id}', [AccountHeadController::class, 'show']);
+        Route::post('/update/{id}', [AccountHeadController::class, 'update']);
+        Route::delete('/{id}', [AccountHeadController::class, 'destroy']);
     });
 });
 

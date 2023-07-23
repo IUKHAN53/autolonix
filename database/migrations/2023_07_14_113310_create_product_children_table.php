@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_children', function (Blueprint $table) {
+        Schema::create('product_child', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('product_child_id', 50)->nullable();
             $table->decimal('pack_qty', 18, 4)->nullable();
             $table->bigInteger('station_id')->nullable();
             $table->decimal('qty_on_hand', 18, 4)->nullable();

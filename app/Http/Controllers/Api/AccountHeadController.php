@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
 use App\Models\AccountHeadMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
-class CustomerController extends Controller
+class AccountHeadController extends Controller
 {
     public function index()
     {
+
         return AccountHeadMaster::all();
     }
 
