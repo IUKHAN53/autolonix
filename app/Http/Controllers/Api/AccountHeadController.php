@@ -36,7 +36,7 @@ class AccountHeadController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        $account_head = AccountHeadMaster::create($request->all());
+        $account_head = AccountHeadMaster::create($request->except('type'));
         if ($request->has('type')) {
             if ($request->type == 'customer'){
                 $account_head->parent_account_id = AccountHeadMaster::CUSTOMER_TYPE;
