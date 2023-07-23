@@ -37,7 +37,7 @@ class AccountHeadController extends Controller
         }
 
         $account_head = AccountHeadMaster::create($request->all());
-        if ($request->has('account_type')) {
+        if ($request->has('type')) {
             if ($request->type == 'customer'){
                 $account_head->parent_account_id = AccountHeadMaster::CUSTOMER_TYPE;
             }else if ($request->type == 'supplier'){
