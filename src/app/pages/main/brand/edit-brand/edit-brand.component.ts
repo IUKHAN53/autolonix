@@ -31,7 +31,7 @@ export class EditBrandComponent {
   categoryModel: any = {
     drilldown_code: '',
     drilldown_description: '',
-    drilldown_image: null
+    drilldown_image: ''
   }
 
   loading: boolean = false

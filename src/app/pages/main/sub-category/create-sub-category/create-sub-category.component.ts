@@ -28,7 +28,7 @@ export class CreateSubCategoryComponent {
     drilldown_code: '',
     drilldown_type: 'Category',
     drilldown_description: '',
-    drilldown_image: null
+    drilldown_image: ''
   }
 
   sub_parent_id = '0'

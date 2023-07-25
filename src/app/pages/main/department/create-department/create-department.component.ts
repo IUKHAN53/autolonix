@@ -22,7 +22,7 @@ export class CreateDepartmentComponent {
     drilldown_code: '',
     drilldown_type: 'Department',
     drilldown_description: '',
-    drilldown_image: null
+    drilldown_image: ''
   }
 
   loading: boolean = false

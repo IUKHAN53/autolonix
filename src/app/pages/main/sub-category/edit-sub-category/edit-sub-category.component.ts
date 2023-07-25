@@ -36,7 +36,7 @@ export class EditSubCategoryComponent implements OnInit {
     parent_id: 0,
     drilldown_code: '',
     drilldown_description: '',
-    drilldown_image: null
+    drilldown_image: ''
   }
 
   sub_parent_id = '0'

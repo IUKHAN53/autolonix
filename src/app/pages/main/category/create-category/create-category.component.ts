@@ -24,7 +24,7 @@ export class CreateCategoryComponent {
     drilldown_code: '',
     drilldown_description: '',
     drilldown_type: 'Category',
-    drilldown_image: null
+    drilldown_image: ''
   }
 
   loading: boolean = false
