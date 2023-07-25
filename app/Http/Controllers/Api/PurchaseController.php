@@ -33,8 +33,10 @@ class PurchaseController extends Controller
 
     public function getProducts(Request $request)
     {
-        $data = ProductMaster::query()->join('product_child_prices', 'product_child_prices.product_id', '=', 'product_masters.id')
-            ->select('product_masters.product_name as product_name', 'product_masters.description as description', 'product_masters.pack_details as pack_details', 'product_child_prices.unit_price as unit_price')
+        $data = ProductMaster::query()
+            ->join('product_child_prices', 'product_child_prices.product_id', '=', 'product_masters.id')
+            ->join('product_child', 'product_child.id', '=', 'product_masters.id')
+            ->select('product_masters.*', 'product_child.*', 'product_child_prices.*')
             ->get()->toArray();
         return response()->json($data);
     }

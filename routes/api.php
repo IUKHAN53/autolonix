@@ -47,7 +47,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/getProducts', [PurchaseController::class, 'getProducts']);
     });
 });
-
+//    purchase
+//Route::prefix('purchase')->group(function (){
+//    Route::get('/getDetails', [PurchaseController::class, 'getDetails']);
+//    Route::get('/getProducts', [PurchaseController::class, 'getProducts']);
+//});
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
