@@ -40,7 +40,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/update/{id}', [AccountHeadController::class, 'update']);
         Route::delete('/{id}', [AccountHeadController::class, 'destroy']);
     });
+
+//    purchase
+    Route::prefix('purchase')->group(function (){
+        Route::post('/getDetails', [PurchaseController::class, 'getDetails']);
+        Route::post('/getProducts', [PurchaseController::class, 'getProducts']);
+    });
 });
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

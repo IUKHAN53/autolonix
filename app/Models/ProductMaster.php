@@ -101,12 +101,12 @@ class ProductMaster extends Model
 
     public function child()
     {
-        return $this->hasOne(ProductChild::class, 'product_id');
+        return $this->hasMany(ProductChild::class, 'product_id');
     }
 
     public function childPrice()
     {
-        return $this->hasOne(ProductChildPrice::class, 'product_id');
+        return $this->hasMany(ProductChildPrice::class, 'product_id');
     }
 
 }

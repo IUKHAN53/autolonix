@@ -15,4 +15,6 @@ class AccountHeadMaster extends Model
 
     const CUSTOMER_TYPE = 3;
     const SUPPLIER_TYPE = 4;
+
+
 }

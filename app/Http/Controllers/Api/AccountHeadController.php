@@ -18,9 +18,9 @@ class AccountHeadController extends Controller
         }
         if ($request->has('type')) {
             if ($request->type == 'customer') {
-                $data = $query->where('parent_account_id', AccountHeadMaster::CUSTOMER_TYPE)->get();
+                $data = $query->where('parent_account_id', getCustomerAccountId())->get();
             }else if ($request->type == 'supplier') {
-                $data = $query->where('parent_account_id', AccountHeadMaster::SUPPLIER_TYPE)->get();
+                $data = $query->where('parent_account_id', getSupplierAccountId())->get();
             }else{
                 $data = $query->where('parent_account_id', null)->get();
             }
@@ -39,9 +39,9 @@ class AccountHeadController extends Controller
         $account_head = AccountHeadMaster::create($request->except('type'));
         if ($request->has('type')) {
             if ($request->type == 'customer'){
-                $account_head->parent_account_id = AccountHeadMaster::CUSTOMER_TYPE;
+                $account_head->parent_account_id = getCustomerAccountId();
             }else if ($request->type == 'supplier'){
-                $account_head->parent_account_id = AccountHeadMaster::SUPPLIER_TYPE;
+                $account_head->parent_account_id = getSupplierAccountId();
             }
         }
         $account_head->account_type = 'BS';
