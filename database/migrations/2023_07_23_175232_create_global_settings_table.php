@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 50);
             $table->string('value', 50);
             $table->string('type', 50);
-            $table->string('model_for', 50);
+            $table->string('model_for', 50)->nullable();
             $table->timestamps();
         });
     }

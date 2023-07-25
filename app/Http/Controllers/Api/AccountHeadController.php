@@ -43,8 +43,10 @@ class AccountHeadController extends Controller
             }else if ($request->type == 'supplier'){
                 $account_head->parent_account_id = AccountHeadMaster::SUPPLIER_TYPE;
             }
-            $account_head->save();
         }
+        $account_head->account_type = 'BS';
+        $account_head->save();
+
 
         return response()->json($account_head, 201);
     }

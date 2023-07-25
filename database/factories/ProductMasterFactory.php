@@ -12,7 +12,6 @@ class ProductMasterFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => $this->faker->numberBetween(1, 9999),
             'product_code' => $this->faker->text(50),
             'barcode' => $this->faker->text(50),
             'product_name' => $this->faker->text(150),
