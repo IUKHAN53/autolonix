@@ -45,4 +45,8 @@ class PurchaseController extends Controller
     {
         return response()->json(['message' => 'Hello World!']);
     }
+
+    public function storeExpense(Request $request){
+        return response()->json($request->all());
+    }
 }
