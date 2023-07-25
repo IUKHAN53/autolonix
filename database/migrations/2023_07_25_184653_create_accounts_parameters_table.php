@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('accounts_parameters', function (Blueprint $table) {
             $table->id();
-            $table->string('parameter_name', 250);
-            $table->bigInteger('account_id');
-            $table->string('ledger_name', 250);
-            $table->decimal('numeric_value', 18, 0);
-            $table->string('transaction_type', 50);
-            $table->string('description', 500);
-            $table->bigInteger('station_id');
+            $table->string('parameter_name', 250)->nullable();
+            $table->bigInteger('account_id')->nullable();
+            $table->string('ledger_name', 250)->nullable();
+            $table->decimal('numeric_value', 18, 0)->nullable();
+            $table->string('transaction_type', 50)->nullable();
+            $table->string('description', 500)->nullable();
+            $table->bigInteger('station_id')->nullable();
             $table->timestamps();
         });
     }

@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             ProductChildSeeder::class,
             ProductChildPriceSeeder::class,
             AccountsParameterSeeder::class,
+            VoucherTypeMasterSeeder::class,
         ]);
     }
 }

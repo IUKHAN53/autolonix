@@ -13,20 +13,20 @@ return new class extends Migration
     {
         Schema::create('voucher_child', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('voucher_child_id');
-            $table->bigInteger('voucher_master_id');
-            $table->bigInteger('account_id');
-            $table->decimal('cr_amount', 19, 4);
-            $table->decimal('dr_amount', 19, 4);
-            $table->decimal('os_balance', 19, 4);
-            $table->string('narration', 250);
-            $table->string('post_status', 50);
-            $table->dateTime('cr_on');
-            $table->string('cr_by', 50);
-            $table->dateTime('mod_on');
-            $table->string('mod_by', 50);
-            $table->timestamp('r_status');
-            $table->string('payment_mode', 15);
+            $table->bigInteger('voucher_child_id')->nullable();
+            $table->bigInteger('voucher_master_id')->nullable();
+            $table->bigInteger('account_id')->nullable();
+            $table->decimal('cr_amount', 19, 4)->nullable();
+            $table->decimal('dr_amount', 19, 4)->nullable();
+            $table->decimal('os_balance', 19, 4)->nullable();
+            $table->string('narration', 250)->nullable();
+            $table->string('post_status', 50)->nullable();
+            $table->dateTime('cr_on')->nullable();
+            $table->string('cr_by', 50)->nullable();
+            $table->dateTime('mod_on')->nullable();
+            $table->string('mod_by', 50)->nullable();
+            $table->timestamp('r_status')->nullable();
+            $table->string('payment_mode', 15)->nullable();
             $table->timestamps();
         });
     }

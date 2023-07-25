@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('transaction_ref_master', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('transaction_ref_id');
-            $table->bigInteger('transaction_voucher_id');
-            $table->bigInteger('paid_voucher_id');
-            $table->bigInteger('paid_account_id');
-            $table->string('ref_type', 25);
-            $table->decimal('amount', 19, 4);
-            $table->string('status', 15);
+            $table->bigInteger('transaction_ref_id')->nullable();
+            $table->bigInteger('transaction_voucher_id')->nullable();
+            $table->bigInteger('paid_voucher_id')->nullable();
+            $table->bigInteger('paid_account_id')->nullable();
+            $table->string('ref_type', 25)->nullable();
+            $table->decimal('amount', 19, 4)->nullable();
+            $table->string('status', 15)->nullable();
             $table->dateTime('cheque_date')->nullable();
             $table->string('cheque_no', 50)->nullable();
             $table->string('cheque_details', 100)->nullable();

@@ -45,7 +45,6 @@ class ProductChildFactory extends Factory
             'it_rate4' => $this->faker->randomFloat(2, 0, 9999),
             'last_supplier_id' => $this->faker->randomNumber(),
             'location' => $this->faker->word,
-            'r_status_c' => $this->faker->randomElement(['status1', 'status2', 'status3']),
             'upload_status_c' => $this->faker->randomElement(['status1', 'status2', 'status3']),
             'cr_by' => User::query()->inRandomOrder()->first()->id,
             'cr_on' => $this->faker->dateTime(),

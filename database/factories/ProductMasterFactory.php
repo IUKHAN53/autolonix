@@ -31,7 +31,6 @@ class ProductMasterFactory extends Factory
             'engine_no' => $this->faker->text(50),
             'chassis_no' => $this->faker->text(50),
             'ome_code' => $this->faker->text(50),
-            'r_status_m' => $this->faker->text(10),
             'remarks' => $this->faker->text(),
             'upload_status' => $this->faker->text(10),
             'product_type' => $this->faker->text(10),

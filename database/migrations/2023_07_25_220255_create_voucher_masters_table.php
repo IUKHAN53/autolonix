@@ -13,26 +13,26 @@ return new class extends Migration
     {
         Schema::create('voucher_master', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('voucher_master_id');
-            $table->bigInteger('voucher_type_id');
-            $table->bigInteger('auto_voucher_no');
-            $table->string('manual_voucher_no', 50);
-            $table->string('voucher_prefix', 50);
-            $table->dateTime('voucher_date');
-            $table->dateTime('entered_date');
-            $table->string('ref_no', 50);
-            $table->decimal('voucher_amount', 19, 4);
-            $table->string('remark', 250);
-            $table->enum('post_status', ['PENDING', 'POSTED', 'CANCELLED']); // Replace with actual enum values
-            $table->string('creation_mode', 50);
-            $table->bigInteger('voucher_posted_id');
-            $table->bigInteger('station_id');
-            $table->dateTime('cr_on');
-            $table->string('cr_by', 50);
-            $table->dateTime('mod_on');
-            $table->string('mod_by', 50);
-            $table->string('counter_close_no', 15);
-            $table->timestamp('r_status');
+            $table->bigInteger('voucher_master_id')->nullable();
+            $table->bigInteger('voucher_type_id')->nullable();
+            $table->bigInteger('auto_voucher_no')->nullable();
+            $table->string('manual_voucher_no', 50)->nullable();
+            $table->string('voucher_prefix', 50)->nullable();
+            $table->dateTime('voucher_date')->nullable();
+            $table->dateTime('entered_date')->nullable();
+            $table->string('ref_no', 50)->nullable();
+            $table->decimal('voucher_amount', 19, 4)->nullable();
+            $table->string('remark', 250)->nullable();
+            $table->enum('post_status', ['PENDING', 'POSTED', 'CANCELLED'])->nullable();
+            $table->string('creation_mode', 50)->nullable();
+            $table->bigInteger('voucher_posted_id')->nullable();
+            $table->bigInteger('station_id')->nullable();
+            $table->dateTime('cr_on')->nullable();
+            $table->string('cr_by', 50)->nullable();
+            $table->dateTime('mod_on')->nullable();
+            $table->string('mod_by', 50)->nullable();
+            $table->string('counter_close_no', 15)->nullable();
+            $table->timestamp('r_status')->nullable();
             $table->timestamps();
         });
     }
