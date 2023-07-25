@@ -37,3 +37,8 @@ function getSupplierAccountId()
 {
     return  AccountsParameter::where('parameter_name', 'PaymentVoucherNameSupplier')->pluck('account_id')->first();
 }
+
+function getStationId()
+{
+    return  GlobalSettings::query()->where('type', 'station_id')->pluck('value')->first();
+}

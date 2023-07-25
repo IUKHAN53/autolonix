@@ -33,7 +33,7 @@ return new class extends Migration
             $table->decimal('it_rate4', 18, 2)->nullable();
             $table->bigInteger('last_supplier_id')->nullable();
             $table->string('location', 100)->nullable();
-            $table->char('r_status_c', 10)->default('ACTIVE');
+            $table->timestamp('r_status')->nullable();
             $table->char('upload_status_c', 10)->default('PENDING');
             $table->foreignId('cr_by')->nullable()->constrained('users')->onDelete('set null');
             $table->dateTime('cr_on')->nullable();

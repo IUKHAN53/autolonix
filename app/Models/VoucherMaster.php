@@ -7,15 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PurchaseChild extends Model
+class VoucherMaster extends Model
 {
     use HasFactory;
     use softDeletes;
-    use SetDefaultData;
+    use setDefaultData;
 
     const DELETED_AT = 'r_status';
-
-    protected $table = 'purchase_child';
+    protected $table = 'voucher_master';
 
     protected $guarded = [];
 }

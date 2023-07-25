@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\SetDefaultData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductChildPrice extends Model
 {
     use HasFactory;
+    use SetDefaultData;
 
     protected $table = 'product_child_prices';
 

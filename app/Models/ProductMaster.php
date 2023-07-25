@@ -2,13 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\SetDefaultData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 class ProductMaster extends Model
 {
     use HasFactory;
+    use softDeletes;
+    use SetDefaultData;
+
+    const DELETED_AT = 'r_status';
 
     protected $table = 'product_masters';
     protected $fillable = [

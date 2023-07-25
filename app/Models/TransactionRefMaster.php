@@ -5,7 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class TransactionRefMaster extends Model
 {
     use HasFactory;
+
+    protected $table = 'transaction_ref_master';
+
+    protected $guarded = [];
 }

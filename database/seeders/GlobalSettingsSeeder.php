@@ -89,6 +89,16 @@ class GlobalSettingsSeeder extends Seeder
                 'value' => 'Voucher',
                 'type' => 'SalesPaymentMode',
             ],
+            [
+                'name' => 'station_id',
+                'value' => '10',
+                'type' => 'station_id',
+            ],
+            [
+                'name' => 'station_id',
+                'value' => '10',
+                'type' => 'station_id',
+            ],
 
         ];
 

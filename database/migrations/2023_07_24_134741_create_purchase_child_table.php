@@ -40,7 +40,7 @@ return new class extends Migration
             $table->decimal('line_total', 18, 2)->nullable();
             $table->string('post_status', 50)->default('PENDING');
             $table->bigInteger('station_id')->nullable();
-            $table->string('rstatus_c', 50)->default('PENDING');
+            $table->timestamp('r_status')->nullable();
             $table->string('server_status_c', 20)->default('PENDING');
             $table->decimal('actual_cost_fc', 18, 6)->nullable();
             $table->decimal('dic_percentage_fc', 18, 2)->nullable();

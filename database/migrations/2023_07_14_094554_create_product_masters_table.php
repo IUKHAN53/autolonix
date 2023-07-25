@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('engine_no', 50)->nullable();
             $table->string('chassis_no', 50)->nullable();
             $table->string('ome_code', 50)->nullable();
-            $table->char('r_status_m', 10)->default('ACTIVE');
+            $table->timestamp('r_status')->nullable();
             $table->text('remarks')->nullable();
             $table->char('upload_status', 10)->default('PENDING');
             $table->string('product_type', 10)->nullable();

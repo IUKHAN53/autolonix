@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_master', function (Blueprint $table) {
             $table->id();
-            $table->string('transaction_type', 15)->default('PURCHASE');
+            $table->enum('transaction_type', ['PURCHASE','PURCHASE RETURN'])->default('PURCHASE');
             $table->bigInteger('purchase_id')->index()->nullable();
             $table->char('prefix', 5)->nullable();
             $table->decimal('purchase_no', 18, 0)->nullable();
@@ -44,7 +44,7 @@ return new class extends Migration
             $table->string('counter_close_status', 50)->default('PENDING');
             $table->string('server_status', 50)->default('PENDING');
             $table->text('remarks')->nullable();
-            $table->string('rstatus_m', 50)->default('PENDING');
+            $table->timestamp('r_status')->nullable();
             $table->string('purchase_type', 15)->default('LOCAL PURCHASE');
             $table->bigInteger('currency_id')->nullable()->nullable();
             $table->decimal('currency_rate', 18, 6)->nullable();
