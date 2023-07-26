@@ -30,12 +30,12 @@ function salesPaymentMode()
 
 function getCustomerAccountId()
 {
-    return AccountsParameter::where('parameter_name', 'PaymentVoucherNameCustomer')->pluck('account_id')->first();
+    return AccountsParameter::where('parameter_name', 'CustomerLedger')->pluck('account_id')->first();
 }
 
 function getSupplierAccountId()
 {
-    return  AccountsParameter::where('parameter_name', 'PaymentVoucherNameSupplier')->pluck('account_id')->first();
+    return  AccountsParameter::where('parameter_name', 'SupplierLedger')->pluck('account_id')->first();
 }
 
 function getStationId()

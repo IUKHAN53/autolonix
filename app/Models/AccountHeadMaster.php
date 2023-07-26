@@ -15,8 +15,5 @@ class AccountHeadMaster extends Model
 
     protected $guarded = [];
 
-    const CUSTOMER_TYPE = 3;
-    const SUPPLIER_TYPE = 4;
-
 
 }
