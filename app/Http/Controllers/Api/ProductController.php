@@ -220,11 +220,13 @@ class ProductController extends Controller
             $product->save();
             $product_child->save();
             $product_child_price->save();
+            DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 401);
         }
         return response()->json($product);
+
     }
 
     /**
