@@ -17,40 +17,7 @@ class ProductMaster extends Model
     const DELETED_AT = 'r_status';
 
     protected $table = 'product_masters';
-    protected $fillable = [
-        'product_id',
-        'product_code',
-        'barcode',
-        'product_name',
-        'product_name_arabic',
-        'specification',
-        'category_id',
-        'sub_category_id',
-        'sub_sub_category_id',
-        'product_brand_id',
-        'department_id',
-        'unit',
-        'pack_qty',
-        'pack_details',
-        'is_master',
-        'stock_type',
-        'product_status',
-        'unique_id',
-        'substitute_no',
-        'model',
-        'engine_no',
-        'chassis_no',
-        'ome_code',
-        'r_status_m',
-        'remarks',
-        'upload_status',
-        'product_type',
-        'product_image',
-        'cr_by',
-        'cr_on',
-        'mod_by',
-        'mod_on',
-    ];
+    protected $guarded = [];
 
     const UOM = [
         'PCS',

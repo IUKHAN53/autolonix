@@ -205,8 +205,6 @@ class ProductController extends Controller
             $product->unit = $request->input('unit') ?? $product->unit;
             $product->pack_details = $request->input('pack_details') ?? $product->pack_details;
             $product->product_type = $request->input('product_type') ?? $product->product_type;
-            $product->mod_by = $request->user()->id;
-            $product->mod_on = now();
             if ($request->hasFile('product_image')) {
                 $image = $request->file('product_image')->store('uploads/products');
                 $product->product_image = $image;
@@ -216,15 +214,10 @@ class ProductController extends Controller
             $product_child->last_purchase_cost = $request->input('last_purchase_cost') ?? $product_child->last_purchase_cost;
             $product_child->it_rate1 = $request->input('it_rate1') ?? $product_child->it_rate1;
             $product_child->it_amount1 = $request->input('it_amount1') ?? $product_child->it_amount1;
-            $product_child->mod_by = $request->user()->id;
-            $product_child->mod_on = now();
 
             $product_child_price->unit_price = $request->input('unit_price') ?? $product_child_price->unit_price;
             $product_child_price->ot_rate1 = $request->input('ot_rate1') ?? $product_child_price->ot_rate1;
             $product_child_price->ot_amount1 = $request->input('ot_amount1') ?? $product_child_price->ot_amount1;
-            $product_child_price->mod_by = $request->user()->id;
-            $product_child_price->mod_on = now();
-
             $product->save();
             $product_child->save();
             $product_child_price->save();
