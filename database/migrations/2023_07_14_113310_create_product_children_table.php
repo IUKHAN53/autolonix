@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('product_child', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('product_child_id')->nullable();
+            $table->bigInteger('unique_id')->nullable();
             $table->decimal('pack_qty', 18, 4)->nullable();
             $table->bigInteger('station_id')->nullable();
             $table->decimal('qty_on_hand', 18, 4)->nullable();
@@ -39,9 +40,7 @@ return new class extends Migration
             $table->dateTime('cr_on')->nullable();
             $table->foreignId('mod_by')->nullable()->constrained('users')->onDelete('set null');
             $table->dateTime('mod_on')->nullable();
-//            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('product_masters')->onDelete('cascade');
-            $table->foreignId('unique_id')->constrained('product_masters')->onDelete('cascade');
             $table->timestamps();
         });
     }

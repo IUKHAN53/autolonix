@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('product_masters', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('product_id')->nullable();
+            $table->bigInteger('unique_id')->nullable();
             $table->string('product_code', 50)->nullable();
             $table->string('barcode', 50)->nullable();
             $table->string('product_name', 150)->nullable();
@@ -21,12 +22,11 @@ return new class extends Migration
             $table->string('description', 250)->nullable();
             $table->string('specification', 250)->nullable();
             $table->string('unit', 50)->nullable();
-            $table->decimal('pack_qty', 18, 4)->nullable();
+            $table->decimal('pack_qty')->default(1);
             $table->char('pack_details', 10)->default('PCS');
             $table->char('is_master', 10)->default('Yes');
             $table->char('stock_type', 10)->default('STOCK');
             $table->char('product_status', 10)->default('ACTIVE');
-            $table->bigInteger('unique_id')->nullable();
             $table->bigInteger('substitute_no')->nullable();
             $table->char('model', 10)->nullable();
             $table->string('engine_no', 50)->nullable();
