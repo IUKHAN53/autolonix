@@ -42,7 +42,6 @@ export class CreateProductComponent {
     unit_price: 0,
     ot_rate1: 0,
     ot_amount1: 0,
-    selling_price: 0,
     product_image: ""
   }
 
@@ -140,8 +139,8 @@ export class CreateProductComponent {
     if(this.productModel.ot_rate1>100) {
       this.productModel.ot_rate1 = 100
     }
-    const vatAmount = ((this.productModel.selling_price * this.productModel.ot_rate1) / 100).toFixed(2)
+    const vatAmount = ((this.productModel.last_purchase_cost * this.productModel.ot_rate1) / 100).toFixed(2)
     const vatAmountNumber = parseInt(vatAmount)
-    this.productModel.ot_amount1 = this.productModel.selling_price+vatAmountNumber
+    this.productModel.ot_amount1 = this.productModel.last_purchase_cost+vatAmountNumber
   }
 }

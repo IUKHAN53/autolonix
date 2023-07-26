@@ -55,12 +55,12 @@
           <p>Product UOM</p>
           <select name="unit" style="width: 100%!important;" [(ngModel)]="productModel.unit">
             <option value="">Select Product UOM</option>
-            <option *ngFor="let uom of dropdowns.uom; let i = index;" [value]="uom">{{uom}}</option>
+            <option *ngFor="let uom of dropdowns.uom | keyvalue" [value]="uom.key">{{uom.value}}</option>
           </select>
         </div>
         <div class="section-50">
           <p>Packet Details</p>
-          <input type="number" style="width: 100%!important;" name="pack_details"
+          <input type="text" style="width: 100%!important;" name="pack_details"
                  [(ngModel)]="productModel.pack_details"
                  placeholder="100 gm">
         </div>
@@ -76,7 +76,7 @@
                   placeholder="Product Specification"></textarea>
         <div class="section-70">
           <p>Supplier Name</p>
-          <input type="text" placeholder="Supplier Nam">
+          <input type="text" placeholder="Supplier Name">
         </div>
         <div class="section-30">
           <p>Stock Qty</p>
@@ -97,9 +97,9 @@
                  placeholder="Product Image">
         </div>
         <div class="section-50">
-          <p>Selling Price</p>
-          <input type="number" name="selling_price" (input)="getPriceWithVAT($event)"
-                 [(ngModel)]="productModel.selling_price" placeholder="Selling Price">
+          <p>Last Purchase Cost</p>
+          <input type="number" name="last_purchase_cost" (input)="getPriceWithVAT($event)"
+                 [(ngModel)]="productModel.last_purchase_cost" placeholder="Selling Price">
           <p>VAT %</p>
           <input type="number" name="ot_rate1" (input)="getPriceWithVAT($event)" [(ngModel)]="productModel.ot_rate1">
           <p>Price Inclusive VAT</p>

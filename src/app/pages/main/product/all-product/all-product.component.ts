@@ -50,8 +50,22 @@ export class AllProductComponent {
         return value ? value.drilldown_code : ''
       }
     },
-    {headerName: 'Price', field: 'product_name'},
-    {headerName: 'Cost', field: 'product_name'},
+    {
+      headerName: 'Unit Price',
+      field: 'child_price',
+      cellRenderer: (params: any) => {
+        const value = params.value
+        return value.length > 0 ? value[0].unit_price : ''
+      }
+    },
+    {
+      headerName: 'Selling Price',
+      field: 'child',
+      cellRenderer: (params: any) => {
+        const value = params.value
+        return value.length > 0 ? value[0].last_purchase_cost : ''
+      }
+    },
     {headerName: 'Image', cellRenderer: ImageCellRendererComponent},
     {
       headerName: 'Actions',

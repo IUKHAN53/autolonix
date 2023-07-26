@@ -13,7 +13,7 @@
       <div class="form-section section-30">
         <p>Category</p>
         <select name="parent_id" (change)="getSubCategories($event)" [(ngModel)]="parent_id">
-          <option value="">All Categories</option>
+          <option value="">Select Category</option>
           <option *ngFor="let dropdown of allCategories"
                   [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
         </select>
@@ -21,7 +21,7 @@
       <div class="form-section section-30">
         <p>Sub Category</p>
         <select name="parent_id" (change)="getSubSubCategories()" [(ngModel)]="sub_parent_id">
-          <option value="">All Sub Categories</option>
+          <option value="">Select Sub Category</option>
           <option *ngFor="let dropdown of allSubCategories"
                   [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
         </select>

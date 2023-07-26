@@ -106,12 +106,12 @@ export class EditProductComponent implements OnInit {
     for (const key in this.productModel) {
       formData.append(key, this.productModel[key])
     }
-    this.httpService.requestCall('products/update/'+this.productId, ApiMethod.POST, formData)
+    this.httpService.requestCall('products/update/' + this.productId, ApiMethod.POST, formData)
       .subscribe({
         next: response => {
           this.loading = false
           if (response) {
-            this.router.navigate(['/product/all']).then(r => window.location.reload());
+            this.router.navigate(['/product/all']);
           }
         },
         error: (error) => {
@@ -146,15 +146,25 @@ export class EditProductComponent implements OnInit {
         next: (response) => {
           this.productDetails = response
 
-          if(response) {
+          if (response) {
             for (const key in this.productModel) {
-              if(response[key]) {
-                this.productModel[key] = response[key]
+              if (response[key]) {
+                if (key !== 'product_image') {
+                  this.productModel[key] = response[key]
+                }
               }
             }
           }
+          console.log(response)
           // this.productModel = response
-          if(response.product_image) {
+          let image = response.product_image.split("/")
+          let isDefaultImage = false
+          image.map((item: any) => {
+            if (item === "default_product.png") {
+              isDefaultImage = true
+            }
+          })
+          if (!isDefaultImage) {
             this.imagePreview = response.product_image
           }
           if (response.sub_category_id) {
@@ -181,8 +191,8 @@ export class EditProductComponent implements OnInit {
     if (this.productModel.ot_rate1 > 100) {
       this.productModel.ot_rate1 = 100
     }
-    const vatAmount = ((this.productModel.selling_price * this.productModel.ot_rate1) / 100).toFixed(2)
+    const vatAmount = ((this.productModel.last_purchase_cost * this.productModel.ot_rate1) / 100).toFixed(2)
     const vatAmountNumber = parseInt(vatAmount)
-    this.productModel.ot_amount1 = this.productModel.selling_price + vatAmountNumber
+    this.productModel.ot_amount1 = this.productModel.last_purchase_cost + vatAmountNumber
   }
 }

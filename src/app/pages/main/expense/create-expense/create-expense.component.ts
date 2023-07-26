@@ -5,6 +5,7 @@ import {
 } from "../../../../components/product-selection-modal/product-selection-modal.component";
 import {HttpService} from "../../../../core/services/http/http.service";
 import {ApiMethod} from "../../../../core/services/const";
+import {generateRandomKey} from "../../../../core/services/util/generateRandomKey";
 
 @Component({
   selector: 'app-create-expense',
@@ -74,8 +75,9 @@ export class CreateExpenseComponent {
   }
 
   handleAddToList(product: any) {
+    const uniqueKey = generateRandomKey(11)
     const productDetail = {
-      unique_id: this.productList.length + 1,
+      unique_key: uniqueKey,
       discount_percentage: 0,
       discount: 0,
       net_total: product.pack_qty * product.unit_price,
@@ -96,7 +98,7 @@ export class CreateExpenseComponent {
   }
 
   removeFromList(product: any) {
-    this.productList = this.productList.filter((item: any) => item.id !== product.id && item.unique_id !== product.unique_id)
+    this.productList = this.productList.filter((item: any) => item.unique_key !== product.unique_key)
   }
 
   handleInputChange(event: any, product: any, type: string) {

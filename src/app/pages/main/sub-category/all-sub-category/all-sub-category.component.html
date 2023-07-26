@@ -12,7 +12,7 @@
     <div class="form-section section-30">
       <p>Category</p>
       <select name="parent_id" (change)="onChangeFilter($event)" [(ngModel)]="parent_id">
-        <option value="">All Categories</option>
+        <option value="">Select Category</option>
         <option *ngFor="let dropdown of allCategories"
                 [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
       </select>

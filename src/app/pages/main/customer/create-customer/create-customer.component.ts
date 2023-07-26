@@ -38,7 +38,7 @@ export class CreateCustomerComponent {
           this.loading = false
           if (response) {
             // console.log(response)
-            this.router.navigate(['/customer/all']).then(r => window.location.reload());
+            this.router.navigate(['/customer/all']);
           }
         },
         error: (error) => {
