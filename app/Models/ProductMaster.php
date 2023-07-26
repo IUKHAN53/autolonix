@@ -66,7 +66,7 @@ class ProductMaster extends Model
 
     public function getProductImageAttribute($value): ?string
     {
-        return $value ? Storage::url($value) : null;
+        return $value ? Storage::url($value) : asset('assets/images/default_product.png');
     }
 
     public function getUom()

@@ -13,6 +13,6 @@ class ProductDrilldownMasterSeeder extends Seeder
      */
     public function run(): void
     {
-        ProductDrilldownMaster::factory()->count(25)->create();
+        ProductDrilldownMaster::factory()->count(5)->create();
     }
 }
