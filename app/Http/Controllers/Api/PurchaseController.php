@@ -20,12 +20,18 @@ class PurchaseController extends Controller
                 'invoice_parties' => AccountHeadMaster::query()->pluck('account_name', 'id')->toArray(),
                 'account_heads' => AccountHeadMaster::query()->pluck('account_name', 'id')->toArray(),
                 'sales_man' => AccountHeadMaster::query()->pluck('account_name', 'id')->toArray(),
+                'purchase_account' => AccountsParameter::query()->where('ledger_name', 'Purchase Acc')->get()->toArray(),
+                'input_vat' => AccountsParameter::query()->where('ledger_name', 'INPUT VAT 5%')->first()->toArray(),
+                'discount' => AccountsParameter::query()->where('ledger_name', 'DISCOUNT RECEIVED')->first()->toArray(),
             ];
         } else {
             $data = [
                 'suppliers' => AccountHeadMaster::query()->where('parent_account_id', getSupplierAccountId())->pluck('account_name', 'id')->toArray(),
                 'payment_modes' => purchasePaymentMode(),
                 'account_heads' => AccountHeadMaster::query()->pluck('account_name', 'id')->toArray(),
+                'purchase_account' => AccountsParameter::query()->where('ledger_name', 'Purchase Acc')->get()->toArray(),
+                'input_vat' => AccountsParameter::query()->where('ledger_name', 'INPUT VAT 5%')->first()->toArray(),
+                'discount' => AccountsParameter::query()->where('ledger_name', 'DISCOUNT RECEIVED')->first()->toArray(),
             ];
         }
         return response()->json($data);
