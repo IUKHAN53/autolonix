@@ -60,6 +60,8 @@ class DrilldownController extends Controller
         $category = new ProductDrilldownMaster();
         $category->drilldown_code = $request->input('drilldown_code');
         $category->drilldown_description = $request->input('drilldown_description');
+        $category->drilldown_status = 'ACTIVE';
+        $category->upload_status = 0;
         $category->cr_on = now();
         $category->cr_by = $request->user()->id;
         $category->drilldown_type = $request->drilldown_type ?? 'Category';
@@ -90,6 +92,8 @@ class DrilldownController extends Controller
         $category = ProductDrilldownMaster::findOrFail($id);
         $category->drilldown_code = $request->input('drilldown_code', $category->drilldown_code);
         $category->drilldown_description = $request->input('drilldown_description', $category->drilldown_description);
+        $category->drilldown_status = 'ACTIVE';
+        $category->upload_status = 0;
         $category->mod_by = $request->user()->id;
         $category->mod_on = now();
 
@@ -139,6 +143,8 @@ class DrilldownController extends Controller
         $subcategory = new ProductDrilldownMaster();
         $subcategory->parent_id = $request->input('parent_id');
         $subcategory->drilldown_type = 'Category';
+        $subcategory->drilldown_status = 'ACTIVE';
+        $subcategory->upload_status = 0;
         $subcategory->drilldown_code = $request->input('drilldown_code');
         $subcategory->drilldown_description = $request->input('drilldown_description');
 
@@ -175,6 +181,8 @@ class DrilldownController extends Controller
             $image = $request->file('drilldown_image')->store('uploads/drilldowns');
             $subcategory->drilldown_image = $image;
         }
+        $subcategory->drilldown_status = 'ACTIVE';
+        $subcategory->upload_status = 0;
         $subcategory->parent_id = $request->input('parent_id', $subcategory->parent_id);
         $subcategory->mod_by = $request->user()->id;
         $subcategory->mod_on = now();
