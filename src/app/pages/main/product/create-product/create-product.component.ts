@@ -33,7 +33,7 @@ export class CreateProductComponent {
     pack_details: 0,
     product_type: "",
     department_id: 0,
-    brand_id: 0,
+    product_brand_id: 0,
     last_supplier_id: 0,
     pack_qty: 0,
     last_purchase_cost: 0,
@@ -42,6 +42,7 @@ export class CreateProductComponent {
     unit_price: 0,
     ot_rate1: 0,
     ot_amount1: 0,
+    selling_price: 0,
     product_image: ""
   }
 
@@ -130,5 +131,17 @@ export class CreateProductComponent {
       this.productModel.product_image = result.file
     });
     reader.readAsDataURL(file);
+  }
+
+  calculateMarginAmount(event: Event) {
+    this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1)/100).toFixed(2)
+  }
+  getPriceWithVAT(event: Event) {
+    if(this.productModel.ot_rate1>100) {
+      this.productModel.ot_rate1 = 100
+    }
+    const vatAmount = ((this.productModel.selling_price * this.productModel.ot_rate1) / 100).toFixed(2)
+    const vatAmountNumber = parseInt(vatAmount)
+    this.productModel.ot_amount1 = this.productModel.selling_price+vatAmountNumber
   }
 }

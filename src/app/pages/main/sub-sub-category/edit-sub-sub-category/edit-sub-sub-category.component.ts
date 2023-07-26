@@ -16,7 +16,7 @@ class ImageSnippet {
 })
 export class EditSubSubCategoryComponent {
   constructor(private httpService: HttpService, private route: ActivatedRoute, private router: Router) {
-    this.getParentCategories()
+    this.getDropdowns()
   }
 
   ngOnInit() {
@@ -32,14 +32,13 @@ export class EditSubSubCategoryComponent {
   allCategories: any = []
   allSubCategories: any = []
 
-  subCategoryModel: any = {
+  subSubCategoryModel: any = {
     parent_id: 0,
     drilldown_code: '',
+    drilldown_type: 'Category',
     drilldown_description: '',
     drilldown_image: ''
   }
-
-  sub_parent_id = '0'
 
   loading: boolean = false
   errorMessage: string = ''
@@ -47,11 +46,22 @@ export class EditSubSubCategoryComponent {
 
   imagePreview: string = 'https://samyak.co.in/wp-content/uploads/2021/04/image.jpg'
 
-  getParentCategories(): void {
-    this.httpService.requestCall('categories', ApiMethod.GET)
+  getDropdowns(): void {
+    this.httpService.requestCall('products/create', ApiMethod.GET)
       .subscribe({
         next: (data) => {
-          this.allCategories = data
+          this.allCategories = data.categories
+        },
+        error: (error) => console.error(error.error),
+        complete: () => console.log('Observer got a complete notification')
+      })
+  }
+
+  getSubCategories() {
+    this.httpService.requestCall('subcategories', ApiMethod.POST, {parent_id: this.subSubCategoryModel.parent_id})
+      .subscribe({
+        next: (response) => {
+          this.allSubCategories = response
         },
         error: (error) => console.error(error.error),
         complete: () => console.log('Observer got a complete notification')
@@ -63,23 +73,44 @@ export class EditSubSubCategoryComponent {
       .subscribe({
         next: (response) => {
           if (response) {
+            this.getParentCategory(response.parent_id)
+            if(response) {
+              for (const key in this.subSubCategoryModel) {
+                if(response[key]) {
+                  this.subSubCategoryModel[key] = response[key]
+                }
+              }
+            }
             this.categoryDetail = response
-            this.imagePreview = this.categoryDetail.drilldown_image
-            this.subCategoryModel = this.categoryDetail
+            if(response.drilldown_image) {
+              this.imagePreview = response.drilldown_image
+            }
+            console.log(this.subSubCategoryModel)
           }
         }
       })
   }
 
-  updateSubCategory(event: Event): void {
+  getParentCategory(parent_id:number) {
+    this.httpService.requestCall('subcategories', ApiMethod.POST, {parent_id})
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.allSubCategories = response
+          }
+        }
+      })
+  }
+
+  updateSubSubCategory(event: Event): void {
     event.preventDefault()
     this.loading = true
     const formData = new FormData()
-    formData.append('parent_id', this.subCategoryModel.parent_id)
-    formData.append('drilldown_code', this.subCategoryModel.drilldown_code)
-    formData.append('drilldown_description', this.subCategoryModel.drilldown_description)
-    formData.append('drilldown_image', this.subCategoryModel.drilldown_image)
-    this.httpService.requestCall('subcategories/' + this.categoryId, ApiMethod.PUT, formData)
+    formData.append('parent_id', this.subSubCategoryModel.parent_id)
+    formData.append('drilldown_code', this.subSubCategoryModel.drilldown_code)
+    formData.append('drilldown_description', this.subSubCategoryModel.drilldown_description)
+    formData.append('drilldown_image', this.subSubCategoryModel.drilldown_image)
+    this.httpService.requestCall('subcategories/update/' + this.categoryId, ApiMethod.POST, formData)
       .subscribe({
         next: (response) => {
           this.loading = false
@@ -108,31 +139,8 @@ export class EditSubSubCategoryComponent {
     reader.addEventListener('load', (event: any) => {
       const result = new ImageSnippet(event.target.result, file)
       this.imagePreview = result.src
-      this.subCategoryModel.drilldown_image = result.file
+      this.subSubCategoryModel.drilldown_image = result.file
     });
     reader.readAsDataURL(file);
-  }
-
-  getSubCategories(event: Event) {
-    const selectedValue = (event.target as HTMLSelectElement).value;
-    this.httpService.requestCall('categories/' + selectedValue, ApiMethod.GET)
-      .subscribe({
-        next: (response) => {
-          if (response && response.children) {
-            this.allSubCategories = response.children
-            this.subCategoryModel.parent_id = selectedValue
-          }
-        },
-        error: (error) => {
-        },
-        complete: () => {
-          console.log('Observer got a complete notification')
-        }
-      })
-  }
-
-  setParentId(event: Event) {
-    this.sub_parent_id = (event.target as HTMLSelectElement).value;
-
   }
 }

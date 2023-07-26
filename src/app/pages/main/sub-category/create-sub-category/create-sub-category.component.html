@@ -15,14 +15,6 @@
           <option *ngFor="let dropdown of allCategories"
                   [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
         </select>
-<!--        <p *ngIf="allSubCategories.length>0">Sub Category</p>-->
-<!--        <select *ngIf="allSubCategories.length>0" name="parent_id" [(ngModel)]="sub_parent_id"-->
-<!--                (change)="setParentId($event)">-->
-<!--          <option value="">Select Sub Category</option>-->
-<!--          <option *ngFor="let dropdown of allSubCategories"-->
-<!--                  [value]="dropdown.id">{{dropdown.drilldown_code}}</option>-->
-<!--        </select>-->
-
         <p>Sub Category Code</p>
         <input type="text" style="width: 100% !important;" [(ngModel)]="subCategoryModel.drilldown_code"
                name="drilldown_code" placeholder="Sub Category Code">
@@ -35,7 +27,7 @@
                placeholder="Sub Category Image">
         <img [src]="imagePreview" class="w-100 rounded" alt="">
         <div class="form-footer">
-          <a routerLink="sub-category/all">
+          <a routerLink="/sub-category/all">
             <button class="btn-cancel">Back to list</button>
           </a>
           <button type="submit" class="btn-save">

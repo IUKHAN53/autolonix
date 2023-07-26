@@ -34,24 +34,25 @@ export class EditProductComponent implements OnInit {
     barcode: "",
     product_name: "",
     specification: "",
-    category_id: 0,
-    sub_category_id: 0,
-    sub_sub_category_id: 0,
+    category_id: '',
+    sub_category_id: '',
+    sub_sub_category_id: '',
     description: "",
     unit: "",
-    pack_details: 0,
+    pack_details: '',
     product_type: "",
-    department_id: 0,
-    brand_id: 0,
-    last_supplier_id: 0,
-    pack_qty: 0,
-    last_purchase_cost: 0,
+    department_id: '',
+    product_brand_id: '',
+    last_supplier_id: '',
+    pack_qty: '',
+    last_purchase_cost: '',
     it_rate1: 0,
     it_amount1: 0,
     unit_price: 0,
     ot_rate1: 0,
     ot_amount1: 0,
-    product_image: null
+    selling_price: 0,
+    product_image: ''
   }
 
   dropdowns: any = []
@@ -105,7 +106,7 @@ export class EditProductComponent implements OnInit {
     for (const key in this.productModel) {
       formData.append(key, this.productModel[key])
     }
-    this.httpService.requestCall('products/update', ApiMethod.POST, formData)
+    this.httpService.requestCall('products/update/'+this.productId, ApiMethod.POST, formData)
       .subscribe({
         next: response => {
           this.loading = false
@@ -144,7 +145,18 @@ export class EditProductComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.productDetails = response
-          this.productModel = response
+
+          if(response) {
+            for (const key in this.productModel) {
+              if(response[key]) {
+                this.productModel[key] = response[key]
+              }
+            }
+          }
+          // this.productModel = response
+          if(response.product_image) {
+            this.imagePreview = response.product_image
+          }
           if (response.sub_category_id) {
             this.getSubCategories('sub')
           }
@@ -161,4 +173,16 @@ export class EditProductComponent implements OnInit {
       })
   }
 
+  calculateMarginAmount(event: Event) {
+    this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1) / 100).toFixed(2)
+  }
+
+  getPriceWithVAT(event: Event) {
+    if (this.productModel.ot_rate1 > 100) {
+      this.productModel.ot_rate1 = 100
+    }
+    const vatAmount = ((this.productModel.selling_price * this.productModel.ot_rate1) / 100).toFixed(2)
+    const vatAmountNumber = parseInt(vatAmount)
+    this.productModel.ot_amount1 = this.productModel.selling_price + vatAmountNumber
+  }
 }

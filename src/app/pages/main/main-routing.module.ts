@@ -23,6 +23,10 @@ const routes: Routes = [
       },
       {
         path: '',
+        loadChildren: () => import('./sub-sub-category/sub-sub-category.module').then(m => m.SubSubCategoryModule)
+      },
+      {
+        path: '',
         loadChildren: () => import('./brand/brand.module').then(m => m.BrandModule)
       },
       {

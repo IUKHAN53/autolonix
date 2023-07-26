@@ -17,7 +17,7 @@ import { ProductSelectionModalComponent } from './components/product-selection-m
     NotFoundComponent,
     RedirectionComponent,
     DynamicTableRowComponent,
-    ProductSelectionModalComponent,
+    ProductSelectionModalComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +26,7 @@ import { ProductSelectionModalComponent } from './components/product-selection-m
     HttpClientModule
   ],
   providers: [],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

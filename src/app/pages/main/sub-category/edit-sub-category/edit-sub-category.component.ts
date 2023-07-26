@@ -16,7 +16,7 @@ class ImageSnippet {
 })
 export class EditSubCategoryComponent implements OnInit {
   constructor(private httpService: HttpService, private route: ActivatedRoute, private router: Router) {
-    this.getParentCategories()
+    this.getDropdowns()
   }
 
   ngOnInit() {
@@ -35,11 +35,12 @@ export class EditSubCategoryComponent implements OnInit {
   subCategoryModel: any = {
     parent_id: 0,
     drilldown_code: '',
+    drilldown_type: 'Category',
     drilldown_description: '',
     drilldown_image: ''
   }
 
-  sub_parent_id = '0'
+  parent_id = '0'
 
   loading: boolean = false
   errorMessage: string = ''
@@ -47,7 +48,7 @@ export class EditSubCategoryComponent implements OnInit {
 
   imagePreview: string = 'https://samyak.co.in/wp-content/uploads/2021/04/image.jpg'
 
-  getParentCategories(): void {
+  getDropdowns(): void {
     this.httpService.requestCall('categories', ApiMethod.POST)
       .subscribe({
         next: (data) => {
@@ -64,8 +65,9 @@ export class EditSubCategoryComponent implements OnInit {
         next: (response) => {
           if (response) {
             this.categoryDetail = response
-            this.imagePreview = this.categoryDetail.drilldown_image
-            // this.getSubCategories()
+            if(response.drilldown_image) {
+              this.imagePreview = this.categoryDetail.drilldown_image
+            }
             this.subCategoryModel = this.categoryDetail
           }
         }
@@ -130,10 +132,5 @@ export class EditSubCategoryComponent implements OnInit {
           console.log('Observer got a complete notification')
         }
       })
-  }
-
-  setParentId(event: Event) {
-    this.sub_parent_id = (event.target as HTMLSelectElement).value;
-
   }
 }

@@ -71,15 +71,9 @@ export class AllSubCategoryComponent {
   allSubCategories: any = []
   allCategories: any = []
   parent_id: number = 0
-  currentPage: number = 0
-  from: number = 0
-  to: number = 0
-  lastPage: number = 0
-  perPage: number = 0
-  total: number = 0
 
   onGridReady(params: GridReadyEvent) {
-    this.getAllSubCategories()
+    // this.getAllSubCategories()
   }
 
   getDropdowns(): void {
@@ -97,31 +91,21 @@ export class AllSubCategoryComponent {
     this.httpService.requestCall('subcategories', ApiMethod.POST)
       .subscribe({
         next: (response) => {
-          this.allSubCategories = response.data
-          this.currentPage = response.current_page
-          this.from = response.from
-          this.to = response.to
-          this.lastPage = response.last_page
-          this.perPage = response.per_page
-          this.total = response.total
+          console.log(response)
+          this.allSubCategories = response
         },
         error: (error) => console.error(error.error),
         complete: () => console.log('Observer got a complete notification')
       })
   }
 
-  getChildCategories(event: Event): void {
+  onChangeFilter(event: Event): void {
     const selectedValue = (event.target as HTMLSelectElement).value;
     this.httpService.requestCall('subcategories', ApiMethod.POST, {parent_id: selectedValue})
       .subscribe({
         next: (response) => {
-          this.allSubCategories = response.data
-          this.currentPage = response.current_page
-          this.from = response.from
-          this.to = response.to
-          this.lastPage = response.last_page
-          this.perPage = response.per_page
-          this.total = response.total
+          console.log(response)
+          this.allSubCategories = response
         },
         error: (error) => console.error(error.error),
         complete: () => console.log('Observer got a complete notification')

@@ -1,5 +1,5 @@
 <div class="content-panel">
-  <h2>Edit Sub Category</h2>
+  <h2>Edit Sub Sub Category</h2>
   <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
   <div class="alert alert-danger" *ngIf="errors.length>0">
     <ul class="d-flex flex-wrap gap-3">
@@ -8,26 +8,24 @@
   </div>
   <div class="content-box">
     <div class="form-section">
-      <form (submit)="updateSubCategory($event)" class="section-30">
+      <form (submit)="updateSubSubCategory($event)" class="section-30">
         <p>Category</p>
-        <select name="parent_id" [(ngModel)]="subCategoryModel.parent_id" (change)="getSubCategories($event)">
+        <select name="parent_id" (change)="getSubCategories()">
           <option value="">Select Parent Category</option>
           <option *ngFor="let dropdown of allCategories"
                   [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
         </select>
-        <!--        <p *ngIf="allSubCategories.length>0">Sub Category</p>-->
-        <!--        <select *ngIf="allSubCategories.length>0" name="parent_id" [(ngModel)]="sub_parent_id"-->
-        <!--                (change)="setParentId($event)">-->
-        <!--          <option value="">Select Sub Category</option>-->
-        <!--          <option *ngFor="let dropdown of allSubCategories"-->
-        <!--                  [value]="dropdown.id">{{dropdown.drilldown_code}}</option>-->
-        <!--        </select>-->
-
+        <p>Sub Category</p>
+        <select name="sub_parent_id" [(ngModel)]="subSubCategoryModel.parent_id">
+          <option value="">Select Sub Category</option>
+          <option *ngFor="let dropdown of allSubCategories"
+                  [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
+        </select>
         <p>Sub Category Code</p>
-        <input type="text" style="width: 100% !important;" [(ngModel)]="subCategoryModel.drilldown_code"
+        <input type="text" style="width: 100% !important;" [(ngModel)]="subSubCategoryModel.drilldown_code"
                name="drilldown_code" placeholder="Sub Category Code">
         <p>Sub Category Description</p>
-        <textarea name="drilldown_description" [(ngModel)]="subCategoryModel.drilldown_description"
+        <textarea name="drilldown_description" [(ngModel)]="subSubCategoryModel.drilldown_description"
                   style="width: 100% !important;" rows="5"
                   placeholder="Sub Category Description"></textarea>
         <p>Sub Category Image</p>
@@ -35,11 +33,11 @@
                placeholder="Sub Category Image">
         <img [src]="imagePreview" class="w-100 rounded" alt="">
         <div class="form-footer">
-          <a routerLink="sub-category/all">
+          <a routerLink="/sub-sub-category/all">
             <button class="btn-cancel">Back to list</button>
           </a>
           <button type="submit" class="btn-save">
-            <span *ngIf="!loading">Update</span>
+            <span *ngIf="!loading">Save</span>
             <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
                  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                  y="0px"

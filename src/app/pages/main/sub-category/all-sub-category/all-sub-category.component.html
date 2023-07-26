@@ -11,7 +11,7 @@
   <div class="content-box d-flex flex-column gap-3">
     <div class="form-section section-30">
       <p>Category</p>
-      <select name="parent_id" (change)="getChildCategories($event)" [(ngModel)]="parent_id">
+      <select name="parent_id" (change)="onChangeFilter($event)" [(ngModel)]="parent_id">
         <option value="">All Categories</option>
         <option *ngFor="let dropdown of allCategories"
                 [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
@@ -22,7 +22,7 @@
       class="ag-theme-alpine"
       [columnDefs]="columnDefs"
       [defaultColDef]="defaultColDef"
-      [rowData]="allCategories"
+      [rowData]="allSubCategories"
       [animateRows]="true"
       [pagination]="true"
       [paginationPageSize]="10"
@@ -30,27 +30,5 @@
       [loadingCellRendererParams]="loadingCellRendererParams"
       (gridReady)="onGridReady($event)"
     ></ag-grid-angular>
-    <!--    <table class="table table-striped table-bordered">-->
-    <!--      <thead class="text-center">-->
-    <!--      <th>Sl No</th>-->
-    <!--      <th>Category Code</th>-->
-    <!--      <th>Category Description</th>-->
-    <!--      <th>Image</th>-->
-    <!--      <th>Actions</th>-->
-    <!--      </thead>-->
-    <!--      <tbody>-->
-    <!--      <tr *ngFor="let subCategory of allSubCategories; let i=index">-->
-    <!--        <td>{{i+1}}</td>-->
-    <!--        <td>{{subCategory.drilldown_code}}</td>-->
-    <!--        <td>{{subCategory.drilldown_description}}</td>-->
-    <!--        <td></td>-->
-    <!--        <td>-->
-    <!--          <div class="d-flex justify-content-center align-items-center">-->
-    <!--            <a href="#" class="text-danger" (click)="deleteSubCategory($event, subCategory.id)"><i class="fas fa-trash-alt"></i></a>-->
-    <!--          </div>-->
-    <!--        </td>-->
-    <!--      </tr>-->
-    <!--      </tbody>-->
-    <!--    </table>-->
   </div>
 </div>

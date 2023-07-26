@@ -9,130 +9,213 @@
   <div class="content-box">
     <div class="form-section">
       <form class="w-100" (submit)="saveInvoice($event)">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-body">
             <div class="d-flex flex-wrap gap-2">
               <div>
                 <p>Purchase #</p>
-                <input type="text" name="invoice_no" class="w-100" placeholder="Purchase #">
+                <input type="text" name="purchase_no" [(ngModel)]="purchaseModel.purchase_no" class="w-100" placeholder="Purchase #">
               </div>
               <div>
                 <p>Purchase Date</p>
-                <input type="date" name="lpo_no" class="w-100" placeholder="Purchase Date">
+                <input type="date" name="purchase_date" [(ngModel)]="purchaseModel.purchase_date"  class="w-100" placeholder="Purchase Date">
               </div>
               <div>
                 <p>Supplier Name</p>
-                <select name="customer_name">
+                <select name="supplier_id" [(ngModel)]="purchaseModel.supplier_id">
                   <option value="">Select</option>
+                  <option *ngFor="let supplier of allDropdowns.suppliers | keyvalue" [value]="supplier.key">{{supplier.value}}</option>
                 </select>
               </div>
               <div>
                 <p>Supp. Invoice #</p>
-                <input type="text" name="invoice_no" class="w-100" placeholder="Invoice #">
+                <input type="text" name="supplier_invoice_no" [(ngModel)]="purchaseModel.supplier_invoice_no" class="w-100" placeholder="Invoice #">
               </div>
               <div>
                 <p>Pay. Mode</p>
-                <select name="pay_mode">
+                <select name="pay_mode" [(ngModel)]="purchaseModel.payment_mode">
                   <option value="">Select</option>
-                  <option value="" selected>Cash</option>
+                  <option *ngFor="let pay_mode of allDropdowns.payment_modes | keyvalue" [value]="pay_mode.key">{{pay_mode.value}}</option>
                 </select>
               </div>
               <div>
                 <p>Account Head</p>
-                <select name="account_head">
+                <select name="account_head" [(ngModel)]="purchaseModel.account_head_id">
                   <option value="">Select</option>
+                  <option *ngFor="let account_head of allDropdowns.account_heads | keyvalue" [value]="account_head.key">{{account_head.value}}</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
-        <div class="card mt-3">
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                <tr>
-                  <th></th>
-                  <th>SL No</th>
-                  <th>item Code</th>
-                  <th></th>
-                  <th>Item Description</th>
-                  <th>Pkt Details</th>
-                  <th>UOM</th>
-                  <th>Qty</th>
-                  <th>Unit Cost</th>
-                  <th>Disc.%</th>
-                  <th>Disc. <br> Amount</th>
-                  <th>Sub <br> Total</th>
-                  <th>VAT <br> %</th>
-                  <th>VAT <br> Amount</th>
-                  <th>Net Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>
-                    <button (click)="openModal()" class="btn-save"><i class="fas fa-plus-circle"></i></button>
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="d-flex gap-3 justify-content-between align-items-start">
-              <div class="w-75">
-                <p>Sales Note</p>
-                <textarea name="sale_note" class="w-100" cols="30" rows="10"></textarea>
-              </div>
-              <div class="w-25">
-                <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
-                  <span class="w-100 text-end">Total Amount</span>
-                  <input type="number" name="total_amount" class="m-0" style="border-radius: 10px !important;">
-                </div>
-                <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
-                  <span class="w-100 text-end">Discount Amount</span>
-                  <div class="d-flex gap-3 w-100">
-                    <input type="number" name="total_amount" class="m-0" style="border-radius: 10px !important;">
-                    <input type="number" name="total_amount" class="m-0" style="border-radius: 10px !important;">
-                  </div>
-                </div>
 
-                <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
-                  <span class="w-100 text-end">Sub Total</span>
-                  <input type="number" name="total_amount" class="m-0" style="border-radius: 10px !important;">
-                </div>
-                <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
-                  <span class="w-100 text-end">VAT Amount</span>
-                  <div class="d-flex gap-3 w-100">
-                    <input type="number" name="total_amount" class="m-0" style="border-radius: 10px !important;">
-                    <input type="number" name="total_amount" class="m-0" style="border-radius: 10px !important;">
-                  </div>
-                </div>
-                <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
-                  <span class="w-100 text-end">Round Off Amount</span>
-                  <div class="d-flex gap-3 w-100">
-                    <input type="number" name="total_amount" class="m-0" style="border-radius: 10px !important;">
-                    <input type="number" name="total_amount" class="m-0" style="border-radius: 10px !important;">
-                  </div>
-                </div>
-                <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
-                  <span class="w-100 text-end fw-bold">Net Total</span>
-                  <input type="number" name="total_amount" class="m-0" style="border-radius: 10px !important;">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation" >
+            <button (click)="changeActiveTab('inventory')" [class]="activeTab==='inventory' ? 'nav-link active' : 'nav-link'" id="inventory-tab" data-bs-toggle="tab" data-bs-target="#inventory" type="button" role="tab" aria-controls="inventory" aria-selected="true">Inventory</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button (click)="changeActiveTab('accounts')" [class]="activeTab==='accounts' ? 'nav-link active' : 'nav-link'" id="accounts-tab" data-bs-toggle="tab" data-bs-target="#accounts" type="button" role="tab" aria-controls="accounts" aria-selected="false">Accounts</button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <div [class]="activeTab==='inventory' ? 'tab-pane fade show active' : 'tab-pane fade'" id="inventory" role="tabpanel" aria-labelledby="inventory-tab">
+            <div class="card mt-3">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th></th>
+                      <th>SL No</th>
+                      <th>item Code</th>
+                      <th>Name</th>
+                      <th>Pkt Details</th>
+                      <th>UOM</th>
+                      <th>Qty</th>
+                      <th>Unit Cost</th>
+                      <th>Disc.%</th>
+                      <th>Disc. <br> Amount</th>
+                      <th>Sub <br> Total</th>
+                      <th>VAT <br> %</th>
+                      <th>VAT <br> Amount</th>
+                      <th>Net Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let product of productList; let i=index">
+                      <td>
+                        <button (click)="removeFromList(product)" class="btn btn-danger btn-sm"><i class="fas fa-close"></i></button>
+                      </td>
+                      <td>{{i+1}}</td>
+                      <td>{{product.product_code}}</td>
+                      <td>{{product.product_name}}</td>
+                      <td>{{product.pack_details}}</td>
+                      <td>{{product.unit}}</td>
+                      <td>
+                        <input type="text" class="form-control rounded w-100" (input)="handleInputChange($event, product, 'pack_qty')" [value]="product.pack_qty">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control rounded w-100" (input)="handleInputChange($event, product, 'unit_price')" [value]="product.unit_price">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control rounded w-100" (input)="handleInputChange($event, product, 'discount_percentage')" [value]="product.discount_percentage ? product.discount_percentage : ''">
+                      </td>
+                      <td>
+<!--                        <input type="text" class="form-control rounded w-100" (input)="handleInputChange($event, product, 'discount_amount')" [value]="product.discount_amount ? product.discount_amount : ''">-->
+                        <input type="text" class="form-control rounded w-100" disabled [value]="product.discount_amount ? product.discount_amount : ''">
+                      </td>
+                      <td>
+<!--                        <input type="text" class="form-control rounded w-100" (input)="handleInputChange($event, product, 'sub_total')" [value]="product.sub_total ? product.sub_total : ''">-->
+                        <input type="text" class="form-control rounded w-100" disabled [value]="product.sub_total ? product.sub_total : ''">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control rounded w-100" (input)="handleInputChange($event, product, 'ot_rate1')" [value]="product.ot_rate1">
+                      </td>
+                      <td>
+<!--                        <input type="text" class="form-control rounded w-100" (input)="handleInputChange($event, product, 'ot_amount1')" [value]="product.ot_amount1">-->
+                        <input type="text" class="form-control rounded w-100" disabled [value]="product.ot_amount1">
+                      </td>
+                      <td>
+<!--                        <input type="text" class="form-control rounded w-100" (input)="handleInputChange($event, product, 'net_total')" [value]="product.net_total ? product.net_total : ''">-->
+                        <input type="text" class="form-control rounded w-100" disabled [value]="product.net_total ? product.net_total : ''">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <button (click)="openModal()" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i></button>
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
+            </div>
+          </div>
+          <div [class]="activeTab==='accounts' ? 'tab-pane fade show active' : 'tab-pane fade'" id="accounts" role="tabpanel" aria-labelledby="accounts-tab">
+            <div class="card mt-3">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th>SL No</th>
+                      <th>AccountID</th>
+                      <th>AccountName</th>
+                      <th>Debit</th>
+                      <th>Credit</th>
+                      <th>OsBalance</th>
+                      <th>RStatusC</th>
+                      <th>VoucherChildID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-3 justify-content-between align-items-start mt-3">
+          <div class="w-75">
+            <p>Purchase Note</p>
+            <textarea name="purchase_note" [(ngModel)]="purchaseModel.purchase_note" class="w-100" cols="30" rows="10"></textarea>
+          </div>
+          <div class="w-25">
+            <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
+              <span class="w-100 text-end">Total Amount</span>
+              <input type="number" name="total" (change)="handleBottomInputChange($event, 'total')" [(ngModel)]="purchaseBottomModel.total" class="m-0" style="border-radius: 10px !important;">
+            </div>
+            <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
+              <span class="w-100 text-end">Discount Amount</span>
+              <div class="d-flex gap-3 w-100">
+                <input type="number" name="discount_rate" (change)="handleBottomInputChange($event, 'discount_rate')" [(ngModel)]="purchaseBottomModel.discount_rate" class="m-0" style="border-radius: 10px !important;">
+                <input type="number" name="discount_amount" (change)="handleBottomInputChange($event, 'discount_amount')" [(ngModel)]="purchaseBottomModel.discount_amount" class="m-0" style="border-radius: 10px !important;">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
+              <span class="w-100 text-end">Sub Total</span>
+              <input type="number" name="sub_total" (change)="handleBottomInputChange($event, 'sub_total')" [(ngModel)]="purchaseBottomModel.sub_total" class="m-0" style="border-radius: 10px !important;">
+            </div>
+<!--            <div class="d-flex justify-content-end align-items-center gap-3 mb-3">-->
+<!--              <span class="w-100 text-end">VAT Amount</span>-->
+<!--              <div class="d-flex gap-3 w-100">-->
+<!--                <input type="number" name="vat_rate" (change)="handleBottomInputChange($event, 'vat_rate')" [(ngModel)]="purchaseBottomModel.vat_rate" class="m-0" style="border-radius: 10px !important;">-->
+<!--                <input type="number" name="vat_amount" (change)="handleBottomInputChange($event, 'vat_amount')" [(ngModel)]="purchaseBottomModel.vat_amount" class="m-0" style="border-radius: 10px !important;">-->
+<!--              </div>-->
+<!--            </div>-->
+            <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
+              <span class="w-100 text-end">Round Off Amount</span>
+              <input type="number" name="round_off_amount" (change)="handleBottomInputChange($event, 'round_off_amount')" [(ngModel)]="purchaseBottomModel.round_off_amount" class="m-0" style="border-radius: 10px !important;">
+            </div>
+            <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
+              <span class="w-100 text-end fw-bold">Net Total</span>
+              <input type="number" name="net_total" disabled [(ngModel)]="purchaseBottomModel.net_total" class="m-0" style="border-radius: 10px !important;">
             </div>
           </div>
         </div>

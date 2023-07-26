@@ -22,15 +22,13 @@ export class CreateSubSubCategoryComponent {
   allCategories: any = []
   allSubCategories: any = []
 
-  subCategoryModel: any = {
+  subSubCategoryModel: any = {
     parent_id: 0,
     drilldown_code: '',
     drilldown_type: 'Category',
     drilldown_description: '',
     drilldown_image: ''
   }
-
-  sub_parent_id = '0'
 
   loading: boolean = false
   errorMessage: string = ''
@@ -39,31 +37,43 @@ export class CreateSubSubCategoryComponent {
   imagePreview: string = 'https://samyak.co.in/wp-content/uploads/2021/04/image.jpg'
 
   getDropdowns(): void {
-    this.httpService.requestCall('categories', ApiMethod.GET)
+    this.httpService.requestCall('products/create', ApiMethod.GET)
       .subscribe({
         next: (data) => {
-          this.allCategories = data
+          this.allCategories = data.categories
         },
         error: (error) => console.error(error.error),
         complete: () => console.log('Observer got a complete notification')
       })
   }
 
-  saveSubCategory(event: Event): void {
+  getSubCategories(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    this.httpService.requestCall('subcategories', ApiMethod.POST, {parent_id: selectedValue})
+      .subscribe({
+        next: (response) => {
+          this.allSubCategories = response
+        },
+        error: (error) => console.error(error.error),
+        complete: () => console.log('Observer got a complete notification')
+      })
+  }
+
+  saveSubSubCategory(event: Event): void {
     event.preventDefault()
     this.loading = true
     const formData = new FormData()
-    formData.append('parent_id', this.subCategoryModel.parent_id)
-    formData.append('drilldown_code', this.subCategoryModel.drilldown_code)
-    formData.append('drilldown_description', this.subCategoryModel.drilldown_description)
-    formData.append('drilldown_image', this.subCategoryModel.drilldown_image)
-    formData.append('drilldown_type', this.subCategoryModel.drilldown_type)
+    formData.append('parent_id', this.subSubCategoryModel.parent_id)
+    formData.append('drilldown_code', this.subSubCategoryModel.drilldown_code)
+    formData.append('drilldown_description', this.subSubCategoryModel.drilldown_description)
+    formData.append('drilldown_image', this.subSubCategoryModel.drilldown_image)
+    formData.append('drilldown_type', this.subSubCategoryModel.drilldown_type)
     this.httpService.requestCall('subcategories/store', ApiMethod.POST, formData)
       .subscribe({
         next: (response) => {
           this.loading = false
           if (response) {
-            this.router.navigate(['/sub-category/all']).then(r => window.location.reload());
+            this.router.navigate(['/sub-sub-category/all']);
           }
         },
         error: (error) => {
@@ -87,31 +97,8 @@ export class CreateSubSubCategoryComponent {
     reader.addEventListener('load', (event: any) => {
       const result = new ImageSnippet(event.target.result, file)
       this.imagePreview = result.src
-      this.subCategoryModel.drilldown_image = result.file
+      this.subSubCategoryModel.drilldown_image = result.file
     });
     reader.readAsDataURL(file);
-  }
-
-  getSubCategories(event: Event) {
-    const selectedValue = (event.target as HTMLSelectElement).value;
-    this.httpService.requestCall('categories/' + selectedValue, ApiMethod.GET)
-      .subscribe({
-        next: (response) => {
-          if (response && response.children) {
-            this.allSubCategories = response.children
-            this.subCategoryModel.parent_id = selectedValue
-          }
-        },
-        error: (error) => {
-        },
-        complete: () => {
-          console.log('Observer got a complete notification')
-        }
-      })
-  }
-
-  setParentId(event: Event) {
-    this.sub_parent_id = (event.target as HTMLSelectElement).value;
-
   }
 }

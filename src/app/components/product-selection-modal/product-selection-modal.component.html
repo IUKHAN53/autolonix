@@ -1,12 +1,34 @@
 <div class="modal-header">
-  <h4 class="modal-title">Modal Header</h4>
-  <button type="button" class="close" aria-label="Close" (click)="onClose()">
+  <h4 class="modal-title">All Products</h4>
+  <button type="button" class="btn btn-primary close" aria-label="Close" (click)="onClose()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <!-- Modal content goes here -->
-  <p>Modal content goes here...</p>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Pkt Detail</th>
+        <th>Unit Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of allProducts">
+        <td>
+          <button (click)="onAddToList(product)" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i></button>
+        </td>
+        <td>{{product.product_name}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.pack_details}}</td>
+        <td>{{product.unit_price}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="onClose()">Close</button>

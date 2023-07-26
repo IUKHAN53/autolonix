@@ -17,7 +17,7 @@ import Swal, {SweetAlertOptions} from "sweetalert2";
 export class AllSubSubCategoryComponent {
   constructor(private httpService: HttpService, private router: Router) {
     this.getDropdowns()
-    this.getAllSubCategories()
+    this.getSubSubCategories()
   }
 
   public columnDefs: ColDef[] = [
@@ -69,17 +69,13 @@ export class AllSubSubCategoryComponent {
   };
 
   allSubCategories: any = []
+  allSubSubCategories: any = []
   allCategories: any = []
   parent_id: number = 0
-  currentPage: number = 0
-  from: number = 0
-  to: number = 0
-  lastPage: number = 0
-  perPage: number = 0
-  total: number = 0
+  sub_parent_id: number = 0
 
   onGridReady(params: GridReadyEvent) {
-    this.getAllSubCategories()
+    this.getSubSubCategories()
   }
 
   getDropdowns(): void {
@@ -93,35 +89,26 @@ export class AllSubSubCategoryComponent {
       })
   }
 
-  getAllSubCategories(): void {
-    this.httpService.requestCall('subcategories', ApiMethod.POST)
+  getSubCategories(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    this.httpService.requestCall('subcategories', ApiMethod.POST, {parent_id: selectedValue})
       .subscribe({
         next: (response) => {
-          this.allSubCategories = response.data
-          this.currentPage = response.current_page
-          this.from = response.from
-          this.to = response.to
-          this.lastPage = response.last_page
-          this.perPage = response.per_page
-          this.total = response.total
+          console.log(response)
+          this.allSubCategories = response
         },
         error: (error) => console.error(error.error),
         complete: () => console.log('Observer got a complete notification')
       })
   }
 
-  getChildCategories(event: Event): void {
-    const selectedValue = (event.target as HTMLSelectElement).value;
-    this.httpService.requestCall('subcategories', ApiMethod.POST, {parent_id: selectedValue})
+
+  getSubSubCategories() {
+    this.httpService.requestCall('subcategories', ApiMethod.POST, {parent_id: this.sub_parent_id})
       .subscribe({
         next: (response) => {
-          this.allSubCategories = response.data
-          this.currentPage = response.current_page
-          this.from = response.from
-          this.to = response.to
-          this.lastPage = response.last_page
-          this.perPage = response.per_page
-          this.total = response.total
+          console.log(response)
+          this.allSubSubCategories = response
         },
         error: (error) => console.error(error.error),
         complete: () => console.log('Observer got a complete notification')
@@ -144,7 +131,7 @@ export class AllSubSubCategoryComponent {
           .subscribe({
             next: (response) => {
               Swal.fire('Success', 'Operation completed successfully!', 'success').then((result) => {
-                this.getAllSubCategories()
+                this.getSubSubCategories()
               })
             },
             error: (error) => console.error(error),

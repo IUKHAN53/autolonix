@@ -1,10 +1,10 @@
 <div class="content-panel">
   <div class="page-header">
-    <h2>Sub Category List</h2>
+    <h2>Sub Sub Category List</h2>
   </div>
   <div class="create-btn-block">
-    <a routerLink="/sub-category/create">
-      <button>New Sub Category</button>
+    <a routerLink="/sub-sub-category/create">
+      <button>New Sub Sub Category</button>
     </a>
   </div>
 
@@ -12,17 +12,17 @@
     <div class="d-flex justify-start gap-3">
       <div class="form-section section-30">
         <p>Category</p>
-        <select name="parent_id" (change)="getChildCategories($event)" [(ngModel)]="parent_id">
+        <select name="parent_id" (change)="getSubCategories($event)" [(ngModel)]="parent_id">
           <option value="">All Categories</option>
           <option *ngFor="let dropdown of allCategories"
                   [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
         </select>
       </div>
       <div class="form-section section-30">
-        <p>Category</p>
-        <select name="parent_id" (change)="getChildCategories($event)" [(ngModel)]="parent_id">
+        <p>Sub Category</p>
+        <select name="parent_id" (change)="getSubSubCategories()" [(ngModel)]="sub_parent_id">
           <option value="">All Sub Categories</option>
-          <option *ngFor="let dropdown of allCategories"
+          <option *ngFor="let dropdown of allSubCategories"
                   [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
         </select>
       </div>
@@ -32,7 +32,7 @@
       class="ag-theme-alpine"
       [columnDefs]="columnDefs"
       [defaultColDef]="defaultColDef"
-      [rowData]="allCategories"
+      [rowData]="allSubSubCategories"
       [animateRows]="true"
       [pagination]="true"
       [paginationPageSize]="10"
