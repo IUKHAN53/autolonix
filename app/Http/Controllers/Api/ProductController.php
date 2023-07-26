@@ -90,7 +90,7 @@ class ProductController extends Controller
             $product->cr_by = $request->user()->id;
             $product->cr_on = now();
 
-            if($request->hasFile('product_image')){
+            if ($request->hasFile('product_image')) {
                 $image = $request->file('product_image')->store('uploads/products');
                 $product->product_image = $image;
             }
@@ -117,7 +117,7 @@ class ProductController extends Controller
             $product_child_price->cr_on = now();
             $product_child_price->save();
             DB::commit();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return response()->json(['error' => $exception->getMessage()], 401);
         }
@@ -189,8 +189,8 @@ class ProductController extends Controller
             DB::beginTransaction();
 
             $product = ProductMaster::findOrFail($id);
-            $product_child = ProductChild::where('product_id', $product->id)->first();
-            $product_child_price = ProductChildPrice::where('product_id', $product->id)->first();
+            $product_child = ProductChild::firstOrCreate(['product_id' => $product->id], []);
+            $product_child_price = ProductChildPrice::firstOrCreate(['product_id' => $product->id], []);
 
             $product->product_code = $request->input('product_code') ?? $product->product_code;
             $product->barcode = $request->input('barcode') ?? $product->barcode;
@@ -209,7 +209,6 @@ class ProductController extends Controller
                 $image = $request->file('product_image')->store('uploads/products');
                 $product->product_image = $image;
             }
-
             $product_child->last_supplier_id = $request->input('last_supplier_id') ?? $product_child->last_supplier_id;
             $product_child->last_purchase_cost = $request->input('last_purchase_cost') ?? $product_child->last_purchase_cost;
             $product_child->it_rate1 = $request->input('it_rate1') ?? $product_child->it_rate1;

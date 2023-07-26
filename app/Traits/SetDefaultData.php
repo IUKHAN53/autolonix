@@ -7,7 +7,7 @@ trait SetDefaultData
 {
     protected static function booted()
     {
-        static::creating(function ($model) {
+        static::created(function ($model) {
             if(isset($model->attributesToArray()['cr_by'])) $model->cr_by = auth()->id();
             if(isset($model->attributesToArray()['cr_on'])) $model->cr_on = date('Y-m-d H:i:s');
             if(isset($model->attributesToArray()['upload_status_c'])) $model->upload_status_c = 0;
@@ -15,7 +15,7 @@ trait SetDefaultData
             if(isset($model->attributesToArray()['station_id'])) $model->station_id = $station_id;
             $model->save();
         });
-        static::updating(function ($model) {
+        static::updated(function ($model) {
             if(isset($model->attributesToArray()['mod_by'])) $model->mod_by = auth()->id();
             if(isset($model->attributesToArray()['mod_on'])) $model->mod_on = date('Y-m-d H:i:s');
             $model->save();
