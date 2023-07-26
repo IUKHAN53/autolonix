@@ -82,7 +82,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'BOSalesDRCommission',
-                'account_id' => 110,
+                'account_id' => 158,
                 'ledger_name' => 'COMMISION  PAID',
                 'numeric_value' => 0,
                 'transaction_type' => 'BOSALES',
@@ -93,7 +93,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'BOSalesDRDiscountLedger',
-                'account_id' => 110,
+                'account_id' => 137,
                 'ledger_name' => 'DISCOUNT ALLOWED',
                 'numeric_value' => 0,
                 'transaction_type' => 'BOSALES',
@@ -104,7 +104,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'BOSalesDRRoundingLedger',
-                'account_id' => 110,
+                'account_id' => 137,
                 'ledger_name' => 'DISCOUNT ALLOWED',
                 'numeric_value' => 0,
                 'transaction_type' => 'BOSALES',
@@ -115,7 +115,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'OutPutTax5%',
-                'account_id' => 110,
+                'account_id' => 130,
                 'ledger_name' => 'OUTPUT VAT 5%',
                 'numeric_value' => 0,
                 'transaction_type' => 'BOSALES',
@@ -126,7 +126,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'SalesEntryBOVoucherName',
-                'account_id' => 110,
+                'account_id' => 102,
                 'ledger_name' => 'SALES TRADING',
                 'numeric_value' => 0,
                 'transaction_type' => 'BOSALES',
@@ -137,7 +137,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'DayCloseCashINHand',
-                'account_id' => 110,
+                'account_id' => 125,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'DAYCLOSE',
@@ -148,7 +148,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PaymentVoucherNameCashPurchase',
-                'account_id' => 110,
+                'account_id' => 103,
                 'ledger_name' => 'PAYMENT TRADING',
                 'numeric_value' => 0,
                 'transaction_type' => 'PAYMENT',
@@ -159,7 +159,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PaymentVoucherNameSupplier',
-                'account_id' => 110,
+                'account_id' => 103,
                 'ledger_name' => 'PAYMENT TRADING',
                 'numeric_value' => 0,
                 'transaction_type' => 'PAYMENT',
@@ -170,7 +170,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'CustomerLedger',
-                'account_id' => 110,
+                'account_id' => 17,
                 'ledger_name' => 'SUNDRY DEBTORS',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -181,7 +181,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'POSOutPutTax5%',
-                'account_id' => 110,
+                'account_id' => 130,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -192,7 +192,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'POSSalesCRCounterExempted',
-                'account_id' => 110,
+                'account_id' => 0,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -225,7 +225,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'POSSalesDRDiscountLedger',
-                'account_id' => 110,
+                'account_id' => 137,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -236,7 +236,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'POSSalesDRLedgerCash',
-                'account_id' => 110,
+                'account_id' => 125,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -247,7 +247,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'POSSalesDRLedgerCreditCard',
-                'account_id' => 110,
+                'account_id' => 126,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -258,7 +258,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'POSSalesDRLedgerVoucher',
-                'account_id' => 110,
+                'account_id' => 126,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -269,7 +269,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'POSSalesDRRoundingLedger',
-                'account_id' => 110,
+                'account_id' => 137,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -280,7 +280,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'POSVoucherType',
-                'account_id' => 110,
+                'account_id' => 105,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -291,7 +291,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'SupplierLedger',
-                'account_id' => 110,
+                'account_id' => 18,
                 'ledger_name' => 'SUNDRY CREDITORS',
                 'numeric_value' => 0,
                 'transaction_type' => 'POS',
@@ -302,7 +302,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'INPutTax5%',
-                'account_id' => 110,
+                'account_id' => 136,
                 'ledger_name' => 'INPUT VAT 5%',
                 'numeric_value' => 0,
                 'transaction_type' => 'PURCHASE',
@@ -313,7 +313,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PurchaseCRDiscountLedger',
-                'account_id' => 110,
+                'account_id' => 150,
                 'ledger_name' => 'DISCOUNT RECEIVED',
                 'numeric_value' => 0,
                 'transaction_type' => 'PURCHASE',
@@ -324,7 +324,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PurchaseCRRoundingLedger',
-                'account_id' => 110,
+                'account_id' => 150,
                 'ledger_name' => 'DISCOUNT RECEIVED',
                 'numeric_value' => 0,
                 'transaction_type' => 'PURCHASE',
@@ -335,7 +335,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PurchaseDRExempted',
-                'account_id' => 110,
+                'account_id' => 0,
                 'ledger_name' => '',
                 'numeric_value' => 0,
                 'transaction_type' => 'PURCHASE',
@@ -346,7 +346,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PurchaseDRLedgerCash',
-                'account_id' => 110,
+                'account_id' => 111,
                 'ledger_name' => 'PURCHASE ACC',
                 'numeric_value' => 0,
                 'transaction_type' => 'PURCHASE',
@@ -357,7 +357,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PurchaseDRLedgerCredit',
-                'account_id' => 110,
+                'account_id' => 111,
                 'ledger_name' => 'PURCHASE ACC',
                 'numeric_value' => 0,
                 'transaction_type' => 'PURCHASE',
@@ -368,7 +368,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PurchaseDRLedgerCreditCard',
-                'account_id' => 110,
+                'account_id' => 111,
                 'ledger_name' => 'PURCHASE ACC',
                 'numeric_value' => 0,
                 'transaction_type' => 'PURCHASE',
@@ -379,7 +379,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PurchaseDRLedgerOverseas',
-                'account_id' => 110,
+                'account_id' => 111,
                 'ledger_name' => 'PURCHASE ACC',
                 'numeric_value' => 0,
                 'transaction_type' => 'PURCHASE',
@@ -390,7 +390,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'PurchaseEntryVoucherName',
-                'account_id' => 110,
+                'account_id' => 101,
                 'ledger_name' => 'PURCHASE TRADING',
                 'numeric_value' => 0,
                 'transaction_type' => 'PURCHASE',
@@ -401,7 +401,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'ReceiptVoucherNameCashSales',
-                'account_id' => 110,
+                'account_id' => 104,
                 'ledger_name' => 'RECEIPT TRADING',
                 'numeric_value' => 0,
                 'transaction_type' => 'RECEIPT',
@@ -412,7 +412,7 @@ class AccountsParameterSeeder extends Seeder
             ],
             [
                 'parameter_name' => 'ReceiptVoucherNameCustomer',
-                'account_id' => 110,
+                'account_id' => 104,
                 'ledger_name' => 'RECEIPT TRADING',
                 'numeric_value' => 0,
                 'transaction_type' => 'RECEIPT',
