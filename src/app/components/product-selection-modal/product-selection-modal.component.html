@@ -5,32 +5,55 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-      <tr>
-        <th></th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Pkt Detail</th>
-        <th>Unit Price</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let product of allProducts">
-        <td>
-          <button (click)="onAddToList(product)" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i></button>
-        </td>
-        <td>{{product.product_name}}</td>
-        <td>{{product.description}}</td>
-        <td>{{product.pack_details}}</td>
-        <td>{{product.unit_price}}</td>
-      </tr>
-      </tbody>
-    </table>
+  <div class="form-group mb-3">
+    <label for="search" class="form-label">Search</label>
+    <input type="text" name="search" id="search" (keyup)="handleSearch($event)" class="form-control"
+           placeholder="Search by title, description, pkt detail or unit price">
   </div>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="onClose()">Close</button>
-  <button type="button" class="btn btn-primary">Save changes</button>
+  <ngx-datatable
+    #table
+    class="bootstrap"
+    [rows]="allProducts"
+    [loadingIndicator]="loading"
+    [columnMode]="ColumnMode.force"
+    rowHeight="auto"
+    [reorderable]="true"
+    [messages]="{emptyMessage: 'No data to display'}"
+    [count]="totalRows"
+    [footerHeight]="50"
+    [headerHeight]="50"
+    [limit]="rowsPerPage"
+    [scrollbarH]="true"
+    (page)="onPageChange($event)"
+  >
+    <ngx-datatable-column name="Selection">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <button (click)="onAddToList(row)" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i></button>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [sortable]="true" name="Title">
+      <ng-template let-row="row"  ngx-datatable-cell-template>
+        <div class="clamp-text">{{ row.product_name }}</div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Description">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div class="clamp-text">{{ row.description }}</div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Pkt Details">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.pack_details }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Unit Price">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.unit_price }}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onClose()">Close</button>
+    <button type="button" class="btn btn-primary">Save changes</button>
+  </div>
 </div>

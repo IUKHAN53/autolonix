@@ -43,6 +43,8 @@ export class CreateExpenseComponent {
 
   productList: any = []
 
+  accountTabList: any = []
+
   bsModalRef: BsModalRef | undefined;
 
   allDropdowns: any = []
@@ -56,8 +58,12 @@ export class CreateExpenseComponent {
     event.preventDefault()
   }
 
-  changeActiveTab(name: string) {
-    this.activeTab = name
+  changeActiveTab(name: string, status: boolean) {
+    if (!status) {
+      this.errorMessage = 'Please fill all the required fields'
+    } else {
+      this.activeTab = name
+    }
   }
 
   openModal() {
@@ -66,7 +72,7 @@ export class CreateExpenseComponent {
       initialState,
       class: 'modal-lg',
     });
-
+    console.log(this.getPurchaseDetails('Credit'))
     this.bsModalRef.content.buttonClicked.subscribe({
       next: (data: any) => {
         this.handleAddToList(data)
@@ -85,6 +91,12 @@ export class CreateExpenseComponent {
     }
     this.productList.push(productDetail)
     this.updateBottomInputs()
+    let supplier = this.filterSupplier(this.purchaseModel.supplier_id)
+    if (supplier.length > 0) {
+      this.handleSupplierChange(this.purchaseBottomModel.net_total)
+      this.handlePayModeChange(this.purchaseBottomModel.total)
+    }
+    // this.doBottomCalculation()
   }
 
   updateBottomInputs() {
@@ -196,6 +208,18 @@ export class CreateExpenseComponent {
           , this.purchaseBottomModel.vat_amount
           , this.purchaseBottomModel.round_off_amount
           , this.purchaseBottomModel.net_total)
+
+        let accountDetail = {
+          accountID: this.allDropdowns.input_vat.account_id,
+          accountName: this.allDropdowns.input_vat.ledger_name,
+          debit: this.purchaseBottomModel.vat_amount,
+          credit: 0,
+          osBalance: 0,
+          RStatusC: '',
+          VoucherChildID: 0,
+        }
+
+        this.pushOrUpdateObject(this.accountTabList, accountDetail)
         break
       case 'vat_amount':
         this.doBottomCalculation(
@@ -235,13 +259,23 @@ export class CreateExpenseComponent {
     }
   }
 
+  pushOrUpdateObject(array: any, obj: any) {
+    const index = array.findIndex((item: any) => item.accountID === obj.accountID);
+
+    if (index === -1) {
+      array.push(obj);
+    } else {
+      array[index] = obj;
+    }
+  }
+
   doBottomCalculation(total: any, discount_rate: any, discount_amount: any, sub_total: any, vat_rate: any, vat_amount: any, round_off_amount: any, net_total: any) {
     this.purchaseBottomModel.total = total
     this.purchaseBottomModel.discount_rate = discount_rate
     this.purchaseBottomModel.discount_amount = (total * discount_rate) / 100
     this.purchaseBottomModel.sub_total = this.purchaseBottomModel.total - this.purchaseBottomModel.discount_amount
-    // this.purchaseBottomModel.vat_rate = vat_rate
-    // this.purchaseBottomModel.vat_amount = (total * vat_rate) / 100
+    this.purchaseBottomModel.vat_rate = vat_rate
+    this.purchaseBottomModel.vat_amount = (total * vat_rate) / 100
     let floorAmount = Math.floor(this.purchaseBottomModel.sub_total)
     floorAmount = floorAmount + round_off_amount
     this.purchaseBottomModel.net_total = floorAmount
@@ -282,5 +316,51 @@ export class CreateExpenseComponent {
       })
   }
 
-  protected readonly Object = Object;
+  getPurchaseDetails(title: string) {
+    return this.allDropdowns.purchase_account.filter(function (d: any) {
+      if (title === 'Credit') {
+        return d.id === 32
+      } else {
+        return d.id === 31
+      }
+    });
+  }
+
+  handleSupplierChange(credit:any) {
+    let supplier = this.filterSupplier(this.purchaseModel.supplier_id)
+    if (supplier.length > 0) {
+      let details = {
+        accountID: supplier[0].parent_account_id,
+        accountName: supplier[0].account_name,
+        debit: 0,
+        credit: credit,
+        osBalance: 0,
+        RStatusC: '',
+        VoucherChildID: 0,
+      }
+      this.pushOrUpdateObject(this.accountTabList, details)
+    }
+  }
+
+  filterSupplier(id: any) {
+    return this.allDropdowns.suppliers.filter(function (d: any) {
+      return d.id === parseInt(id);
+    });
+  }
+
+  handlePayModeChange(debit:any) {
+    let payModeDetail = this.getPurchaseDetails(this.purchaseModel.pay_mode)
+    if (payModeDetail.length > 0) {
+      let details = {
+        accountID: payModeDetail[0].account_id,
+        accountName: payModeDetail[0].ledger_name,
+        debit: debit,
+        credit: 0,
+        osBalance: 0,
+        RStatusC: '',
+        VoucherChildID: 0,
+      }
+      this.pushOrUpdateObject(this.accountTabList, details)
+    }
+  }
 }

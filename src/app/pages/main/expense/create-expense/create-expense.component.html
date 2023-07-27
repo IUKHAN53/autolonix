@@ -22,9 +22,9 @@
               </div>
               <div>
                 <p>Supplier Name</p>
-                <select name="supplier_id" [(ngModel)]="purchaseModel.supplier_id">
+                <select name="supplier_id" [(ngModel)]="purchaseModel.supplier_id" (change)="handleSupplierChange(0)">
                   <option value="">Select</option>
-                  <option *ngFor="let supplier of allDropdowns.suppliers | keyvalue" [value]="supplier.key">{{supplier.value}}</option>
+                  <option *ngFor="let supplier of allDropdowns.suppliers" [value]="supplier.id">{{supplier.account_name}}</option>
                 </select>
               </div>
               <div>
@@ -33,7 +33,7 @@
               </div>
               <div>
                 <p>Pay. Mode</p>
-                <select name="pay_mode" [(ngModel)]="purchaseModel.payment_mode">
+                <select name="pay_mode" [(ngModel)]="purchaseModel.payment_mode" (change)="handlePayModeChange(0)">
                   <option value="">Select</option>
                   <option *ngFor="let pay_mode of allDropdowns.payment_modes | keyvalue" [value]="pay_mode.key">{{pay_mode.value}}</option>
                 </select>
@@ -48,13 +48,12 @@
             </div>
           </div>
         </div>
-
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation" >
-            <button (click)="changeActiveTab('inventory')" [class]="activeTab==='inventory' ? 'nav-link active' : 'nav-link'" id="inventory-tab" data-bs-toggle="tab" data-bs-target="#inventory" type="button" role="tab" aria-controls="inventory" aria-selected="true">Inventory</button>
+            <button (click)="changeActiveTab('inventory', true)" [class]="activeTab==='inventory' ? 'nav-link active' : 'nav-link'" id="inventory-tab" data-bs-toggle="tab" data-bs-target="#inventory" type="button" role="tab" aria-controls="inventory" aria-selected="true">Inventory</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button (click)="changeActiveTab('accounts')" [class]="activeTab==='accounts' ? 'nav-link active' : 'nav-link'" id="accounts-tab" data-bs-toggle="tab" data-bs-target="#accounts" type="button" role="tab" aria-controls="accounts" aria-selected="false">Accounts</button>
+            <button (click)="changeActiveTab('accounts', accountTabList.length>0)" [class]="activeTab==='accounts' ? 'nav-link active' : 'nav-link'" id="accounts-tab" data-bs-toggle="tab" data-bs-target="#accounts" type="button" role="tab" aria-controls="accounts" aria-selected="false">Accounts</button>
           </li>
         </ul>
 
@@ -163,15 +162,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                    <tr *ngFor="let accounts of accountTabList; let i=index">
+                      <td>{{i+1}}</td>
+                      <td>{{accounts.accountID}}</td>
+                      <td>{{accounts.accountName}}</td>
+                      <td>{{accounts.debit}}</td>
+                      <td>{{accounts.credit}}</td>
+                      <td>{{accounts.osBalance}}</td>
+                      <td>{{accounts.RStatusC}}</td>
+                      <td>{{accounts.VoucherChildID}}</td>
                     </tr>
                     </tbody>
                   </table>
@@ -188,34 +187,34 @@
           <div class="w-25">
             <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
               <span class="w-100 text-end">Total Amount</span>
-              <input type="number" name="total" (change)="handleBottomInputChange($event, 'total')" [(ngModel)]="purchaseBottomModel.total" class="m-0" style="border-radius: 10px !important;">
+              <input type="number" name="total" disabled (change)="handleBottomInputChange($event, 'total')" [(ngModel)]="purchaseBottomModel.total" class="m-0 form-control" style="border-radius: 10px !important;">
             </div>
             <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
               <span class="w-100 text-end">Discount Amount</span>
               <div class="d-flex gap-3 w-100">
-                <input type="number" name="discount_rate" (change)="handleBottomInputChange($event, 'discount_rate')" [(ngModel)]="purchaseBottomModel.discount_rate" class="m-0" style="border-radius: 10px !important;">
-                <input type="number" name="discount_amount" (change)="handleBottomInputChange($event, 'discount_amount')" [(ngModel)]="purchaseBottomModel.discount_amount" class="m-0" style="border-radius: 10px !important;">
+                <input type="number" name="discount_rate" (change)="handleBottomInputChange($event, 'discount_rate')" [(ngModel)]="purchaseBottomModel.discount_rate" class="m-0 form-control" style="border-radius: 10px !important;">
+                <input type="number" name="discount_amount" (change)="handleBottomInputChange($event, 'discount_amount')" [(ngModel)]="purchaseBottomModel.discount_amount" class="m-0 form-control" style="border-radius: 10px !important;">
               </div>
             </div>
 
             <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
               <span class="w-100 text-end">Sub Total</span>
-              <input type="number" name="sub_total" (change)="handleBottomInputChange($event, 'sub_total')" [(ngModel)]="purchaseBottomModel.sub_total" class="m-0" style="border-radius: 10px !important;">
+              <input type="number" name="sub_total" disabled (change)="handleBottomInputChange($event, 'sub_total')" [(ngModel)]="purchaseBottomModel.sub_total" class="m-0 form-control" style="border-radius: 10px !important;">
             </div>
-<!--            <div class="d-flex justify-content-end align-items-center gap-3 mb-3">-->
-<!--              <span class="w-100 text-end">VAT Amount</span>-->
-<!--              <div class="d-flex gap-3 w-100">-->
-<!--                <input type="number" name="vat_rate" (change)="handleBottomInputChange($event, 'vat_rate')" [(ngModel)]="purchaseBottomModel.vat_rate" class="m-0" style="border-radius: 10px !important;">-->
-<!--                <input type="number" name="vat_amount" (change)="handleBottomInputChange($event, 'vat_amount')" [(ngModel)]="purchaseBottomModel.vat_amount" class="m-0" style="border-radius: 10px !important;">-->
-<!--              </div>-->
-<!--            </div>-->
+            <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
+              <span class="w-100 text-end">VAT Amount</span>
+              <div class="d-flex gap-3 w-100">
+                <input type="number" name="vat_rate" (change)="handleBottomInputChange($event, 'vat_rate')" [(ngModel)]="purchaseBottomModel.vat_rate" class="m-0 form-control" style="border-radius: 10px !important;">
+                <input type="number" name="vat_amount" (change)="handleBottomInputChange($event, 'vat_amount')" [(ngModel)]="purchaseBottomModel.vat_amount" class="m-0 form-control" disabled style="border-radius: 10px !important;">
+              </div>
+            </div>
             <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
               <span class="w-100 text-end">Round Off Amount</span>
-              <input type="number" name="round_off_amount" (change)="handleBottomInputChange($event, 'round_off_amount')" [(ngModel)]="purchaseBottomModel.round_off_amount" class="m-0" style="border-radius: 10px !important;">
+              <input type="number" name="round_off_amount" (change)="handleBottomInputChange($event, 'round_off_amount')" [(ngModel)]="purchaseBottomModel.round_off_amount" class="m-0 form-control" style="border-radius: 10px !important;">
             </div>
             <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
               <span class="w-100 text-end fw-bold">Net Total</span>
-              <input type="number" name="net_total" disabled [(ngModel)]="purchaseBottomModel.net_total" class="m-0" style="border-radius: 10px !important;">
+              <input type="number" name="net_total" disabled [(ngModel)]="purchaseBottomModel.net_total" class="m-0 form-control" style="border-radius: 10px !important;">
             </div>
           </div>
         </div>

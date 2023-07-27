@@ -1,14 +1,16 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 import {LayoutModule} from "./layouts/layout.module";
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {ImageCellRendererComponent} from "./components/image-cell-renderer/image-cell-renderer.component";
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { RedirectionComponent } from './components/redirection/redirection.component';
-import { DynamicTableRowComponent } from './components/dynamic-table-row/dynamic-table-row.component';
-import { ProductSelectionModalComponent } from './components/product-selection-modal/product-selection-modal.component';
+import {NotFoundComponent} from './components/not-found/not-found.component';
+import {RedirectionComponent} from './components/redirection/redirection.component';
+import {DynamicTableRowComponent} from './components/dynamic-table-row/dynamic-table-row.component';
+import {ProductSelectionModalComponent} from './components/product-selection-modal/product-selection-modal.component';
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -23,10 +25,13 @@ import { ProductSelectionModalComponent } from './components/product-selection-m
     BrowserModule,
     AppRoutingModule,
     LayoutModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxDatatableModule,
+    NgxPaginationModule
   ],
   providers: [],
   exports: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
