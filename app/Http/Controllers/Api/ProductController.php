@@ -280,7 +280,7 @@ class ProductController extends Controller
                 'department_id' => 'nullable|exists:product_drilldown_masters,id',
                 'product_brand_id' => 'nullable|exists:product_drilldown_masters,id',
                 'description' => 'required',
-                'unit' => 'required|in:' . implode(',', ProductMaster::UOM),
+                'unit' => 'required',
                 'pack_details' => 'required',
                 'product_type' => 'required|string|max:10',
                 'product_image' => 'nullable|sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
