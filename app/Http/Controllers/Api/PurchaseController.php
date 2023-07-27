@@ -15,7 +15,7 @@ class PurchaseController extends Controller
     {
         if ($request->type == 'sale') {
             $data = [
-                'customers' => AccountHeadMaster::query()->where('parent_account_id', getCustomerAccountId())->pluck('account_name', 'id')->toArray(),
+                'customers' => AccountHeadMaster::query()->where('parent_account_id', getCustomerAccountId())->get()->toArray(),
                 'payment_modes' => salesPaymentMode(),
                 'invoice_parties' => AccountHeadMaster::query()->pluck('account_name', 'id')->toArray(),
                 'account_heads' => AccountHeadMaster::query()->pluck('account_name', 'id')->toArray(),
@@ -26,7 +26,7 @@ class PurchaseController extends Controller
             ];
         } else {
             $data = [
-                'suppliers' => AccountHeadMaster::query()->where('parent_account_id', getSupplierAccountId())->pluck('account_name', 'id')->toArray(),
+                'suppliers' => AccountHeadMaster::query()->where('parent_account_id', getSupplierAccountId())->get()->toArray(),
                 'payment_modes' => purchasePaymentMode(),
                 'account_heads' => AccountHeadMaster::query()->pluck('account_name', 'id')->toArray(),
                 'purchase_account' => AccountsParameter::query()->where('ledger_name', 'Purchase Acc')->get()->toArray(),
