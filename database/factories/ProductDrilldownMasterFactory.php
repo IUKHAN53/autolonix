@@ -25,10 +25,10 @@ class ProductDrilldownMasterFactory extends Factory
             'drilldown_description' => $this->faker->text(300),
             'drilldown_description_arabic' => $this->faker->text(300),
             'upload_status' => $this->faker->text(50),
-            'station_id' => $this->faker->randomNumber(),
+            'station_id' => 10,
             'drilldown_status' => $this->faker->text(20),
             'cr_by' => User::query()->inRandomOrder()->first()->id,
-            'cr_on' => $this->faker->dateTime(),
+            'cr_on' => now(),
         ];
     }
 }

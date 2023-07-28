@@ -5,9 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\AccountHeadMaster;
 use App\Models\AccountsParameter;
+use App\Models\InventoryTransMaster;
 use App\Models\ProductChildPrice;
 use App\Models\ProductMaster;
+use App\Models\PurchaseChild;
+use App\Models\PurchaseMaster;
+use App\Models\VoucherChild;
+use App\Models\VoucherMaster;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -47,12 +53,34 @@ class PurchaseController extends Controller
         return response()->json($data);
     }
 
-    public function index()
+    public function storeExpense(Request $request)
     {
-        return response()->json(['message' => 'Hello World!']);
-    }
+        DB::beginTransaction();
+        try {
+            foreach ($request->products as $product) {
+                $purchase_child = new PurchaseChild();
+                $purchase_child->save();
+            }
+            $purchase_master = PurchaseMaster::create([
 
-    public function storeExpense(Request $request){
-        return response()->json($request->all());
+            ]);
+
+            $inventory_master = InventoryTransMaster::create([
+
+            ]);
+            $voucher_master = VoucherMaster::create([
+
+            ]);
+            $voucher_child = VoucherChild::create([
+
+            ]);
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return response()->json($exception->getMessage());
+        }
+
+        return response()->json(['message' => 'success']);
     }
 }

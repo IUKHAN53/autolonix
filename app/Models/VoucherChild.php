@@ -18,4 +18,15 @@ class VoucherChild extends Model
     protected $table = 'voucher_child';
 
     protected $guarded = [];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::created(function($model){
+            $transaction_ref = TransactionRefMaster::create([
+
+            ]);
+        });
+
+    }
 }

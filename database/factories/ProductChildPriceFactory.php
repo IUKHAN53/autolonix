@@ -18,9 +18,10 @@ class ProductChildPriceFactory extends Factory
      */
     public function definition()
     {
+        $id = ProductMaster::query()->inRandomOrder()->first()->id;
         return [
-            'product_id' => ProductMaster::query()->inRandomOrder()->first()->id,
-            'unique_id' => ProductMaster::query()->inRandomOrder()->first()->id,
+            'product_id' => $id,
+            'unique_id' => $id,
             'price_level_id' => $this->faker->randomNumber(),
             'service_id' => $this->faker->randomNumber(),
             'unit_price' => $this->faker->randomFloat(4, 0, 9999),
@@ -34,8 +35,8 @@ class ProductChildPriceFactory extends Factory
             'ot_rate4' => $this->faker->randomFloat(2, 0, 9999),
             'upload_status_p' => $this->faker->randomElement(['status1', 'status2', 'status3']),
             'cr_by' => User::query()->inRandomOrder()->first()->id,
-            'cr_on' => $this->faker->dateTime(),
-            'station_id' => $this->faker->randomNumber(),
+            'cr_on' => now(),
+            'station_id' => 10,
         ];
     }
 }

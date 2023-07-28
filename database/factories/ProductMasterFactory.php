@@ -25,7 +25,6 @@ class ProductMasterFactory extends Factory
             'is_master' => $this->faker->randomElement(['Yes', 'No']),
             'stock_type' => $this->faker->text(10),
             'product_status' => $this->faker->text(10),
-            'unique_id' => $this->faker->randomNumber(),
             'substitute_no' => $this->faker->randomNumber(),
             'model' => $this->faker->text(10),
             'engine_no' => $this->faker->text(50),
