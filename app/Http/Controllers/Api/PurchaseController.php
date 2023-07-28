@@ -39,9 +39,13 @@ class PurchaseController extends Controller
                     ->where('account_no', 'LIKE', '03-02%')
                     ->where('account_id', '>', 100)
                     ->pluck('account_name', 'account_id')->toArray(),
-                'purchase_account' => AccountsParameter::query()->where('ledger_name', 'Purchase Acc')->get()->toArray(),
-                'input_vat' => AccountsParameter::query()->where('ledger_name', 'INPUT VAT 5%')->first()->toArray(),
-                'discount' => AccountsParameter::query()->where('ledger_name', 'DISCOUNT RECEIVED')->first()->toArray(),
+                'purchase_account' => AccountsParameter::query()
+                    ->whereIn('parameter_name', ['PurchaseDRLedgerCash', 'PurchaseDRLedgerCredit'])
+                    ->get()
+                    ->toArray(),
+                'input_vat' => AccountsParameter::query()->where('parameter_name', 'INPutTax5%')->first()->toArray(),
+                'discount' => AccountsParameter::query()->where('parameter_name', 'PurchaseCRDiscountLedger')->first()->toArray(),
+                'round_off_adjustment' => AccountsParameter::query()->where('parameter_name', 'PurchaseCRRoundingLedger')->first()->toArray(),
             ];
         }
         return response()->json($data);
