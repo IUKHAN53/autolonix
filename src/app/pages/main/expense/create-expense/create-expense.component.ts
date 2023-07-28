@@ -56,6 +56,19 @@ export class CreateExpenseComponent {
 
   saveInvoice(event: Event) {
     event.preventDefault()
+
+    let data = {
+      top: this.purchaseModel,
+      products: this.productList,
+      accounts: this.accountTabList,
+      bottom: this.purchaseBottomModel
+    }
+    this.httpService.requestCall('purchase/store', ApiMethod.POST, data)
+      .subscribe({
+        next: (response) => {
+          console.log(response)
+        }
+      })
   }
 
   changeActiveTab(name: string, status: boolean) {
