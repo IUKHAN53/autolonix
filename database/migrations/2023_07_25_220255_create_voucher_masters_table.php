@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('remark', 250)->nullable();
             $table->enum('post_status', ['PENDING', 'POSTED', 'CANCELLED'])->nullable();
             $table->string('creation_mode', 50)->nullable();
+            $table->bigInteger('staff_id')->nullable();
             $table->bigInteger('voucher_posted_id')->nullable();
             $table->bigInteger('station_id')->nullable();
             $table->dateTime('cr_on')->nullable();

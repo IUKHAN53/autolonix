@@ -2,6 +2,8 @@
 
 use App\Models\AccountsParameter;
 use App\Models\GlobalSettings;
+use App\Models\InventoryTransMaster;
+use Illuminate\Support\Facades\DB;
 
 function uom()
 {
@@ -35,10 +37,32 @@ function getCustomerAccountId()
 
 function getSupplierAccountId()
 {
-    return  AccountsParameter::where('parameter_name', 'SupplierLedger')->pluck('account_id')->first();
+    return AccountsParameter::where('parameter_name', 'SupplierLedger')->pluck('account_id')->first();
 }
 
 function getStationId()
 {
-    return  GlobalSettings::query()->where('type', 'station_id')->pluck('value')->first();
+    return GlobalSettings::query()->where('type', 'station_id')->pluck('value')->first();
 }
+
+function getMaxId($table, $column, ...$conditions)
+{
+    $id = DB::table($table);
+    foreach ($conditions as $condition) {
+        $id = $id->where($condition['column'], $condition['operator'] ?? '=', $condition['value']);
+    }
+    $id = $id->max($column);
+    if ($id == null) {
+        $id = 1;
+    } elseif ($id >= 0) {
+        $id = $id + 1;
+    }
+    return $id;
+}
+
+function getPurchaseEntryVoucherNameAccountId()
+{
+    return AccountsParameter::where('parameter_name', 'PurchaseEntryVoucherName')->pluck('account_id')->first();
+}
+
+

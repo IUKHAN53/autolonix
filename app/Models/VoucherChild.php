@@ -23,9 +23,20 @@ class VoucherChild extends Model
     {
         parent::boot();
         self::created(function($model){
-            $transaction_ref = TransactionRefMaster::create([
-
-            ]);
+            if($model->os_balance > 0){
+                $transaction_ref = TransactionRefMaster::create([
+                    'transaction_ref_id' => getMaxId('transaction_ref_master', 'transaction_ref_id'),
+                    'transaction_voucher_id' => $model->voucher_master_id,
+                    'paid_voucher_id' => $model->voucher_master_id,
+                    'paid_account_id' => $model->account_id,
+                    'ref_type' => 'NEW REF',
+                    'amount' => $model->os_balance,
+                    'status' => 'PENDING',
+                    'cheque_date' => '',
+                    'cheque_no' => '',
+                    'cheque_details' => '',
+                ]);
+            }
         });
 
     }

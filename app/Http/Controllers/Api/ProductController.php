@@ -70,10 +70,10 @@ class ProductController extends Controller
         if ($validatedData->fails()) {
             return response()->json(['error' => $validatedData->errors()], 401);
         }
-
         try {
             DB::beginTransaction();
             $product = new ProductMaster();
+            $product->product_id = getMaxId('product_master', 'product_id');
             $product->product_code = $request->input('product_code');
             $product->barcode = $request->input('barcode');
             $product->product_name = $request->input('product_name');
@@ -86,6 +86,7 @@ class ProductController extends Controller
             $product->description = $request->input('description');
             $product->unit = $request->input('unit');
             $product->pack_details = $request->input('pack_details');
+            $product->pack_qty = 1;
             $product->product_type = $request->input('product_type');
             $product->cr_by = $request->user()->id;
             $product->cr_on = now();
@@ -97,8 +98,10 @@ class ProductController extends Controller
             $product->save();
 
             $product_child = new ProductChild();
-            $product_child->product_id = $product->id;
-            $product_child->unique_id = $product->id;
+            $product_child->product_child_id = getMaxId('product_child', 'product_child_id');
+            $product_child->product_id = $product->product_id;
+            $product_child->unique_id = $product->product_id;
+            $product_child->pack_qty = 1;
             $product_child->last_supplier_id = $request->input('last_supplier_id');
             $product_child->last_purchase_cost = $request->input('last_purchase_cost');
             $product_child->it_rate1 = $request->input('it_rate1');
@@ -108,8 +111,9 @@ class ProductController extends Controller
             $product_child->save();
 
             $product_child_price = new ProductChildPrice();
-            $product_child_price->product_id = $product->id;
-            $product_child_price->unique_id = $product->id;
+            $product_child_price->product_child_price_id = getMaxId('product_child_price', 'product_child_price_id');
+            $product_child_price->product_id = $product->product_id;
+            $product_child_price->unique_id = $product->product_id;
             $product_child_price->unit_price = $request->input('unit_price');
             $product_child_price->ot_rate1 = $request->input('ot_rate1');
             $product_child_price->ot_amount1 = $request->input('ot_amount1');
@@ -135,8 +139,8 @@ class ProductController extends Controller
     public function show($id): JsonResponse
     {
         $product = ProductMaster::findOrFail($id);
-        $product_child = ProductChild::where('product_id', $product->id)->first();
-        $product_child_price = ProductChildPrice::where('product_id', $product->id)->first();
+        $product_child = ProductChild::where('product_id', $product->product_id)->first();
+        $product_child_price = ProductChildPrice::where('product_id', $product->product_id)->first();
 
         $data = [];
         $data['product_code'] = $product->product_code;
@@ -189,8 +193,8 @@ class ProductController extends Controller
             DB::beginTransaction();
 
             $product = ProductMaster::findOrFail($id);
-            $product_child = ProductChild::firstOrCreate(['product_id' => $product->id], []);
-            $product_child_price = ProductChildPrice::firstOrCreate(['product_id' => $product->id], []);
+            $product_child = ProductChild::firstOrCreate(['product_id' => $product->product_id], []);
+            $product_child_price = ProductChildPrice::firstOrCreate(['product_id' => $product->product_id], []);
 
             $product->product_code = $request->input('product_code') ?? $product->product_code;
             $product->barcode = $request->input('barcode') ?? $product->barcode;
@@ -238,8 +242,8 @@ class ProductController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $product = ProductMaster::findOrFail($id);
-        ProductChild::where('product_id', $product->id)->delete();
-        ProductChildPrice::where('product_id', $product->id)->delete();
+        ProductChild::where('product_id', $product->product_id)->delete();
+        ProductChildPrice::where('product_id', $product->product_id)->delete();
         $product->delete();
         return response()->json(null, 204);
     }

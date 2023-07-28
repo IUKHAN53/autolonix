@@ -12,6 +12,7 @@ use App\Models\PurchaseChild;
 use App\Models\PurchaseMaster;
 use App\Models\VoucherChild;
 use App\Models\VoucherMaster;
+use App\Models\VoucherTypeMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -53,34 +54,232 @@ class PurchaseController extends Controller
         return response()->json($data);
     }
 
-    public function storeExpense(Request $request)
+    public function storePurchase(Request $request)
     {
         DB::beginTransaction();
         try {
+            $purchase_master = $this->addPurchaseMaster($request);
             foreach ($request->products as $product) {
-                $purchase_child = new PurchaseChild();
-                $purchase_child->save();
+                $purchase_child_id = getMaxId('purchase_child', 'purchase_child_id');
+                $purchase_child = $this->addPurchaseChild($product, $purchase_master, $purchase_child_id);
+                $inventory_id = getMaxId('inventory_trans_master', 'inventory_trans_master_id');
+                $this->addInventoryTransMaster($purchase_master, $purchase_child, $inventory_id);
             }
-            $purchase_master = PurchaseMaster::create([
-
-            ]);
-
-            $inventory_master = InventoryTransMaster::create([
-
-            ]);
-            $voucher_master = VoucherMaster::create([
-
-            ]);
-            $voucher_child = VoucherChild::create([
-
-            ]);
-
+            $voucher_master_id = getMaxId('voucher_master', 'voucher_master_id');
+            $voucher_master = $this->addVoucherMaster($request, $voucher_master_id, $purchase_master);
+            foreach ($request->accounts as $account){
+                $voucher_child_id = getMaxId('voucher_child', 'voucher_child_id');
+                $this->addVoucherChild($account, $voucher_child_id, $voucher_master, $purchase_master);
+            }
+            if(strtolower($request->payment_mode) == 'cash'){
+                $voucher_master_id = getMaxId('voucher_master', 'voucher_master_id');
+                $voucher_master = $this->addVoucherMaster($request, $voucher_master_id, $purchase_master, true);
+                foreach ($request->accounts as $account){
+                    $voucher_child_id = getMaxId('voucher_child', 'voucher_child_id');
+                    $this->addVoucherChild($account, $voucher_child_id, $voucher_master, $purchase_master, true);
+                }
+            }
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
             return response()->json($exception->getMessage());
         }
-
         return response()->json(['message' => 'success']);
     }
+
+    public function updatePurchase(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $purchase_master = $this->addPurchaseMaster($request->purchase_master_id);
+            foreach ($request->products as $product) {
+                $purchase_child_id = $request->purchase_child_id ?? getMaxId('purchase_child', 'purchase_child_id');
+                $this->addPurchaseChild($product, $purchase_master, $purchase_child_id);
+            }
+            $inventory_id = getMaxId('inventory_trans_master', 'inventory_trans_master_id');
+            $this->addInventoryTransMaster($request, $inventory_id);
+            $voucher_master_id = getMaxId('voucher_master', 'voucher_master_id');
+            $this->addVoucherMaster($request, $voucher_master_id);
+            $voucher_child_id = getMaxId('voucher_child', 'voucher_child_id');
+            $this->addVoucherChild($request, $voucher_child_id);
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return response()->json($exception->getMessage());
+        }
+        return response()->json(['message' => 'success']);
+    }
+
+    public function deletePurchase(Request $request)
+    {
+
+    }
+
+    public function addPurchaseMaster(Request $request, $purchase_id = null)
+    {
+        $p_no = getMaxId('purchase_master', 'purchase_no',
+            [
+                'column' => 'transaction_type',
+                'value' => 'PURCHASE',
+                'operator' => '='
+            ],
+            [
+                'column' => 'station_id',
+                'value' => getStationId(),
+                'operator' => '='
+            ]
+        );
+        return PurchaseMaster::updateOrCreate(
+            [
+                'purchase_id' => $request->purchase_id
+            ], [
+            'purchase_id' => (PurchaseMaster::max('purchase_id') != null ? PurchaseMaster::max('purchase_id') + 1 : 1),
+            'purchase_no' => $p_no != null ? $p_no + 1 : 1,
+            'transaction_type' => 'PURCHASE',
+            'prefix' => '',
+            'supplier_ref_no' => $request->top['supplier_invoice_no'],
+            'purchase_date' => $request->top['purchase_date'],
+            'supplier_id' => $request->top['supplier_id'],
+            'payment_mode' => $request->top['payment_mode'],
+            'discount_amount_m' => $request->top['discount_amount'],
+            'sub_total_m' => $request->top['sub_total'],
+            'non_taxable_amount' => 0,
+            'input_tax1_rate_m' => $request->top['vat_rate'],
+            'input_tax1_amount_m' => $request->top['vat_amount'],
+            'input_tax2_rate_m' => 0,
+            'input_tax2_amount_m' => 0,
+            'input_tax3_rate_m' => 0,
+            'input_tax3_amount_m' => 0,
+            'input_tax4_rate_m' => 0,
+            'input_tax4_amount_m' => 0,
+            'input_tax5_rate_m' => 0,
+            'input_tax5_amount_m' => 0,
+            'total_amount' => $request->top['sub_total'] + $request->top['vat_amount'],
+            'round_off_adj' => $request->top['round_off_amount'],
+            'net_amount' => $request->top['net_total'],
+            'post_status' => 'NOT POSTED',
+            'received_by_id' => 0,
+            'staff_id' => auth()->user()->id,
+            'counter_close_status' => 'PENDING',
+            'server_status' => 'PENDING',
+            'remarks' => $request->top['note'] ?? '',
+            'purchase_type' => 'LOCAL PURCHASE',
+            'currency_id' => 0,
+            'currency_rate' => 0,
+            'container_no' => 0,
+            'port' => 0,
+            'tax_group_id' => 0,
+            'bol' => 0,
+            'clearing_agent' => 0,
+            'shipping_method' => 0,
+            'sub_total_fc' => 0,
+            'discount_amount_fc' => 0,
+            'round_off_adjustment_fc' => 0,
+            'invoice_amount_fc' => 0,
+            'additional_charges' => 0,
+            'net_vat' => 0,
+            'gross_amount_aed' => 0,
+            'items_total_bc' => 0,
+        ]);
+    }
+
+    public function addPurchaseChild($product, $purchase_master, $purchase_child_id)
+    {
+        $product_master = ProductMaster::query()->where('product_id', $product['product_id'])->first();
+        return PurchaseChild::updateOrCreate(
+            [
+                'purchase_child_id' => $purchase_child_id,
+                'purchase_id' => $purchase_master->purchase_id,
+            ], [
+            'product_id' => $product->product_id,
+            'product_code' => $product->product_code,
+            'product_name' => $product->product_name,
+            'product_name_arabic' => '',
+            'unique_id' => $product->unique_id,
+            'foc_qty' => 0,
+            'qty' => $product->quantity,
+            'pack_qty' => $product_master->pack_qty,
+            'unit_cost' => $product->unit_price,
+            'discount_amount_c' => $product->discount,
+            'sub_total_c' => $product->sub_total,
+            'non_taxable_amount_c' => 0,
+            'input_tax1_rate_c' => $product->ot_rate1,
+            'input_tax1_amount_c' => $product->ot_amount1,
+            'input_tax2_rate_c' => 0,
+            'input_tax2_amount_c' => 0,
+            'input_tax3_rate_c' => 0,
+            'input_tax3_amount_c' => 0,
+            'input_tax4_rate_c' => 0,
+            'input_tax4_amount_c' => 0,
+            'input_tax5_rate_c' => 0,
+            'input_tax5_amount_c' => 0,
+            'line_total' => $product->net_total,
+            'post_status' => 'NOT POSTED',
+            'server_status_c' => 'PENDING',
+            'actual_cost_fc' => 0,
+            'dic_percentage_fc' => 0,
+            'dic_amount_fc' => 0,
+            'sub_total_fc' => 0,
+            'currency_rate' => 0,
+            'unit_exp_bc' => 0,
+            'unit_cost_bc' => 0,
+        ]);
+    }
+
+    public function addInventoryTransMaster($purchase_master, $purchase_child, $inventory_id)
+    {
+        return InventoryTransMaster::updateOrCreate([
+            'inventory_trans_master_id' => $inventory_id
+        ], [
+            'trans_date' => $purchase_master->purchase_date,
+            'trans_type' => 'PURCHASE',
+            'trans_master_id' => $purchase_master->purchase_id,
+            'trans_child_id' => $purchase_child->purchase_detail_id,
+            'product_id' => $purchase_child->product_id,
+            'unique_id' => $purchase_child->unique_id,
+            'pack_qty' => $purchase_child->pack_qty,
+            'trans_qty' => $purchase_child->quantity,
+            'trans_status' => 'NOT POSTED',
+        ]);
+    }
+
+    public function addVoucherMaster($request, $voucher_master_id, $purchase_master, $is_cash = false)
+    {
+        return VoucherMaster::updateOrCreate(
+            [
+                'voucher_master_id' => $voucher_master_id,
+            ], [
+            'voucher_type_id' => getPurchaseEntryVoucherNameAccountId(),
+            'manual_voucher_no' => $purchase_master->purchase_no,
+            'auto_voucher_no' => $purchase_master->purchase_no,
+            'voucher_prefix' => VoucherTypeMaster::query()->where('voucher_type_id', getPurchaseEntryVoucherNameAccountId())->first()->voucher_prefix,
+            'voucher_date' => $purchase_master->purchase_date,
+            'entered_date' => $purchase_master->purchase_date,
+            'ref_no' => $purchase_master->supplier_invoice_no,
+            'staff_id' => auth()->user()->id,
+            'voucher_amount' => $request->accounts['voucher_amount'],
+            'remark' => 'BOPURCHASE' . $purchase_master->purchase_no,
+            'post_status' => 'NOT POSTED',
+            'creation_mode' => 'BOPURCHASE',
+            'voucher_posted_id' => $purchase_master->purchase_id,
+        ]);
+    }
+
+    public function addVoucherChild($account, $voucher_child_id, $voucher_master, $purchase_master, $is_cash = false)
+    {
+        return VoucherChild::updateOrCreate(
+            [
+                'voucher_child_id' => $voucher_child_id,
+            ], [
+            'voucher_master_id' => $voucher_master->voucher_master_id,
+            'account_id' => $account->account_id,
+            'cr_amount' => $account->credit,
+            'dr_amount' => $account->debit,
+            'os_balance' => $account->osBalance,
+            'narration' => 'BOPURCHASE' . $voucher_master->auto_voucher_no,
+            'post_status' => 'NOT POSTED',
+            'payment_mode' => $purchase_master->payment_mode,
+        ]);
+    }
+
 }
