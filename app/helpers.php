@@ -64,5 +64,9 @@ function getPurchaseEntryVoucherNameAccountId()
 {
     return AccountsParameter::where('parameter_name', 'PurchaseEntryVoucherName')->pluck('account_id')->first();
 }
+function getPaymentVoucherNameCashPurchaseAccountId()
+{
+    return AccountsParameter::where('parameter_name', 'PaymentVoucherNameCashPurchase')->pluck('account_id')->first();
+}
 
 
