@@ -116,6 +116,7 @@ export class CreateExpenseComponent {
       discount_percentage: 0,
       discount: 0,
       quantity: 1,
+      sub_total: product.unit_price,
       net_total: product.unit_price,
       ...product
     }

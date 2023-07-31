@@ -36,8 +36,8 @@ export class LoginComponent {
               'Authorization': 'Bearer ' + response.access_token
             })
           }).subscribe({
-            next: (response) => {
-              this.tokenService.saveUser(response)
+            next: (response:any) => {
+              this.tokenService.saveUser(response.user)
               this.router.navigate(['dashboard']).then(r => window.location.reload());
             }
           })

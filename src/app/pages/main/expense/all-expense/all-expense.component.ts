@@ -14,13 +14,24 @@ import Swal, {SweetAlertOptions} from "sweetalert2";
 })
 export class AllExpenseComponent {
   constructor(private storage: StorageService, private httpService: HttpService, private router: Router) {
-    this.getAllInvoices()
+    this.getAllPurchases()
+    this.getDropdowns()
     this.currentUser = this.storage.getUser()
   }
 
   loading: boolean = false
   errorMessage: string = ''
   errors: any = {}
+
+  searchParams: any = {
+    from_date: null,
+    to_date: null,
+    supplier_id: null,
+    payment_mode: null,
+    invoice_no: null,
+  }
+
+  allDropdowns: any = []
 
   public columnDefs: ColDef[] = [
     {
@@ -34,27 +45,27 @@ export class AllExpenseComponent {
     },
     {
       headerName: 'Purchase. No',
-      field: 'account_code',
+      field: 'purchase_no',
       flex: 1
     },
     {
       headerName: 'Supplier Name',
-      field: 'account_name',
+      field: 'supplier.account_name',
       flex: 1
     },
     {
       headerName: 'Date',
-      field: 'telephone',
+      field: 'purchase_date',
       flex: 1
     },
     {
       headerName: 'Amount',
-      field: 'email',
+      field: 'total_amount',
       flex: 1
     },
     {
       headerName: 'Pay Mode',
-      field: 'address',
+      field: 'payment_mode',
       flex: 1
     },
     {
@@ -63,10 +74,10 @@ export class AllExpenseComponent {
       cellRenderer: ActionCellRendererComponent,
       cellRendererParams: {
         deleteClick: (value: any) => {
-          this.deleteInvoice(value)
+          this.deletePurchase(value)
         },
         editClick: (value: any) => {
-          this.router.navigate(['/invoice/edit', value])
+          this.router.navigate(['/expense/edit', value])
         }
       },
       sortable: false,
@@ -80,31 +91,36 @@ export class AllExpenseComponent {
     filter: true,
   };
 
-  allInvoices: any = []
+  allPurchases: any = []
   currentUser: any = {}
-  currentPage: number = 0
-  from: number = 0
-  to: number = 0
-  lastPage: number = 0
-  perPage: number = 0
-  total: number = 0
 
   onGridReady(params: GridReadyEvent) {
-    this.getAllInvoices()
+    this.getAllPurchases()
   }
 
-  getAllInvoices() {
-    this.httpService.requestCall('customers', ApiMethod.GET)
+  getAllPurchases() {
+    this.httpService.requestCall('purchase', ApiMethod.POST, this.searchParams)
       .subscribe(
         response => {
           if (response) {
-            this.allInvoices = response
+            console.log(response)
+            this.allPurchases = response
           }
         }
       )
   }
 
-  deleteInvoice(id: number): void {
+  getDropdowns() {
+    this.httpService.requestCall('purchase/getDetails', ApiMethod.POST)
+      .subscribe({
+        next: (response) => {
+          console.log(response)
+          this.allDropdowns = response
+        }
+      })
+  }
+
+  deletePurchase(id: number): void {
     const options: SweetAlertOptions = {
       title: 'Are you sure?',
       text: 'This action cannot be undone.',
@@ -120,7 +136,7 @@ export class AllExpenseComponent {
           .subscribe({
             next: (response) => {
               Swal.fire('Success', 'Operation completed successfully!', 'success').then((result) => {
-                this.getAllInvoices()
+                this.getAllPurchases()
               })
             },
             error: (error) => {
@@ -141,5 +157,17 @@ export class AllExpenseComponent {
 
   searchReport(event: Event) {
     event.preventDefault()
+    this.getAllPurchases()
+  }
+
+  clearParams() {
+    this.searchParams = {
+      from_date: null,
+      to_date: null,
+      supplier_id: null,
+      payment_mode: null,
+      invoice_no: null,
+    }
+    this.getAllPurchases()
   }
 }

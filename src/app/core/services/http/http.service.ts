@@ -5,6 +5,7 @@ import {environment} from "../../../../environments/environment";
 import {ErrorService} from '../error/error.service';
 import {AuthEndPoints, ApiMethod} from '../const';
 import {StorageService} from "../storage/storage.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class HttpService {
     mode: 'no-cors'
   }
 
-  constructor(private http: HttpClient, private tokenService: StorageService, private _error: ErrorService) {
+  constructor(private router: Router, private http: HttpClient, private tokenService: StorageService, private _error: ErrorService) {
   }
 
   httpOptions: any = {
@@ -56,6 +57,10 @@ export class HttpService {
       console.error('An error occurred:', error.error)
       return of(null);
     } else {
+      if (error.error.message==='Unauthenticated.') {
+        window.localStorage.clear()
+        this.router.navigate(['login'])
+      }
       this._error.withError(error.status, error.error);
       return throwError({error: error.error, status: error.status})
     }

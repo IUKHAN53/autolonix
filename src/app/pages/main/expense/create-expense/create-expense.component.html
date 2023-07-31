@@ -24,7 +24,7 @@
                 <p>Supplier Name</p>
                 <select name="supplier_id" [(ngModel)]="purchaseModel.supplier_id" (change)="handleSupplierChange(0)">
                   <option value="">Select</option>
-                  <option *ngFor="let supplier of allDropdowns.suppliers" [value]="supplier.id">{{supplier.account_name}}</option>
+                  <option *ngFor="let supplier of allDropdowns.suppliers" [value]="supplier.account_id">{{supplier.account_name}}</option>
                 </select>
               </div>
               <div>
@@ -127,22 +127,9 @@
                       </td>
                     </tr>
                     <tr>
-                      <td>
+                      <td colspan="15">
                         <button (click)="openModal()" type="button" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i></button>
                       </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
                     </tr>
                     </tbody>
                   </table>

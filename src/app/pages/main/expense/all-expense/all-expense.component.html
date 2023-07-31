@@ -17,33 +17,39 @@
             <div class="d-flex flex-wrap gap-2">
               <div>
                 <p>Inv.#</p>
-                <input type="text" name="invoice_no" class="w-100" placeholder="Invoice #">
+                <input type="text" name="invoice_no" [(ngModel)]="searchParams.invoice_no" class="w-100"
+                       placeholder="Invoice #">
               </div>
               <div>
                 <p>Supplier Name</p>
-                <select name="customer_name">
-                  <option value="">Select customer</option>
+                <select name="customer_name" [(ngModel)]="searchParams.supplier_id">
+                  <option value="">Select Supplier</option>
+                  <option *ngFor="let supplier of allDropdowns.suppliers"
+                          [value]="supplier.account_id">{{supplier.account_name}}</option>
                 </select>
               </div>
               <div>
                 <p>Date From</p>
-                <input type="date" name="date_from" class="w-100" placeholder="Date From">
+                <input type="date" name="date_from" [(ngModel)]="searchParams.from_date" class="w-100"
+                       placeholder="Date From">
               </div>
               <div>
                 <p>Date To</p>
-                <input type="date" name="date_to" class="w-100" placeholder="Date To">
+                <input type="date" name="date_to" [(ngModel)]="searchParams.to_date" class="w-100"
+                       placeholder="Date To">
               </div>
 
               <div>
                 <p>Payment Mode</p>
-                <select name="pay_mode">
+                <select name="pay_mode" [(ngModel)]="searchParams.payment_mode">
                   <option value="">Select</option>
-                  <option value="" selected>Cash</option>
+                  <option *ngFor="let pay_mode of allDropdowns.payment_modes | keyvalue"
+                          [value]="pay_mode.key">{{pay_mode.value}}</option>
                 </select>
               </div>
 
-              <div>
-                <button type="button" class="btn-save mt-4">
+              <div class="d-flex align-items-center justify-content-center gap-3">
+                <button type="submit" class="btn-save mt-4">
                   <span *ngIf="!loading">Search</span>
                   <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -62,7 +68,11 @@
                     </path>
                   </svg>
                 </button>
+                <div class="create-btn-block">
+                  <button class="mt-4" (click)="clearParams()">Clear</button>
+                </div>
               </div>
+
             </div>
           </form>
         </div>
@@ -76,7 +86,7 @@
           class="ag-theme-alpine"
           [columnDefs]="columnDefs"
           [defaultColDef]="defaultColDef"
-          [rowData]="allInvoices"
+          [rowData]="allPurchases"
           [animateRows]="true"
           [pagination]="true"
           [paginationPageSize]="10"
