@@ -1,11 +1,13 @@
-import {Component} from '@angular/core';
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+import { Component } from '@angular/core';
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import {
   ProductSelectionModalComponent
 } from "../../../../components/product-selection-modal/product-selection-modal.component";
-import {HttpService} from "../../../../core/services/http/http.service";
-import {ApiMethod} from "../../../../core/services/const";
-import {generateRandomKey} from "../../../../core/services/util/generateRandomKey";
+import { HttpService } from "../../../../core/services/http/http.service";
+import { ApiMethod, AppConfig } from "../../../../core/services/const";
+import { generateRandomKey } from "../../../../core/services/util/generateRandomKey";
+import { UtilService } from 'src/app/core/services/util/util.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-expense',
@@ -14,7 +16,7 @@ import {generateRandomKey} from "../../../../core/services/util/generateRandomKe
 })
 export class CreateExpenseComponent {
 
-  constructor(private httpService: HttpService, private modalService: BsModalService) {
+  constructor(private router: Router, private utilService: UtilService, private httpService: HttpService, private modalService: BsModalService) {
     this.getDropdowns()
   }
 
@@ -36,7 +38,8 @@ export class CreateExpenseComponent {
     vat_rate: 0,
     vat_amount: 0,
     round_off_amount: 0,
-    net_total: 0
+    net_total: 0,
+    voucher_amount: 0
   }
 
   activeTab = 'inventory'
@@ -63,34 +66,47 @@ export class CreateExpenseComponent {
       accounts: this.accountTabList,
       bottom: this.purchaseBottomModel
     }
+    // if (this.utilService.areAllValuesNullOrZeroOrEmptyString(this.purchaseModel)) {
+    //   this.errorMessage = "Please fill all the inputs"
+    // } else {
     this.httpService.requestCall('purchase/store', ApiMethod.POST, data)
       .subscribe({
         next: (response) => {
-          console.log(response)
+          if (response && response.message === 'success') {
+            this.router.navigate(['/expense/all'])
+          } else {
+            this.errorMessage = response
+          }
         }
       })
+    // }
   }
 
   changeActiveTab(name: string, status: boolean) {
     if (!status) {
-      this.errorMessage = 'Please fill all the required fields'
+      this.errorMessage = 'Please fill all head first fields and select a product'
     } else {
       this.activeTab = name
     }
   }
 
   openModal() {
-    const initialState = {}
-    this.bsModalRef = this.modalService.show(ProductSelectionModalComponent, {
-      initialState,
-      class: 'modal-lg',
-    });
-    console.log(this.getPurchaseDetails('Credit'))
-    this.bsModalRef.content.buttonClicked.subscribe({
-      next: (data: any) => {
-        this.handleAddToList(data)
-      }
-    })
+    if (this.utilService.areAllValuesNullOrZeroOrEmptyString(this.purchaseModel)) {
+      this.errorMessage = "Please fill the head first"
+      window.screenTop
+    } else {
+      const initialState = {}
+      this.bsModalRef = this.modalService.show(ProductSelectionModalComponent, {
+        initialState,
+        class: 'modal-lg',
+      });
+
+      this.bsModalRef.content.buttonClicked.subscribe({
+        next: (data: any) => {
+          this.handleAddToList(data)
+        }
+      })
+    }
   }
 
   handleAddToList(product: any) {
@@ -99,7 +115,8 @@ export class CreateExpenseComponent {
       unique_key: uniqueKey,
       discount_percentage: 0,
       discount: 0,
-      net_total: product.pack_qty * product.unit_price,
+      quantity: 1,
+      net_total: product.unit_price,
       ...product
     }
     this.productList.push(productDetail)
@@ -113,17 +130,25 @@ export class CreateExpenseComponent {
   }
 
   updateBottomInputs() {
+    let total: any = 0
+    let sub_total: any = 0
+    let net_total: any = 0
     if (this.productList.length > 0) {
       this.productList.map((item: any) => {
-        this.purchaseBottomModel.total += item.net_total
-        this.purchaseBottomModel.sub_total += item.net_total
-        this.purchaseBottomModel.net_total += item.net_total
+        total += parseFloat(item.net_total)
+        sub_total += parseFloat(item.net_total)
+        net_total += parseFloat(item.net_total)
       })
     }
+
+    this.purchaseBottomModel.total = total.toFixed(AppConfig.DECIMAL_POINTS)
+    this.purchaseBottomModel.sub_total = sub_total.toFixed(AppConfig.DECIMAL_POINTS)
+    this.purchaseBottomModel.net_total = net_total.toFixed(AppConfig.DECIMAL_POINTS)
   }
 
   removeFromList(product: any) {
     this.productList = this.productList.filter((item: any) => item.unique_key !== product.unique_key)
+    this.updateBottomInputs()
   }
 
   handleInputChange(event: any, product: any, type: string) {
@@ -132,28 +157,31 @@ export class CreateExpenseComponent {
     let newValues: any = null
     switch (type) {
       case 'pack_qty':
-        newValues = this.doCalculation(inputValue, product.unit_price, product.discount_percentage, product.discount, product.ot_rate1, product.ot_amount1, product.net_total)
+        newValues = this.doCalculation(inputValue, product.quantity, product.unit_price, product.discount_percentage, product.discount, product.ot_rate1, product.ot_amount1, product.net_total)
+        break
+      case 'quantity':
+        newValues = this.doCalculation(product.pack_qty, inputValue, product.unit_price, product.discount_percentage, product.discount, product.ot_rate1, product.ot_amount1, product.net_total)
         break
       case 'unit_price':
-        newValues = this.doCalculation(product.pack_qty, inputValue, product.discount_percentage, product.discount, product.ot_rate1, product.ot_amount1, product.net_total)
+        newValues = this.doCalculation(product.pack_qty, product.quantity, inputValue, product.discount_percentage, product.discount, product.ot_rate1, product.ot_amount1, product.net_total)
         break
       case 'discount_percentage':
-        newValues = this.doCalculation(product.pack_qty, product.unit_price, inputValue, product.discount, product.ot_rate1, product.ot_amount1, product.net_total)
+        newValues = this.doCalculation(product.pack_qty, product.quantity, product.unit_price, inputValue, product.discount, product.ot_rate1, product.ot_amount1, product.net_total)
         break
       case 'discount_amount':
-        newValues = this.doCalculation(product.pack_qty, product.unit_price, product.discount_percentage, inputValue, product.ot_rate1, product.ot_amount1, product.net_total)
+        newValues = this.doCalculation(product.pack_qty, product.quantity, product.unit_price, product.discount_percentage, inputValue, product.ot_rate1, product.ot_amount1, product.net_total)
         break
       case 'sub_total':
-        newValues = this.doCalculation(product.pack_qty, product.unit_price, product.discount_percentage, product.discount, product.ot_rate1, product.ot_amount1, product.net_total)
+        newValues = this.doCalculation(product.pack_qty, product.quantity, product.unit_price, product.discount_percentage, product.discount, product.ot_rate1, product.ot_amount1, product.net_total)
         break
       case 'ot_rate1':
-        newValues = this.doCalculation(product.pack_qty, product.unit_price, product.discount_percentage, product.discount, inputValue, product.ot_amount1, product.net_total)
+        newValues = this.doCalculation(product.pack_qty, product.quantity, product.unit_price, product.discount_percentage, product.discount, inputValue, product.ot_amount1, product.net_total)
         break
       case 'ot_amount1':
-        newValues = this.doCalculation(product.pack_qty, product.unit_price, product.discount_percentage, product.discount, product.ot_rate1, inputValue, product.net_total)
+        newValues = this.doCalculation(product.pack_qty, product.quantity, product.unit_price, product.discount_percentage, product.discount, product.ot_rate1, inputValue, product.net_total)
         break
       case 'net_total':
-        newValues = this.doCalculation(product.pack_qty, product.unit_price, product.discount_percentage, product.discount, product.ot_rate1, product.ot_amount1, inputValue)
+        newValues = this.doCalculation(product.pack_qty, product.quantity, product.unit_price, product.discount_percentage, product.discount, product.ot_rate1, product.ot_amount1, inputValue)
         break
       default:
         break
@@ -188,6 +216,20 @@ export class CreateExpenseComponent {
           , this.purchaseBottomModel.vat_amount
           , this.purchaseBottomModel.round_off_amount
           , this.purchaseBottomModel.net_total)
+
+        let accountDetail1 = {
+          id: this.allDropdowns.discount.id,
+          accountID: this.allDropdowns.discount.account_id,
+          accountName: this.allDropdowns.discount.ledger_name,
+          debit: 0,
+          credit: this.purchaseBottomModel.discount_amount,
+          osBalance: 0,
+          RStatusC: '',
+          VoucherChildID: 0,
+        }
+
+        this.pushOrUpdateObject(this.accountTabList, accountDetail1)
+
         break
       case 'discount_amount':
         this.doBottomCalculation(
@@ -223,6 +265,7 @@ export class CreateExpenseComponent {
           , this.purchaseBottomModel.net_total)
 
         let accountDetail = {
+          id: this.allDropdowns.input_vat.id,
           accountID: this.allDropdowns.input_vat.account_id,
           accountName: this.allDropdowns.input_vat.ledger_name,
           debit: this.purchaseBottomModel.vat_amount,
@@ -255,6 +298,19 @@ export class CreateExpenseComponent {
           , this.purchaseBottomModel.vat_amount
           , inputValue
           , this.purchaseBottomModel.net_total)
+
+        let accountDetail2 = {
+          id: this.allDropdowns.round_off_adjustment.id,
+          accountID: this.allDropdowns.round_off_adjustment.account_id,
+          accountName: this.allDropdowns.round_off_adjustment.ledger_name,
+          debit: 0,
+          credit: inputValue,
+          osBalance: 0,
+          RStatusC: '',
+          VoucherChildID: 0,
+        }
+
+        this.pushOrUpdateObject(this.accountTabList, accountDetail2)
         break
       case 'net_total':
         this.doBottomCalculation(
@@ -273,7 +329,7 @@ export class CreateExpenseComponent {
   }
 
   pushOrUpdateObject(array: any, obj: any) {
-    const index = array.findIndex((item: any) => item.accountID === obj.accountID);
+    const index = array.findIndex((item: any) => item.accountID === obj.accountID && item.id === obj.id);
 
     if (index === -1) {
       array.push(obj);
@@ -283,15 +339,20 @@ export class CreateExpenseComponent {
   }
 
   doBottomCalculation(total: any, discount_rate: any, discount_amount: any, sub_total: any, vat_rate: any, vat_amount: any, round_off_amount: any, net_total: any) {
-    this.purchaseBottomModel.total = total
+    this.purchaseBottomModel.total = parseFloat(total).toFixed(AppConfig.DECIMAL_POINTS)
     this.purchaseBottomModel.discount_rate = discount_rate
-    this.purchaseBottomModel.discount_amount = (total * discount_rate) / 100
-    this.purchaseBottomModel.sub_total = this.purchaseBottomModel.total - this.purchaseBottomModel.discount_amount
+    let discount = (parseFloat(total) * discount_rate) / 100
+    this.purchaseBottomModel.discount_amount = discount.toFixed(AppConfig.DECIMAL_POINTS)
+
+    let subTotal = total - discount
+    this.purchaseBottomModel.sub_total = subTotal.toFixed(AppConfig.DECIMAL_POINTS)
+
     this.purchaseBottomModel.vat_rate = vat_rate
     this.purchaseBottomModel.vat_amount = (total * vat_rate) / 100
-    let floorAmount = Math.floor(this.purchaseBottomModel.sub_total)
+    let floorAmount: any = Math.floor(subTotal)
     floorAmount = floorAmount + round_off_amount
-    this.purchaseBottomModel.net_total = floorAmount
+    this.purchaseBottomModel.net_total = parseFloat(floorAmount).toFixed(AppConfig.DECIMAL_POINTS)
+    this.purchaseBottomModel.voucher_amount = this.accountTabList.reduce((accumulator: any, currentObject: any) => accumulator + parseFloat(currentObject.credit), 0);
   }
 
   updateProductList(findingObject: any, keyToUpdate: any, newValue: any) {
@@ -301,14 +362,15 @@ export class CreateExpenseComponent {
     }
   }
 
-  doCalculation(pack_qty: any, unit_price: any, discount_percentage: any, discount: any, ot_rate1: any, ot_amount1: any, net_total: any) {
+  doCalculation(pack_qty: any, quantity: any, unit_price: any, discount_percentage: any, discount: any, ot_rate1: any, ot_amount1: any, net_total: any) {
     let amount_after_discount = (discount_percentage * unit_price) / 100
-    let sub_total = (unit_price * pack_qty) - amount_after_discount
+    let sub_total = (unit_price * quantity) - amount_after_discount
     let ot_amount = (unit_price * ot_rate1) / 100
     let total = sub_total + ot_amount
 
     return {
       pack_qty,
+      quantity,
       unit_price,
       discount_percentage,
       discount: amount_after_discount,
@@ -339,10 +401,11 @@ export class CreateExpenseComponent {
     });
   }
 
-  handleSupplierChange(credit:any) {
+  handleSupplierChange(credit: any) {
     let supplier = this.filterSupplier(this.purchaseModel.supplier_id)
     if (supplier.length > 0) {
       let details = {
+        id: supplier[0].id,
         accountID: supplier[0].parent_account_id,
         accountName: supplier[0].account_name,
         debit: 0,
@@ -361,10 +424,11 @@ export class CreateExpenseComponent {
     });
   }
 
-  handlePayModeChange(debit:any) {
+  handlePayModeChange(debit: any) {
     let payModeDetail = this.getPurchaseDetails(this.purchaseModel.pay_mode)
     if (payModeDetail.length > 0) {
       let details = {
+        id: payModeDetail[0].id,
         accountID: payModeDetail[0].account_id,
         accountName: payModeDetail[0].ledger_name,
         debit: debit,

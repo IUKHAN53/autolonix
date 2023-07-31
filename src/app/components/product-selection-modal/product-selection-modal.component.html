@@ -28,7 +28,7 @@
   >
     <ngx-datatable-column name="Selection">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <button (click)="onAddToList(row)" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i></button>
+        <button (click)="onAddToList(row)" type="button" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i></button>
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column [sortable]="true" name="Title">
@@ -52,8 +52,8 @@
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
-  <div class="modal-footer">
+  <!-- <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="onClose()">Close</button>
     <button type="button" class="btn btn-primary">Save changes</button>
-  </div>
+  </div> -->
 </div>

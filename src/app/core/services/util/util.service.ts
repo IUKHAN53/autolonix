@@ -19,6 +19,16 @@ export class UtilService {
   }
 
   randomNumber(digit: number = 60000) {
-    return Math.floor(100000 + Math.random() * digit); 
+    return Math.floor(100000 + Math.random() * digit);
+  }
+
+  areAllValuesNullOrZeroOrEmptyString(obj:any) {
+    for (const key in obj) {
+      const value = obj[key];
+      if (value !== null && value !== 0 && value !== "") {
+        return false;
+      }
+    }
+    return true;
   }
 }
