@@ -111,7 +111,7 @@ class ProductController extends Controller
             $product_child->save();
 
             $product_child_price = new ProductChildPrice();
-            $product_child_price->product_child_price_id = getMaxId('product_child_price', 'product_child_price_id');
+            $product_child_price->product_child_price_id = getMaxId('product_child_prices', 'product_child_price_id');
             $product_child_price->product_id = $product->product_id;
             $product_child_price->unique_id = $product->product_id;
             $product_child_price->unit_price = $request->input('unit_price');
