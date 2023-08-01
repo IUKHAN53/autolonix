@@ -58,7 +58,7 @@ class DrilldownController extends Controller
         }
 
         $category = new ProductDrilldownMaster();
-        $category->drilldown_id = ProductDrilldownMaster::max('drilldown_id') + 1;
+        $category->drilldown_id = getMaxId('product_drilldown_masters','drilldown_id');
         $category->drilldown_code = $request->input('drilldown_code');
         $category->drilldown_description = $request->input('drilldown_description');
         $category->drilldown_status = 'ACTIVE';
@@ -142,7 +142,7 @@ class DrilldownController extends Controller
             return response()->json(['error' => $validatedData->errors()], 401);
         }
         $subcategory = new ProductDrilldownMaster();
-        $subcategory->drilldown_id = ProductDrilldownMaster::max('drilldown_id') + 1;
+        $subcategory->drilldown_id = getMaxId('product_drilldown_masters','drilldown_id');
         $subcategory->parent_id = $request->input('parent_id');
         $subcategory->drilldown_type = 'Category';
         $subcategory->drilldown_status = 'ACTIVE';
