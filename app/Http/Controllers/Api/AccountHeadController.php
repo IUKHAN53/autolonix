@@ -41,6 +41,7 @@ class AccountHeadController extends Controller
             if ($request->type == 'customer'){
                 $account_head->parent_account_id = getCustomerAccountId();
             }else if ($request->type == 'supplier'){
+                $account_head->account_id = getMaxId('account_head_master', 'account_id');
                 $account_head->parent_account_id = getSupplierAccountId();
             }
         }

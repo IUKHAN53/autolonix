@@ -71,7 +71,18 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        return $request->user();
+        $user = $request->user();
+        if($user) {
+            return response()->json([
+                'status' => true,
+                'user' => $user
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found'
+            ]);
+        }
     }
 
     public function logout(Request $request): JsonResponse

@@ -18,6 +18,33 @@ use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $purchase_masters = PurchaseMaster::query()->with('supplier');
+
+        $purchase_masters = $purchase_masters
+            ->when($request->from_date, function ($query) use ($request) {
+                $query->where('purchase_date','>=', $request->from_date);
+            });
+        $purchase_masters = $purchase_masters
+            ->when($request->to_date, function ($query) use ($request) {
+                $query->where('purchase_date','<=', $request->to_date);
+            });
+        $purchase_masters = $purchase_masters->when($request->supplier_id, function ($query) use ($request) {
+            $query->where('supplier_id', $request->supplier_id);
+        });
+        $purchase_masters = $purchase_masters->when($request->payment_mode, function ($query) use ($request) {
+            $query->where('payment_mode', $request->payment_mode);
+        });
+        $purchase_masters = $purchase_masters->when($request->invoice_number, function ($query) use ($request) {
+            $query->where('purchase_no', $request->invoice_number);
+        });
+
+        return response()->json($purchase_masters->get());
+    }
+
+
     public function getDetails(Request $request)
     {
         if ($request->type == 'sale') {
@@ -38,7 +65,8 @@ class PurchaseController extends Controller
                 'account_heads' => AccountHeadMaster::query()->where('posting_allowed', 1)
                     ->where('account_no', 'LIKE', '03-02%')
                     ->where('account_id', '>', 100)
-                    ->pluck('account_name', 'account_id')->toArray(),
+                    ->pluck('account_name', 'account_id')
+                    ->toArray(),
                 'purchase_account' => AccountsParameter::query()
                     ->whereIn('parameter_name', ['PurchaseDRLedgerCash', 'PurchaseDRLedgerCredit'])
                     ->get()
@@ -260,7 +288,7 @@ class PurchaseController extends Controller
                 'voucher_master_id' => $voucher_master_id,
             ], [
             'voucher_type_id' => $voucher_type_id,
-            'manual_voucher_no' => getMaxId('voucher_master', 'purchase_no'),
+            'manual_voucher_no' => getMaxId('voucher_master', 'manual_voucher_no'),
             'auto_voucher_no' => getMaxId('voucher_master', 'auto_voucher_no'),
             'voucher_prefix' => VoucherTypeMaster::query()->where('voucher_type_id', $voucher_type_id)->first()->voucher_prefix,
             'voucher_date' => $purchase_master->purchase_date,
@@ -313,7 +341,7 @@ class PurchaseController extends Controller
             [
                 'voucher_child_id' => $voucher_child_id,
                 'voucher_master_id' => $cash_voucher_master->voucher_master_id,
-                'account_id' => $request->top['account_head_id'],
+                'account_id' => $request->top['account_head_id'] ?? null,
                 'dr_amount' => 0,
                 'cr_amount' => $purchase_master->net_amount,
                 'os_balance' => 0,

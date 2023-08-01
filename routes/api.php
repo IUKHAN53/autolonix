@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 //    purchase
     Route::prefix('purchase')->group(function (){
+        Route::post('/', [PurchaseController::class, 'index']);
         Route::post('/getDetails', [PurchaseController::class, 'getDetails']);
         Route::post('/getProducts', [PurchaseController::class, 'getProducts']);
         Route::post('/store', [PurchaseController::class, 'storePurchase']);

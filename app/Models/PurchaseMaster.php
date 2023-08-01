@@ -18,4 +18,9 @@ class PurchaseMaster extends Model
     protected $table = 'purchase_master';
 
     protected $guarded = [];
+
+    public function supplier()
+    {
+        return $this->belongsTo(AccountHeadMaster::class, 'supplier_id', 'account_id', );
+    }
 }
