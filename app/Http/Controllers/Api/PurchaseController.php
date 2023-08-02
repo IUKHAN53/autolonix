@@ -150,6 +150,7 @@ class PurchaseController extends Controller
         $products = [];
         foreach ($purchase_child as $product) {
             $products[] = [
+                'purchase_child_id' => $purchase_child->purchase_child_id,
                 'product_id' => $product->product_id,
                 'product_code' => $product->product_code,
                 'product_name' => $product->product_name,
@@ -171,6 +172,7 @@ class PurchaseController extends Controller
         foreach ($voucher_child as $account) {
             $accounts[] = [
                 'id' => $account->id,
+                'voucher_child_id' => $voucher_child->voucher_child_id,
                 'accountID' => $account->account_id,
                 'accountName' => AccountsParameter::query()->where('account_id', $account->account_id)->first()->ledger_name,
                 'credit' => $account->cr_amount,

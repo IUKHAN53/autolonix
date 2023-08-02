@@ -109,6 +109,8 @@ class ProductController extends Controller
             $product_child->last_purchase_cost = $request->input('last_purchase_cost');
             $product_child->it_rate1 = $request->input('it_rate1');
             $product_child->it_amount1 = $request->input('it_amount1');
+            $product_child->average_cost = $request->input('unit_price');
+            $product_child->station_id = getStationId();
             $product_child->cr_by = $request->user()->id;
             $product_child->cr_on = now();
             $product_child->save();
@@ -120,6 +122,7 @@ class ProductController extends Controller
             $product_child_price->unit_price = $request->input('unit_price');
             $product_child_price->ot_rate1 = $request->input('ot_rate1');
             $product_child_price->ot_amount1 = $request->input('ot_amount1');
+            $product_child_price->station_id = getStationId();
             $product_child_price->cr_by = $request->user()->id;
             $product_child_price->cr_on = now();
             $product_child_price->save();

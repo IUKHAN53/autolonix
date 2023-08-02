@@ -46,6 +46,7 @@ class AccountHeadController extends Controller
                 $account_head->parent_account_id = getSupplierAccountId();
             }
         }
+        $account_head->station_id = getStationId();
         $account_head->account_type = 'BS';
         $account_head->save();
 

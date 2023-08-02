@@ -62,6 +62,7 @@ class DrilldownController extends Controller
         $category->drilldown_description = $request->input('drilldown_description');
         $category->drilldown_status = 'ACTIVE';
         $category->upload_status = 0;
+        $category->station_id = getStationId();
         $category->cr_on = now();
         $category->cr_by = $request->user()->id;
         $category->drilldown_type = $request->drilldown_type ?? 'Category';
@@ -146,6 +147,7 @@ class DrilldownController extends Controller
         $subcategory->drilldown_type = 'Category';
         $subcategory->drilldown_status = 'ACTIVE';
         $subcategory->upload_status = 0;
+        $subcategory->station_id = getStationId();
         $subcategory->drilldown_code = $request->input('drilldown_code');
         $subcategory->drilldown_description = $request->input('drilldown_description');
 
