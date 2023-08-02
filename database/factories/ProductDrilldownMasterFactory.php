@@ -20,6 +20,7 @@ class ProductDrilldownMasterFactory extends Factory
     {
         return [
             'drilldown_type' => $this->faker->randomElement(['Department', 'Category','Brand']),
+            'drilldown_id' => getMaxId('product_drilldown_masters', 'drilldown_id'),
             'parent_id' => ProductDrilldownMaster::query()->inRandomOrder()->first()->id ?? null,
             'drilldown_code' => $this->faker->text(50),
             'drilldown_description' => $this->faker->text(300),

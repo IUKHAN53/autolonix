@@ -256,6 +256,17 @@ class VoucherTypeMasterSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'voucher_type_id' => 112,
+                'voucher_type_id_string' => '05-01',
+                'voucher_name' => 'JOURNAL VOUCHER',
+                'voucher_name_alias' => 'JOURNAL VOUCHER',
+                'voucher_prefix' => 'JV',
+                'no_method' => 'AUTO',
+                'voucher_no_rest_date' => '2011-12-12 00:00:00',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
 
         ];
 

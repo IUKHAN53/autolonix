@@ -20,6 +20,7 @@ class ProductChildPriceFactory extends Factory
     {
         $id = ProductMaster::query()->inRandomOrder()->first()->id;
         return [
+            'product_child_price_id' => getMaxId('product_child_prices', 'product_child_price_id'),
             'product_id' => $id,
             'unique_id' => $id,
             'price_level_id' => $this->faker->randomNumber(),

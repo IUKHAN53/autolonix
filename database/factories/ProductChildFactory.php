@@ -25,6 +25,7 @@ class ProductChildFactory extends Factory
     {
         $id = ProductMaster::query()->inRandomOrder()->first()->id;
         return [
+            'product_child_id' => getMaxId('product_child', 'product_child_id'),
             'product_id' => $id,
             'unique_id' => $id,
             'pack_qty' => $this->faker->randomFloat(4, 0, 100),

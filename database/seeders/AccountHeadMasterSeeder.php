@@ -198,7 +198,7 @@ class AccountHeadMasterSeeder extends Seeder
                 'email' => null,
             ],
             [
-                'account_id' => 13,
+                'account_id' => 14,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -212,7 +212,7 @@ class AccountHeadMasterSeeder extends Seeder
                 'email' => null,
             ],
             [
-                'account_id' => 13,
+                'account_id' => 15,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -226,7 +226,7 @@ class AccountHeadMasterSeeder extends Seeder
                 'email' => null,
             ],
             [
-                'account_id' => 13,
+                'account_id' => 16,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -240,7 +240,7 @@ class AccountHeadMasterSeeder extends Seeder
                 'email' => null,
             ],
             [
-                'account_id' => 13,
+                'account_id' => 17,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -254,7 +254,7 @@ class AccountHeadMasterSeeder extends Seeder
                 'email' => null,
             ],
             [
-                'account_id' => 13,
+                'account_id' => 18,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -268,7 +268,7 @@ class AccountHeadMasterSeeder extends Seeder
                 'email' => null,
             ],
             [
-                'account_id' => 13,
+                'account_id' => 19,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -282,7 +282,7 @@ class AccountHeadMasterSeeder extends Seeder
                 'email' => null,
             ],
             [
-                'account_id' => 13,
+                'account_id' => 20,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -296,7 +296,7 @@ class AccountHeadMasterSeeder extends Seeder
                 'email' => null,
             ],
             [
-                'account_id' => 13,
+                'account_id' => 21,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -309,8 +309,8 @@ class AccountHeadMasterSeeder extends Seeder
                 'fax_no' => null,
                 'email' => null,
             ],
-[
-                'account_id' => 13,
+            [
+                'account_id' => 22,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -323,8 +323,8 @@ class AccountHeadMasterSeeder extends Seeder
                 'fax_no' => null,
                 'email' => null,
             ],
-[
-                'account_id' => 13,
+            [
+                'account_id' => 23,
                 'parent_account_id' => null,
                 'account_no' => '13',
                 'account_code' => '13',
@@ -337,63 +337,6 @@ class AccountHeadMasterSeeder extends Seeder
                 'fax_no' => null,
                 'email' => null,
             ],
-[
-                'account_id' => 13,
-                'parent_account_id' => null,
-                'account_no' => '13',
-                'account_code' => '13',
-                'account_type' => 'BS',
-                'account_name' => 'SALES ACCOUNTS',
-                'level_no' => 1,
-                'po_box' => null,
-                'telephone' => null,
-                'mobile_no' => null,
-                'fax_no' => null,
-                'email' => null,
-            ],
-[
-                'account_id' => 13,
-                'parent_account_id' => null,
-                'account_no' => '13',
-                'account_code' => '13',
-                'account_type' => 'BS',
-                'account_name' => 'SALES ACCOUNTS',
-                'level_no' => 1,
-                'po_box' => null,
-                'telephone' => null,
-                'mobile_no' => null,
-                'fax_no' => null,
-                'email' => null,
-            ],
-[
-                'account_id' => 13,
-                'parent_account_id' => null,
-                'account_no' => '13',
-                'account_code' => '13',
-                'account_type' => 'BS',
-                'account_name' => 'SALES ACCOUNTS',
-                'level_no' => 1,
-                'po_box' => null,
-                'telephone' => null,
-                'mobile_no' => null,
-                'fax_no' => null,
-                'email' => null,
-            ],
-[
-                'account_id' => 13,
-                'parent_account_id' => null,
-                'account_no' => '13',
-                'account_code' => '13',
-                'account_type' => 'BS',
-                'account_name' => 'SALES ACCOUNTS',
-                'level_no' => 1,
-                'po_box' => null,
-                'telephone' => null,
-                'mobile_no' => null,
-                'fax_no' => null,
-                'email' => null,
-            ],
-
         ];
         DB::table('account_head_masters')->insert($data);
 
