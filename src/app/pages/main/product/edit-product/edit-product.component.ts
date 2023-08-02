@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpService} from "../../../../core/services/http/http.service";
-import {ApiMethod} from "../../../../core/services/const";
+import {ApiMethod, AppConfig} from "../../../../core/services/const";
 import {extractErrorMessages} from "../../../../core/services/util/extractErrorMessages";
 
 class ImageSnippet {
@@ -156,7 +156,8 @@ export class EditProductComponent implements OnInit {
                 if (key !== 'product_image') {
                   this.productModel[key] = response[key]
                 }
-                this.totalAmount = parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)
+                this.calculateMarginAmount()
+                this.getPriceWithVAT()
               }
             }
           }
@@ -188,18 +189,16 @@ export class EditProductComponent implements OnInit {
       })
   }
 
-  calculateMarginAmount(event: Event) {
-    this.productModel.last_purchase_cost = this.productModel.unit_price
-    this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1) / 100).toFixed(2)
-    this.price_inclusive_margin = parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1)
-    this.totalAmount = parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)
-
-
+  calculateMarginAmount() {
+    this.productModel.last_purchase_cost = parseFloat(this.productModel.unit_price).toFixed(AppConfig.DECIMAL_POINTS)
+    this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS)
+    this.price_inclusive_margin = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1)).toFixed(AppConfig.DECIMAL_POINTS)
+    this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
   }
 
-  getPriceWithVAT(event: Event) {
-    this.vat_amount = ((this.productModel.unit_price * this.productModel.ot_rate1) / 100).toFixed(2)
-    this.productModel.ot_amount1 = this.productModel.unit_price + parseFloat(this.vat_amount)
-    this.totalAmount = parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)
+  getPriceWithVAT() {
+    this.vat_amount = ((this.productModel.unit_price * this.productModel.ot_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS)
+    this.productModel.ot_amount1 = parseFloat(this.productModel.unit_price + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
+    this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
   }
 }

@@ -11,7 +11,7 @@ export class ImageCellRendererComponent implements ICellRendererAngularComp {
   params: any;
 
   agInit(params: any): void {
-    this.params = environment.serverAssetUrl+params.data.product_image;
+    this.params = params.data.product_image;
     // this.params = '';
   }
 

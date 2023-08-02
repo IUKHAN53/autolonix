@@ -42,7 +42,8 @@
         <p>Brand</p>
         <select name="brand_id" [(ngModel)]="productModel.product_brand_id">
           <option value="">Select Brand</option>
-          <option *ngFor="let dropdown of dropdowns.brands" [value]="dropdown.drilldown_id">{{dropdown.drilldown_code}}</option>
+          <option *ngFor="let dropdown of dropdowns.brands"
+                  [value]="dropdown.drilldown_id">{{dropdown.drilldown_code}}</option>
         </select>
         <p>Department</p>
         <select name="department_id" [(ngModel)]="productModel.department_id">
@@ -65,8 +66,11 @@
                  placeholder="100 gm">
         </div>
         <p>Product Type</p>
-        <option *ngFor="let dropdown of dropdowns.product_type | keyvalue"
-                [value]="dropdown.key">{{dropdown.value}}</option>
+        <select name="product_type_id" [(ngModel)]="productModel.product_type">
+          <option value="">Select Product Type</option>
+          <option *ngFor="let dropdown of dropdowns.product_type | keyvalue"
+                  [value]="dropdown.key">{{dropdown.value}}</option>
+        </select>
       </div>
       <div class="section-70">
         <p>Barcode</p>
@@ -75,8 +79,12 @@
         <textarea rows="10" name="specification" [(ngModel)]="productModel.specification"
                   placeholder="Product Specification"></textarea>
         <div class="section-70">
-          <p>Supplier Name</p>
-          <input type="text" placeholder="Supplier Nam">
+          <p>Supplier</p>
+          <select name="last_supplier_id" [(ngModel)]="productModel.last_supplier_id">
+            <option value="">Select Supplier</option>
+            <option *ngFor="let dropdown of dropdowns.suppliers"
+                    [value]="dropdown.account_id">{{dropdown.account_name}}</option>
+          </select>
         </div>
         <div class="section-30">
           <p>Stock Qty</p>
@@ -84,10 +92,10 @@
         </div>
         <div class="section-50">
           <p>Product Cost</p>
-          <input type="number" class="form-control rounded-5" name="unit_price" (input)="calculateMarginAmount($event)"
+          <input type="number" class="form-control rounded-5" name="unit_price" (input)="calculateMarginAmount()"
                  [(ngModel)]="productModel.unit_price" placeholder="Product Cost">
           <p>Margin (%)</p>
-          <input type="number" class="form-control rounded-5" name="it_rate1" (input)="calculateMarginAmount($event)"
+          <input type="number" class="form-control rounded-5" name="it_rate1" (input)="calculateMarginAmount()"
                  [(ngModel)]="productModel.it_rate1" placeholder="Margin (%)">
           <p>Margin (Amount)</p>
           <input type="number" class="form-control rounded-5" disabled name="it_amount1"
@@ -106,7 +114,7 @@
           <input type="number" name="last_purchase_cost" class="form-control rounded-5" disabled
                  [(ngModel)]="productModel.last_purchase_cost" placeholder="Selling Price">
           <p>VAT %</p>
-          <input type="number" class="form-control rounded-5" name="ot_rate1" (input)="getPriceWithVAT($event)"
+          <input type="number" class="form-control rounded-5" name="ot_rate1" (input)="getPriceWithVAT()"
                  [(ngModel)]="productModel.ot_rate1">
           <p>VAT (Amount)</p>
           <input type="number" class="form-control rounded-5" disabled name="vat_amount"
@@ -114,7 +122,7 @@
                  placeholder="Price Inclusive VAT">
           <p>Price Inclusive VAT</p>
           <input type="number" class="form-control rounded-5" disabled name="ot_amount1"
-                 [(ngModel)]="productModel.ot_amount1"
+                 [(ngModel)]="price_inclusive_margin"
                  placeholder="Price Inclusive VAT">
           <p>Total (Margin+VAT+Cost)</p>
           <input type="number" class="form-control rounded-5" disabled name="totalAmount"

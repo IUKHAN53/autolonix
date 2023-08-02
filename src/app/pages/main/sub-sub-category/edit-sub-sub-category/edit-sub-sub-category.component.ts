@@ -84,7 +84,7 @@ export class EditSubSubCategoryComponent {
             }
             this.categoryDetail = response
             if(response.drilldown_image) {
-              this.imagePreview = environment.serverAssetUrl+response.drilldown_image
+              this.imagePreview = response.drilldown_image
             }
             console.log(this.subSubCategoryModel)
           }

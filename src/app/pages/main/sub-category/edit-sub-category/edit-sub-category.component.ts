@@ -67,7 +67,7 @@ export class EditSubCategoryComponent implements OnInit {
           if (response) {
             this.categoryDetail = response
             if(response.drilldown_image) {
-              this.imagePreview = environment.serverAssetUrl+this.categoryDetail.drilldown_image
+              this.imagePreview = this.categoryDetail.drilldown_image
             }
             this.subCategoryModel = this.categoryDetail
           }

@@ -47,7 +47,7 @@ export class EditDepartmentComponent implements OnInit{
         next: (response) => {
           if (response) {
             this.categoryDetail = response
-            this.imagePreview = environment.serverAssetUrl+this.categoryDetail.drilldown_image
+            this.imagePreview = this.categoryDetail.drilldown_image
             this.categoryModel = this.categoryDetail
           }
         }
