@@ -222,8 +222,10 @@ class ProductController extends Controller
             }
             $product_child->last_supplier_id = $request->input('last_supplier_id') ?? $product_child->last_supplier_id;
             $product_child->last_purchase_cost = $request->input('last_purchase_cost') ?? $product_child->last_purchase_cost;
-            $product_child->it_rate1 = $request->input('it_rate1') ?? $product_child->it_rate1;
-            $product_child->it_amount1 = $request->input('it_amount1') ?? $product_child->it_amount1;
+//            $product_child->it_rate1 = $request->input('it_rate1') ?? $product_child->it_rate1;
+//            $product_child->it_amount1 = $request->input('it_amount1') ?? $product_child->it_amount1;
+            $product_child->it_rate1 = 0;
+            $product_child->it_amount1 = 0;
 
             $product_child_price->unit_price = $request->input('unit_price') ?? $product_child_price->unit_price;
             $product_child_price->ot_rate1 = $request->input('ot_rate1') ?? $product_child_price->ot_rate1;
