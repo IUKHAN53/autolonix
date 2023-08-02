@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_child_prices', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('product_id')->nullable();
+            $table->bigInteger('unique_id')->nullable();
             $table->bigInteger('product_child_price_id')->nullable();
             $table->bigInteger('price_level_id')->nullable();
             $table->bigInteger('service_id')->nullable();
@@ -29,8 +31,6 @@ return new class extends Migration
             $table->dateTime('cr_on')->nullable();
             $table->dateTime('mod_on')->nullable();
             $table->bigInteger('station_id')->nullable();
-            $table->foreignId('product_id')->constrained('product_masters')->onDelete('set null');
-            $table->foreignId('unique_id')->constrained('product_masters')->onDelete('set null');
             $table->foreignId('cr_by')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('mod_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
