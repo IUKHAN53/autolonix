@@ -107,8 +107,8 @@ class ProductController extends Controller
             $product_child->pack_qty = 1;
             $product_child->last_supplier_id = $request->input('last_supplier_id');
             $product_child->last_purchase_cost = $request->input('last_purchase_cost');
-            $product_child->it_rate1 = $request->input('it_rate1');
-            $product_child->it_amount1 = $request->input('it_amount1');
+            $product_child->it_rate1 = 0;
+            $product_child->it_amount1 = 0;
             $product_child->average_cost = $request->input('unit_price');
             $product_child->station_id = getStationId();
             $product_child->cr_by = $request->user()->id;
