@@ -211,10 +211,7 @@ class PurchaseController extends Controller
         return response()->json(['message' => 'success']);
     }
 
-    public function deletePurchase(Request $request)
-    {
 
-    }
 
     public function addPurchaseMaster(Request $request, $purchase_id = null)
     {
@@ -298,7 +295,7 @@ class PurchaseController extends Controller
             'product_code' => $product['product_code'],
             'product_name' => $product['product_name'],
             'product_name_arabic' => '',
-            'unique_id' => $product_master->unique_id ?? '',
+            'unique_id' => $product_master->unique_id ?? $product['product_id'],
             'foc_qty' => 0,
             'qty' => $product['quantity'] ?? 0,
             'pack_qty' => $product_master->pack_qty ?? 1,
@@ -420,6 +417,16 @@ class PurchaseController extends Controller
                 'payment_mode' => 'CASH',
             ]);
 
+
+    }
+
+    public function postPurchase(Request $request, $id)
+    {
+
+    }
+
+    public function cancelPurchase(Request $request, $id)
+    {
 
     }
 

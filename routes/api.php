@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/store', [PurchaseController::class, 'storePurchase']);
         Route::get('/edit/{id}', [PurchaseController::class, 'editPurchase']);
         Route::post('/update/{id}', [PurchaseController::class, 'updatePurchase']);
+        Route::post('/cancel/{id}', [PurchaseController::class, 'cancelPurchase']);
+        Route::post('/post/{id}', [PurchaseController::class, 'postPurchase']);
     });
 });
 
