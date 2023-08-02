@@ -76,6 +76,7 @@ class ProductController extends Controller
             DB::beginTransaction();
             $product = new ProductMaster();
             $product->product_id = getMaxId('product_masters', 'product_id');
+            $product->unique_id = $product->product_id;
             $product->product_code = $request->input('product_code');
             $product->barcode = $request->input('barcode');
             $product->product_name = $request->input('product_name');

@@ -194,7 +194,8 @@ class PurchaseController extends Controller
         try {
             $purchase_master = $this->addPurchaseMaster($request->purchase_master_id);
             foreach ($request->products as $product) {
-                $purchase_child_id = $request->purchase_child_id ?? getMaxId('purchase_child', 'purchase_child_id');
+                $product = (object)$product;
+                $purchase_child_id = $request->purchase_child_id;
                 $this->addPurchaseChild($product, $purchase_master, $purchase_child_id);
             }
             $inventory_id = getMaxId('inventory_trans_master', 'inventory_trans_master_id');
