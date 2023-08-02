@@ -70,7 +70,7 @@ export class AllExpenseComponent {
     },
     {
       headerName: 'Actions',
-      field: 'id',
+      field: 'purchase_id',
       cellRenderer: ActionCellRendererComponent,
       cellRendererParams: {
         deleteClick: (value: any) => {

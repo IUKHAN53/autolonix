@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://autolonix.iukhan.codes/api'
-  // apiUrl: 'http://autolonix.test/api'
+  // apiUrl: 'https://autolonix.iukhan.codes/api'
+  apiUrl: 'http://autolonix.test/api',
+  serverAssetUrl: 'http://autolonix.test'
 };
 
 /*

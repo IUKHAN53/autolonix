@@ -3,6 +3,7 @@ import {HttpService} from "../../../../core/services/http/http.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiMethod} from "../../../../core/services/const";
 import {extractErrorMessages} from "../../../../core/services/util/extractErrorMessages";
+import {environment} from "../../../../../environments/environment";
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {
@@ -46,7 +47,7 @@ export class EditDepartmentComponent implements OnInit{
         next: (response) => {
           if (response) {
             this.categoryDetail = response
-            this.imagePreview = this.categoryDetail.drilldown_image
+            this.imagePreview = environment.serverAssetUrl+this.categoryDetail.drilldown_image
             this.categoryModel = this.categoryDetail
           }
         }

@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {EditExpenseComponent} from './edit-expense.component';
 import {RouterModule, Routes} from "@angular/router";
 import {FormsModule} from "@angular/forms";
+import {ModalModule} from "ngx-bootstrap/modal";
 
 const routes: Routes = [{path: '', component: EditExpenseComponent}]
 
@@ -13,7 +14,8 @@ const routes: Routes = [{path: '', component: EditExpenseComponent}]
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    FormsModule
+    FormsModule,
+    ModalModule.forRoot()
   ],
   exports: [EditExpenseComponent]
 })

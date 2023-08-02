@@ -10,45 +10,48 @@
     <div class="form-section">
       <div class="section-30">
         <p>Product Name</p>
-        <input type="text" name="product_name" style="width: 100%!important;" [(ngModel)]="productModel.product_name"
+        <input type="text" class="form-control rounded-5" name="product_name" style="width: 100%!important;"
+               [(ngModel)]="productModel.product_name"
                placeholder="Product Name">
         <p>Product Code</p>
-        <input type="text" name="product_code" style="width: 100%!important;" [(ngModel)]="productModel.product_code"
+        <input type="text" class="form-control rounded-5" name="product_code" style="width: 100%!important;"
+               [(ngModel)]="productModel.product_code"
                placeholder="Product Code">
         <p>Product Description</p>
-        <input type="text" name="description" style="width: 100%!important;" [(ngModel)]="productModel.description"
+        <input type="text" class="form-control rounded-5" name="description" style="width: 100%!important;"
+               [(ngModel)]="productModel.description"
                placeholder="Product description">
         <!--        <p>Product Description - Arabic</p>-->
-        <!--        <input type="text" placeholder="Product Description- Arabic">-->
+        <!--        <input type="text" class="form-control rounded-5" placeholder="Product Description- Arabic">-->
         <p>Category</p>
         <select name="category_id" [(ngModel)]="productModel.category_id" (change)="getSubCategories($event, 'sub')">
           <option value="">Select Category</option>
           <option *ngFor="let dropdown of dropdowns.categories"
-                  [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
+                  [value]="dropdown.drilldown_id">{{dropdown.drilldown_code}}</option>
         </select>
         <p>Sub Category</p>
         <select name="sub_category_id" [(ngModel)]="productModel.sub_category_id"
                 (change)="getSubCategories($event, 'subSub')">
           <option value="">Select Sub Category</option>
           <option *ngFor="let subCategory of subCategories"
-                  [value]="subCategory.id">{{subCategory.drilldown_code}}</option>
+                  [value]="subCategory.drilldown_id">{{subCategory.drilldown_code}}</option>
         </select>
         <p>Sub Sub Category</p>
         <select name="sub_sub_category_id" [(ngModel)]="productModel.sub_sub_category_id">
           <option value="">Select Sub Sub Category</option>
           <option *ngFor="let subSubCategory of subSubCategories"
-                  [value]="subSubCategory.id">{{subSubCategory.drilldown_code}}</option>
+                  [value]="subSubCategory.drilldown_id">{{subSubCategory.drilldown_code}}</option>
         </select>
         <p>Brand</p>
         <select name="brand_id" [(ngModel)]="productModel.product_brand_id">
           <option value="">Select Brand</option>
-          <option *ngFor="let dropdown of dropdowns.brands" [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
+          <option *ngFor="let dropdown of dropdowns.brands" [value]="dropdown.drilldown_id">{{dropdown.drilldown_code}}</option>
         </select>
         <p>Department</p>
         <select name="department_id" [(ngModel)]="productModel.department_id">
           <option value="">Select Department</option>
           <option *ngFor="let dropdown of dropdowns.departments"
-                  [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
+                  [value]="dropdown.drilldown_id">{{dropdown.drilldown_code}}</option>
         </select>
 
         <div class="section-50">
@@ -60,50 +63,75 @@
         </div>
         <div class="section-50">
           <p>Packet Details</p>
-          <input type="text" style="width: 100%!important;" name="pack_details" maxlength="10"
+          <input type="text" class="form-control rounded-5" style="width: 100%!important;" name="pack_details"
+                 maxlength="10"
                  [(ngModel)]="productModel.pack_details"
                  placeholder="100 gm">
         </div>
         <p>Product Type</p>
-        <input type="text" style="width: 100%!important;" name="product_type" maxlength="10"
-               [(ngModel)]="productModel.product_type">
+        <select name="product_type_id" [(ngModel)]="productModel.product_type">
+          <option value="">Select Product Type</option>
+          <option *ngFor="let dropdown of dropdowns.product_type | keyvalue"
+                  [value]="dropdown.key">{{dropdown.value}}</option>
+        </select>
       </div>
       <div class="section-70">
         <p>Barcode</p>
-        <input type="text" name="barcode" [(ngModel)]="productModel.barcode" placeholder="Product Barcode">
+        <input type="text" class="form-control rounded-5" name="barcode" [(ngModel)]="productModel.barcode"
+               placeholder="Product Barcode">
         <p>Specification</p>
         <textarea rows="10" name="specification" [(ngModel)]="productModel.specification"
                   placeholder="Product Specification"></textarea>
         <div class="section-70">
-          <p>Supplier Name</p>
-          <input type="text" placeholder="Supplier Name">
+          <p>Supplier</p>
+          <select name="last_supplier_id" [(ngModel)]="productModel.last_supplier_id">
+            <option value="">Select Supplier</option>
+            <option *ngFor="let dropdown of dropdowns.suppliers"
+                    [value]="dropdown.account_id">{{dropdown.account_name}}</option>
+          </select>
         </div>
         <div class="section-30">
           <p>Stock Qty</p>
-          <input type="number" name="pack_qty" [(ngModel)]="productModel.pack_qty" placeholder="Stock Qty">
+          <input type="number" class="form-control rounded-5" name="pack_qty" [(ngModel)]="productModel.pack_qty"
+                 placeholder="Stock Qty">
         </div>
         <div class="section-50">
           <p>Product Cost</p>
-          <input type="number" name="unit_price" (input)="calculateMarginAmount($event)"
+          <input type="number" class="form-control rounded-5" name="unit_price" (input)="calculateMarginAmount($event)"
                  [(ngModel)]="productModel.unit_price" placeholder="Product Cost">
           <p>Margin (%)</p>
-          <input type="number" name="it_rate1" (input)="calculateMarginAmount($event)"
+          <input type="number" class="form-control rounded-5" name="it_rate1" (input)="calculateMarginAmount($event)"
                  [(ngModel)]="productModel.it_rate1" placeholder="Margin (%)">
           <p>Margin (Amount)</p>
-          <input type="number" disabled name="it_amount1" [(ngModel)]="productModel.it_amount1"
+          <input type="number" class="form-control rounded-5" disabled name="it_amount1"
+                 [(ngModel)]="productModel.it_amount1"
                  placeholder="Margin (Amount)">
+          <p>Price Inclusive Margin</p>
+          <input type="number" class="form-control rounded-5" disabled name="price_inclusive_margin"
+                 [(ngModel)]="price_inclusive_margin"
+                 placeholder="Price Inclusive Margin">
           <p>Product Image</p>
           <input type="file" (change)="processFile($event)" style="width: 100% !important;"
                  placeholder="Product Image">
         </div>
         <div class="section-50">
           <p>Last Purchase Cost</p>
-          <input type="number" name="last_purchase_cost" (input)="getPriceWithVAT($event)"
+          <input type="number" name="last_purchase_cost" class="form-control rounded-5" disabled
                  [(ngModel)]="productModel.last_purchase_cost" placeholder="Selling Price">
           <p>VAT %</p>
-          <input type="number" name="ot_rate1" (input)="getPriceWithVAT($event)" [(ngModel)]="productModel.ot_rate1">
+          <input type="number" class="form-control rounded-5" name="ot_rate1" (input)="getPriceWithVAT($event)"
+                 [(ngModel)]="productModel.ot_rate1">
+          <p>VAT (Amount)</p>
+          <input type="number" class="form-control rounded-5" disabled name="vat_amount"
+                 [(ngModel)]="vat_amount"
+                 placeholder="Price Inclusive VAT">
           <p>Price Inclusive VAT</p>
-          <input type="number" disabled name="ot_amount1" [(ngModel)]="productModel.ot_amount1"
+          <input type="number" class="form-control rounded-5" disabled name="ot_amount1"
+                 [(ngModel)]="productModel.ot_amount1"
+                 placeholder="Price Inclusive VAT">
+          <p>Total (Margin+VAT+Cost)</p>
+          <input type="number" class="form-control rounded-5" disabled name="totalAmount"
+                 [(ngModel)]="totalAmount"
                  placeholder="Price Inclusive VAT">
           <img [src]="imagePreview" class="w-100 rounded" height="300" alt="">
         </div>

@@ -40,7 +40,7 @@ export class AllDepartmentComponent {
     },
     {
       headerName: 'Actions',
-      field: 'id',
+      field: 'drilldown_id',
       cellRenderer: ActionCellRendererComponent,
       cellRendererParams: {
         deleteClick: (value: any) => {

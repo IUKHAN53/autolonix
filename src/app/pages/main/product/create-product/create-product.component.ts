@@ -34,7 +34,7 @@ export class CreateProductComponent {
     product_type: "",
     department_id: 0,
     product_brand_id: 0,
-    last_supplier_id: 0,
+    last_supplier_id: '',
     pack_qty: 0,
     last_purchase_cost: 0,
     it_rate1: 0,
@@ -44,6 +44,9 @@ export class CreateProductComponent {
     ot_amount1: 0,
     product_image: ""
   }
+  price_inclusive_margin: any = 0
+  vat_amount: any = 0
+  totalAmount: any = 0
 
   dropdowns: any = []
   subCategories: any = []
@@ -133,14 +136,17 @@ export class CreateProductComponent {
   }
 
   calculateMarginAmount(event: Event) {
-    this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1)/100).toFixed(2)
+    this.productModel.last_purchase_cost = this.productModel.unit_price
+    this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1) / 100).toFixed(2)
+    this.price_inclusive_margin = parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1)
+    this.totalAmount = parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)
+
+
   }
+
   getPriceWithVAT(event: Event) {
-    if(this.productModel.ot_rate1>100) {
-      this.productModel.ot_rate1 = 100
-    }
-    const vatAmount = ((this.productModel.last_purchase_cost * this.productModel.ot_rate1) / 100).toFixed(2)
-    const vatAmountNumber = parseInt(vatAmount)
-    this.productModel.ot_amount1 = this.productModel.last_purchase_cost+vatAmountNumber
+    this.vat_amount = ((this.productModel.unit_price * this.productModel.ot_rate1) / 100).toFixed(2)
+    this.productModel.ot_amount1 = this.productModel.unit_price + parseFloat(this.vat_amount)
+    this.totalAmount = parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)
   }
 }

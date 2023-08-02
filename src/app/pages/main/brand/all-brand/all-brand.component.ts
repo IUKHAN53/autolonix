@@ -42,7 +42,7 @@ export class AllBrandComponent {
     },
     {
       headerName: 'Actions',
-      field: 'id',
+      field: 'drilldown_id',
       cellRenderer: ActionCellRendererComponent,
       cellRendererParams: {
         deleteClick: (value: any, roleId: any = this.currentUser.role_id) => {
