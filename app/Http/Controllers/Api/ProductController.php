@@ -144,7 +144,7 @@ class ProductController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $product = ProductMaster::findOrFail($id);
+        $product = ProductMaster::where('product_id', $id)->first();
 
         $product_child = ProductChild::where('product_id', $product->product_id)->first();
         $product_child_price = ProductChildPrice::where('product_id', $product->product_id)->first();
