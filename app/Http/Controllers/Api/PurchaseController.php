@@ -25,11 +25,11 @@ class PurchaseController extends Controller
 
         $purchase_masters = $purchase_masters
             ->when($request->from_date, function ($query) use ($request) {
-                $query->where('purchase_date','>=', $request->from_date);
+                $query->where('purchase_date', '>=', $request->from_date);
             });
         $purchase_masters = $purchase_masters
             ->when($request->to_date, function ($query) use ($request) {
-                $query->where('purchase_date','<=', $request->to_date);
+                $query->where('purchase_date', '<=', $request->to_date);
             });
         $purchase_masters = $purchase_masters->when($request->supplier_id, function ($query) use ($request) {
             $query->where('supplier_id', $request->supplier_id);
@@ -62,7 +62,8 @@ class PurchaseController extends Controller
             $data = [
                 'suppliers' => AccountHeadMaster::query()->where('parent_account_id', getSupplierAccountId())->get()->toArray(),
                 'payment_modes' => purchasePaymentMode(),
-                'account_heads' => AccountHeadMaster::query()->where('posting_allowed', 1)
+                'account_heads' => AccountHeadMaster::query()
+                    ->where('posting_allowed', 1)
                     ->where('account_no', 'LIKE', '03-02%')
                     ->where('account_id', '>', 100)
                     ->pluck('account_name', 'account_id')
@@ -117,6 +118,74 @@ class PurchaseController extends Controller
             return response()->json($exception->getMessage());
         }
         return response()->json(['message' => 'success']);
+    }
+
+    public function editPurchase(Request $request, $id)
+    {
+        $purchase_master = PurchaseMaster::query()->where('purchase_id', $id)->first();
+        $purchase_child = $purchase_master->purchase_child;
+        $voucher_master = $purchase_master->voucher_master;
+        $account_head_id = $voucher_master->voucher_child()->where('cr_amount', $purchase_master->net_amount)->first()->voucher_master_id;
+        $voucher_child = $voucher_master->voucher_child;
+        $inventory_trans_master = $purchase_master->inventory_trans_master;
+
+        $data = [];
+        $top = [
+            'supplier_invoice_no' => $purchase_master->supplier_ref_no,
+            'purchase_date' => $purchase_master->purchase_date,
+            'supplier_id' => $purchase_master->supplier_id,
+            'payment_mode' => $purchase_master->payment_mode,
+            'purchase_note' => $purchase_master->purchase_note,
+            'account_head_id' => $account_head_id,
+            'purchase_no' => $purchase_master->purchase_no,
+        ];
+        $bottom = [
+            'discount_amount' => $purchase_master->discount_amount_m,
+            'sub_total' => $purchase_master->sub_total_m,
+            'vat_rate' => $purchase_master->input_tax1_rate_m,
+            'vat_amount' => $purchase_master->input_tax1_amount_m,
+            'round_off_amount' => $purchase_master->round_off_adj,
+            'net_total' => $purchase_master->net_amount,
+        ];
+        $products = [];
+        foreach ($purchase_child as $product) {
+            $products[] = [
+                'product_id' => $product->product_id,
+                'product_code' => $product->product_code,
+                'product_name' => $product->product_name,
+                'unique_id' => $product->unique_id,
+                'quantity' => $product->qty,
+                'unit_price' => $product->unit_cost,
+                'discount' => $product->discount_amount_c,
+                'sub_total' => $product->sub_total_c,
+                'ot_rate1' => $product->input_tax1_rate_c,
+                'ot_amount1' => $product->input_tax1_amount_c,
+                'net_total' => $product->line_total,
+                'discount_percentage' => '',
+                'pack_qty' => $product->pack_qty,
+                'unit' => '',
+                'pack_details' => ''
+            ];
+        }
+        $accounts = [];
+        foreach ($voucher_child as $account) {
+            $accounts[] = [
+                'id' => $account->id,
+                'accountID' => $account->account_id,
+                'accountName' => AccountsParameter::query()->where('account_id', $account->account_id)->first()->ledger_name,
+                'credit' => $account->cr_amount,
+                'debit' => $account->dr_amount,
+                'osBalance' => $account->os_balance,
+            ];
+        }
+
+        $data['top'] = $top;
+        $data['bottom'] = $bottom;
+        $data['products'] = $products;
+        $data['accounts'] = $accounts;
+
+        return response()->json($data);
+
     }
 
     public function updatePurchase(Request $request)
@@ -194,7 +263,7 @@ class PurchaseController extends Controller
             'staff_id' => auth()->user()->id,
             'counter_close_status' => 'PENDING',
             'server_status' => 'PENDING',
-            'remarks' => $request->top['note'] ?? '',
+            'remarks' => $request->top['purchase_note'] ?? '',
             'purchase_type' => 'LOCAL PURCHASE',
             'currency_id' => 0,
             'currency_rate' => 0,
@@ -212,6 +281,7 @@ class PurchaseController extends Controller
             'net_vat' => 0,
             'gross_amount_aed' => 0,
             'items_total_bc' => 0,
+            'station_id' => getStationId(),
         ]);
     }
 
@@ -228,7 +298,7 @@ class PurchaseController extends Controller
             'product_code' => $product['product_code'],
             'product_name' => $product['product_name'],
             'product_name_arabic' => '',
-            'unique_id' => $product['unique_id'],
+            'unique_id' => $product_master->unique_id ?? '',
             'foc_qty' => 0,
             'qty' => $product['quantity'] ?? 0,
             'pack_qty' => $product_master->pack_qty ?? 1,
@@ -267,7 +337,7 @@ class PurchaseController extends Controller
             'trans_date' => $purchase_master->purchase_date,
             'trans_type' => 'PURCHASE(PU)',
             'trans_master_id' => $purchase_master->purchase_id,
-            'trans_child_id' => $purchase_child->purchase_detail_id,
+            'trans_child_id' => $purchase_child->purchase_child_id,
             'product_id' => $purchase_child->product_id,
             'unique_id' => $purchase_child->unique_id,
             'pack_qty' => $purchase_child->pack_qty,

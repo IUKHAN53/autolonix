@@ -17,4 +17,10 @@ class VoucherMaster extends Model
     protected $table = 'voucher_master';
 
     protected $guarded = [];
+
+
+    public function voucher_child()
+    {
+        return $this->hasMany(VoucherChild::class, 'voucher_master_id', 'voucher_master_id');
+    }
 }

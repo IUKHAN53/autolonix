@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\AccountHeadMaster;
 use App\Models\ProductChild;
 use App\Models\ProductChildPrice;
 use App\Models\ProductDrilldownMaster;
@@ -51,6 +52,7 @@ class ProductController extends Controller
         $product_type = productType();
         return response()->json([
             'categories' => $categories,
+            'suppliers' => AccountHeadMaster::query()->where('parent_account_id', getSupplierAccountId())->get()->toArray(),
             'brands' => $brands,
             'departments' => $departments,
             'uom' => $uom,
@@ -139,6 +141,7 @@ class ProductController extends Controller
     public function show($id): JsonResponse
     {
         $product = ProductMaster::findOrFail($id);
+
         $product_child = ProductChild::where('product_id', $product->product_id)->first();
         $product_child_price = ProductChildPrice::where('product_id', $product->product_id)->first();
 
@@ -262,7 +265,7 @@ class ProductController extends Controller
         else
             $categories = $categories->child();
         if ($request->type == "list") {
-            $categories = $categories->pluck('drilldown_code', 'id');
+            $categories = $categories->pluck('drilldown_code', 'drilldown_id');
         } else {
 //            $categories = $categories->paginate($perPage);
             $categories = $categories->get();

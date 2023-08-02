@@ -40,7 +40,7 @@ return new class extends Migration
             $table->dateTime('cr_on')->nullable();
             $table->foreignId('mod_by')->nullable()->constrained('users')->onDelete('set null');
             $table->dateTime('mod_on')->nullable();
-            $table->foreignId('product_id')->constrained('product_masters')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('product_masters')->onDelete('set null');
             $table->timestamps();
         });
     }

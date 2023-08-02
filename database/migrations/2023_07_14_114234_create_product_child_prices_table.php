@@ -29,8 +29,8 @@ return new class extends Migration
             $table->dateTime('cr_on')->nullable();
             $table->dateTime('mod_on')->nullable();
             $table->bigInteger('station_id')->nullable();
-            $table->foreignId('product_id')->constrained('product_masters')->onDelete('cascade');
-            $table->foreignId('unique_id')->constrained('product_masters')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('product_masters')->onDelete('set null');
+            $table->foreignId('unique_id')->constrained('product_masters')->onDelete('set null');
             $table->foreignId('cr_by')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('mod_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();

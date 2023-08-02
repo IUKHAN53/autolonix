@@ -31,11 +31,12 @@ class ProductDrilldownMaster extends Model
 
     public function children()
     {
-        return $this->hasMany(ProductDrilldownMaster::class, 'parent_id', 'id');
+        return $this->hasMany(ProductDrilldownMaster::class, 'parent_id', 'drilldown_id');
     }
 
     public function getDrilldownImageAttribute($value): ?string
     {
+
         return $value ? Storage::url($value) : asset('assets/images/default_product.png');
     }
 

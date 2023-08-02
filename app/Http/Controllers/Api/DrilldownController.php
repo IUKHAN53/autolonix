@@ -39,8 +39,7 @@ class DrilldownController extends Controller
 
     public function show($id)
     {
-        $category = ProductDrilldownMaster::with('children')->findOrFail($id);
-
+        $category = ProductDrilldownMaster::with('children')->where('drilldown_id',$id)->first();
         return response()->json($category);
     }
 
@@ -90,7 +89,7 @@ class DrilldownController extends Controller
             return response()->json(['error' => $validatedData->errors()], 401);
         }
 
-        $category = ProductDrilldownMaster::findOrFail($id);
+        $category = ProductDrilldownMaster::where('drilldown_id',$id)->first();
         $category->drilldown_code = $request->input('drilldown_code', $category->drilldown_code);
         $category->drilldown_description = $request->input('drilldown_description', $category->drilldown_description);
         $category->drilldown_status = 'ACTIVE';
@@ -110,7 +109,7 @@ class DrilldownController extends Controller
 
     public function destroy($id): \Illuminate\Http\JsonResponse
     {
-        $category = ProductDrilldownMaster::findOrFail($id);
+        $category = ProductDrilldownMaster::where('drilldown_id',$id)->first();
         if(ProductMaster::query()
             ->where('category_id', $id)
             ->Orwhere('sub_category_id', $id)
@@ -175,7 +174,7 @@ class DrilldownController extends Controller
             return response()->json(['error' => $validatedData->errors()], 401);
         }
 
-        $subcategory = ProductDrilldownMaster::findOrFail($id);
+        $subcategory = ProductDrilldownMaster::where('drilldown_id',$id)->first();
 
         $subcategory->drilldown_code = $request->input('drilldown_code', $subcategory->drilldown_code);
         $subcategory->drilldown_description = $request->input('drilldown_description', $subcategory->drilldown_description);

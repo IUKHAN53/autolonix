@@ -54,32 +54,32 @@ class ProductMaster extends Model
 
     public function subCategory()
     {
-        return $this->belongsTo(ProductDrilldownMaster::class, 'sub_category_id');
+        return $this->belongsTo(ProductDrilldownMaster::class, 'sub_category_id', 'drilldown_id');
     }
 
     public function subSubCategory()
     {
-        return $this->belongsTo(ProductDrilldownMaster::class, 'sub_sub_category_id');
+        return $this->belongsTo(ProductDrilldownMaster::class, 'sub_sub_category_id', 'drilldown_id');
     }
 
     public function brand()
     {
-        return $this->belongsTo(ProductDrilldownMaster::class, 'product_brand_id');
+        return $this->belongsTo(ProductDrilldownMaster::class, 'product_brand_id', 'drilldown_id');
     }
 
     public function department()
     {
-        return $this->belongsTo(ProductDrilldownMaster::class, 'department_id');
+        return $this->belongsTo(ProductDrilldownMaster::class, 'department_id', 'drilldown_id');
     }
 
     public function child()
     {
-        return $this->hasMany(ProductChild::class, 'product_id');
+        return $this->hasMany(ProductChild::class, 'product_id','product_id');
     }
 
     public function childPrice()
     {
-        return $this->hasMany(ProductChildPrice::class, 'product_id');
+        return $this->hasMany(ProductChildPrice::class, 'product_id','product_id');
     }
 
 }

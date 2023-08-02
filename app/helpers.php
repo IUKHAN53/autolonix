@@ -47,17 +47,19 @@ function getStationId()
 
 function getMaxId($table, $column, ...$conditions)
 {
-    $id = DB::table($table);
+
+    $table = DB::table($table);
     foreach ($conditions as $condition) {
-        $id = $id->where($condition['column'], $condition['operator'] ?? '=', $condition['value']);
+        $table = $table->where($condition['column'], $condition['operator'] ?? '=', $condition['value']);
     }
-    $id = $id->max($column);
+    $id = $table->max($column);
     if ($id == null) {
         $id = 1;
     } elseif ($id >= 0) {
         $id = $id + 1;
     }
     return $id;
+
 }
 
 function getPurchaseEntryVoucherNameAccountId()

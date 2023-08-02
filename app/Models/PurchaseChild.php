@@ -18,4 +18,10 @@ class PurchaseChild extends Model
     protected $table = 'purchase_child';
 
     protected $guarded = [];
+
+
+    public function inventory_trans_master()
+    {
+        return $this->hasMany(InventoryTransMaster::class, 'purchase_child_id', 'trans_master_id');
+    }
 }
