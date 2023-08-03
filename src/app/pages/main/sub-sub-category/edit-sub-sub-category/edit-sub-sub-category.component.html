@@ -8,7 +8,7 @@
   </div>
   <div class="content-box">
     <div class="form-section">
-      <form (submit)="updateSubSubCategory($event)" class="section-30">
+      <div class="section-30">
         <p>Category</p>
         <select name="parent_id" (change)="getSubCategories()">
           <option value="">Select Parent Category</option>
@@ -36,7 +36,7 @@
           <a routerLink="/sub-sub-category/all">
             <button class="btn-cancel">Back to list</button>
           </a>
-          <button type="submit" class="btn-save">
+          <button type="button" (click)="updateSubSubCategory()" class="btn-save">
             <span *ngIf="!loading">Save</span>
             <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
                  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -56,7 +56,7 @@
             </svg>
           </button>
         </div>
-      </form>
+      </div>
     </div>
 
   </div>

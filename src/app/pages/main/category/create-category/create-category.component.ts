@@ -33,8 +33,7 @@ export class CreateCategoryComponent {
 
   imagePreview:string = 'https://samyak.co.in/wp-content/uploads/2021/04/image.jpg'
 
-  saveCategory(event: Event): void {
-    event.preventDefault()
+  saveCategory(): void {
     this.loading = true
     const formData = new FormData()
     formData.append('drilldown_code', this.categoryModel.drilldown_code)

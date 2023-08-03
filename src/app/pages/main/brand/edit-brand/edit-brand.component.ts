@@ -53,8 +53,7 @@ export class EditBrandComponent {
       })
   }
 
-  updateCategory(event: Event): void {
-    event.preventDefault()
+  updateCategory(): void {
     this.loading = true
     const formData = new FormData()
     formData.append('drilldown_code', this.categoryModel.drilldown_code)

@@ -13,7 +13,7 @@
         <select name="parent_id" [(ngModel)]="subCategoryModel.parent_id" (change)="getSubCategories($event)">
           <option value="">Select Parent Category</option>
           <option *ngFor="let dropdown of allCategories"
-                  [value]="dropdown.id">{{dropdown.drilldown_code}}</option>
+                  [value]="dropdown.drilldown_id">{{dropdown.drilldown_code}}</option>
         </select>
         <p>Sub Category Code</p>
         <input type="text" style="width: 100% !important;" [(ngModel)]="subCategoryModel.drilldown_code"

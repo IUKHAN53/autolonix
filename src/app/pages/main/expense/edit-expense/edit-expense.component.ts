@@ -115,8 +115,7 @@ export class EditExpenseComponent implements OnInit{
 
   invoiceModel: any = {}
 
-  updatePurchase(event: Event) {
-    event.preventDefault()
+  updatePurchase() {
   }
 
   getPurchaseEditDetails() {

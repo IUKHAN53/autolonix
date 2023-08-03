@@ -70,7 +70,7 @@ export class AllProductComponent {
     {
       headerName: 'Actions',
       cellRenderer: ActionCellRendererComponent,
-      field: 'id',
+      field: 'product_id',
       cellRendererParams: {
         deleteClick: (value: any) => {
           this.deleteProduct(value)

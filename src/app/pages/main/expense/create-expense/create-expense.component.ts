@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import {Component} from '@angular/core';
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {
   ProductSelectionModalComponent
 } from "../../../../components/product-selection-modal/product-selection-modal.component";
-import { HttpService } from "../../../../core/services/http/http.service";
-import { ApiMethod, AppConfig } from "../../../../core/services/const";
-import { generateRandomKey } from "../../../../core/services/util/generateRandomKey";
-import { UtilService } from 'src/app/core/services/util/util.service';
-import { Router } from '@angular/router';
+import {HttpService} from "../../../../core/services/http/http.service";
+import {ApiMethod, AppConfig} from "../../../../core/services/const";
+import {generateRandomKey} from "../../../../core/services/util/generateRandomKey";
+import {UtilService} from 'src/app/core/services/util/util.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-expense',
@@ -57,9 +57,8 @@ export class CreateExpenseComponent {
 
   invoiceModel: any = {}
 
-  saveInvoice(event: Event) {
-    event.preventDefault()
-
+  saveInvoice() {
+    this.loading = true
     let data = {
       top: this.purchaseModel,
       products: this.productList,
@@ -72,11 +71,15 @@ export class CreateExpenseComponent {
     this.httpService.requestCall('purchase/store', ApiMethod.POST, data)
       .subscribe({
         next: (response) => {
+          this.loading = false
           if (response && response.message === 'success') {
             this.router.navigate(['/expense/all'])
           } else {
             this.errorMessage = response
           }
+        },
+        complete: () => {
+          this.loading = false
         }
       })
     // }

@@ -8,7 +8,7 @@
   </div>
   <div class="content-box">
     <div class="form-section">
-      <form class="w-100" (submit)="updatePurchase($event)">
+      <div class="w-100">
         <div class="card mb-3">
           <div class="card-body">
             <div class="d-flex flex-wrap gap-2">
@@ -215,7 +215,7 @@
           <a routerLink="/expense/all">
             <button class="btn-cancel">Back to list</button>
           </a>
-          <button type="submit" class="btn-save">
+          <button type="button" (click)="updatePurchase()" class="btn-save">
             <span *ngIf="!loading">Save</span>
             <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
                  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -235,7 +235,7 @@
             </svg>
           </button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>

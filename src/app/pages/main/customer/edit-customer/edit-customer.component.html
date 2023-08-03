@@ -8,7 +8,7 @@
   </div>
   <div class="content-box">
     <div class="form-section">
-      <form class="section-50" (submit)="updateCustomer($event)">
+      <div class="section-50">
         <div class="section-50">
           <p>Customer Code</p>
           <input type="text" style="width: 100% !important;" placeholder="Customer Code" name="account_code" [(ngModel)]="customerModel.account_code">
@@ -34,7 +34,7 @@
           <a routerLink="/customer/all">
             <button class="btn-cancel">Back to list</button>
           </a>
-          <button type="submit" class="btn-save">
+          <button type="button" (click)="updateCustomer()" class="btn-save">
             <span *ngIf="!loading">Update</span>
             <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
                  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -54,7 +54,7 @@
             </svg>
           </button>
         </div>
-      </form>
+      </div>
     </div>
 
   </div>

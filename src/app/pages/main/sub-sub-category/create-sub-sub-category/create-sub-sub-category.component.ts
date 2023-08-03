@@ -59,8 +59,7 @@ export class CreateSubSubCategoryComponent {
       })
   }
 
-  saveSubSubCategory(event: Event): void {
-    event.preventDefault()
+  saveSubSubCategory(): void {
     this.loading = true
     const formData = new FormData()
     formData.append('parent_id', this.subSubCategoryModel.parent_id)

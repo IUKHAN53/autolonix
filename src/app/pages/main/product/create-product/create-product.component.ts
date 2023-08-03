@@ -35,7 +35,7 @@ export class CreateProductComponent {
     department_id: 0,
     product_brand_id: 0,
     last_supplier_id: '',
-    pack_qty: 0,
+    pack_qty: '',
     last_purchase_cost: 0,
     it_rate1: 0,
     it_amount1: 0,
@@ -44,9 +44,12 @@ export class CreateProductComponent {
     ot_amount1: 0,
     product_image: ""
   }
-  price_inclusive_margin: any = 0
-  vat_amount: any = 0
-  totalAmount: any = 0
+
+  margin_percentage: any = 0
+  margin_amount: any = 0
+  total_amount: any = 0
+  margin_inclusive_price: any = 0
+  vat_amount_inclusive_price: any = 0
 
   dropdowns: any = []
   subCategories: any = []
@@ -135,18 +138,101 @@ export class CreateProductComponent {
     reader.readAsDataURL(file);
   }
 
-  calculateMarginAmount(event: Event) {
-    this.productModel.last_purchase_cost = (this.productModel.unit_price).toFixed(AppConfig.DECIMAL_POINTS)
-    this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS)
-    this.price_inclusive_margin = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1)).toFixed(AppConfig.DECIMAL_POINTS)
-    this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
 
-
+  doCalculation(event: any, type: string) {
+    const inputValue: any = event.target.value
+    const params = {
+      unit_price: type !== 'unit_price' ? this.productModel.unit_price : inputValue,
+      margin_percentage: type !== 'margin_percentage' ? this.margin_percentage : inputValue,
+      margin_amount: type !== 'margin_amount' ? this.margin_amount : inputValue,
+      margin_inclusive_price: type !== 'margin_inclusive_price' ? this.margin_inclusive_price : inputValue,
+      ot_rate1: type !== 'ot_rate1' ? this.productModel.ot_rate1 : inputValue,
+      ot_amount1: type !== 'ot_amount1' ? this.productModel.ot_amount1 : inputValue,
+      vat_amount_inclusive_price: type !== 'vat_amount_inclusive_price' ? this.vat_amount_inclusive_price : inputValue,
+      total_amount: type !== 'total_amount' ? this.total_amount : inputValue,
+    }
+    console.log(this.genericCalculation(params))
+    // this.margin_amount = this.productModel.unit_price - this.productModel.last_purchase_cost
+    // margin_amount_percentage = ((1 / this.productModel.last_purchase_cost) * margin_amount) * 100
+    // price_inclusive_margin = margin_amount + this.productModel.last_purchase_cost
+    // total =
   }
 
-  getPriceWithVAT(event: Event) {
-    this.vat_amount = ((this.productModel.unit_price * this.productModel.ot_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS)
-    this.productModel.ot_amount1 = (this.productModel.unit_price + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
-    this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
+  genericCalculation(params:any) {
+    // this.productModel.unit_price = params.unit_price
+    // this.margin_percentage = ((1 / this.productModel.last_purchase_cost) * params.margin_amount) * 100
+    // this.margin_amount = params.margin_amount
+
+
+    const result = {
+      unit_price: 0,
+      margin_percentage: 0,
+      margin_amount: 0,
+      margin_inclusive_price: 0,
+      vat_percentage: 0,
+      vat_amount: 0,
+      vat_amount_inclusive_price: 0,
+      total_amount: 0,
+    };
+
+    // Calculate total amount
+    if (params.unit_price !== undefined && params.margin_percentage !== undefined) {
+      result.total_amount = params.unit_price + (params.unit_price * (params.margin_percentage / 100));
+    } else if (params.unit_price !== undefined && params.margin_amount !== undefined) {
+      result.total_amount = params.unit_price + params.margin_amount;
+    } else if (params.margin_inclusive_price !== undefined && params.margin_amount !== undefined) {
+      result.total_amount = params.margin_inclusive_price + params.margin_amount;
+    }
+
+    // Calculate margin_percentage
+    if (params.unit_price !== undefined && params.margin_amount !== undefined) {
+      result.margin_percentage = ((result.total_amount - params.unit_price) / params.unit_price) * 100;
+    }
+
+    // Calculate margin_amount
+    if (params.unit_price !== undefined && params.margin_percentage !== undefined) {
+      result.margin_amount = params.unit_price * (params.margin_percentage / 100);
+    } else if (params.unit_price !== undefined && params.margin_inclusive_price !== undefined) {
+      result.margin_amount = params.margin_inclusive_price - params.unit_price;
+    }
+
+    // Calculate margin_inclusive_price
+    if (params.unit_price !== undefined && params.margin_amount !== undefined) {
+      result.margin_inclusive_price = params.unit_price + params.margin_amount;
+    }
+
+    // Calculate vat_amount
+    if (result.total_amount !== undefined && params.vat_percentage !== undefined) {
+      result.vat_amount = result.total_amount * (params.vat_percentage / 100);
+    } else if (result.total_amount !== undefined && params.vat_amount_inclusive_price !== undefined) {
+      result.vat_amount = params.vat_amount_inclusive_price - result.total_amount;
+    }
+
+    // Calculate vat_percentage
+    if (result.total_amount !== undefined && params.vat_amount !== undefined) {
+      result.vat_percentage = (result.vat_amount / result.total_amount) * 100;
+    }
+
+    // Calculate vat_amount_inclusive_price
+    if (result.total_amount !== undefined && params.vat_amount !== undefined) {
+      result.vat_amount_inclusive_price = result.total_amount + result.vat_amount;
+    }
+
+    return result;
   }
+
+  // calculateMarginAmount() {
+  //   this.productModel.last_purchase_cost = (this.productModel.unit_price).toFixed(AppConfig.DECIMAL_POINTS)
+  //
+  //
+  //   this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS)
+  //   this.price_inclusive_margin = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1)).toFixed(AppConfig.DECIMAL_POINTS)
+  //   this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
+  // }
+  //
+  // getPriceWithVAT() {
+  //   this.vat_amount = ((parseFloat(this.price_inclusive_margin) * parseFloat(this.productModel.ot_rate1)) / 100).toFixed(AppConfig.DECIMAL_POINTS)
+  //   this.productModel.ot_amount1 = parseFloat(this.productModel.unit_price + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
+  //   this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
+  // }
 }

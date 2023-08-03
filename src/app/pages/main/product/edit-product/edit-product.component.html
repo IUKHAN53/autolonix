@@ -6,7 +6,7 @@
       <li class="ms-3" *ngFor="let error of errors">{{error ? error : 'Errors'}}</li>
     </ul>
   </div>
-  <form class="content-box" (ngSubmit)="submitForm()">
+  <div class="content-box">
     <div class="form-section">
       <div class="section-30">
         <p>Product Name</p>
@@ -93,7 +93,10 @@
         <div class="section-50">
           <p>Product Cost</p>
           <input type="number" class="form-control rounded-5" name="unit_price" (input)="calculateMarginAmount()"
-                 [(ngModel)]="productModel.unit_price" placeholder="Product Cost">
+                 [(ngModel)]="productModel.average_cost" placeholder="Product Cost">
+          <p>Last Purchase Cost</p>
+          <input type="number" name="last_purchase_cost" class="form-control rounded-5" disabled
+                 [(ngModel)]="productModel.last_purchase_cost" placeholder="Selling Price">
           <p>Margin (%)</p>
           <input type="number" class="form-control rounded-5" name="it_rate1" (input)="calculateMarginAmount()"
                  [(ngModel)]="productModel.it_rate1" placeholder="Margin (%)">
@@ -110,9 +113,7 @@
                  placeholder="Product Image">
         </div>
         <div class="section-50">
-          <p>Last Purchase Cost</p>
-          <input type="number" name="last_purchase_cost" class="form-control rounded-5" disabled
-                 [(ngModel)]="productModel.last_purchase_cost" placeholder="Selling Price">
+
           <p>VAT %</p>
           <input type="number" class="form-control rounded-5" name="ot_rate1" (input)="getPriceWithVAT()"
                  [(ngModel)]="productModel.ot_rate1">
@@ -137,7 +138,7 @@
       <a routerLink="/product/all" class="btn-cancel" style="text-decoration: none">
         Back to list
       </a>
-      <button type="submit" class="btn-save" [disabled]="loading">
+      <button type="button" (click)="submitForm()" class="btn-save" [disabled]="loading">
         <span *ngIf="!loading">Update</span>
         <svg *ngIf="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -157,5 +158,5 @@
         </svg>
       </button>
     </div>
-  </form>
+  </div>
 </div>

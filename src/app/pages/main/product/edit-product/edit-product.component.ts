@@ -48,7 +48,7 @@ export class EditProductComponent implements OnInit {
     last_purchase_cost: '',
     it_rate1: 0,
     it_amount1: 0,
-    unit_price: 0,
+    average_cost: 0,
     ot_rate1: 0,
     ot_amount1: 0,
     selling_price: 0,
@@ -149,7 +149,6 @@ export class EditProductComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.productDetails = response
-
           if (response) {
             for (const key in this.productModel) {
               if (response[key]) {
@@ -191,13 +190,21 @@ export class EditProductComponent implements OnInit {
 
   calculateMarginAmount() {
     this.productModel.last_purchase_cost = parseFloat(this.productModel.unit_price).toFixed(AppConfig.DECIMAL_POINTS)
+
+    // margin_amount = this.productModel.unit_price - this.productModel.last_purchase_cost
+    // margin_amount_percentage = ((1/this.productModel.last_purchase_cost)*margin_amount)*100
+    // price_inclusive_margin = margin_amount + this.productModel.last_purchase_cost
+    // total =
+
+
+
     this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS)
     this.price_inclusive_margin = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1)).toFixed(AppConfig.DECIMAL_POINTS)
     this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
   }
 
   getPriceWithVAT() {
-    this.vat_amount = ((this.productModel.unit_price * this.productModel.ot_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS)
+    this.vat_amount = ((parseFloat(this.price_inclusive_margin) * parseFloat(this.productModel.ot_rate1)) / 100).toFixed(AppConfig.DECIMAL_POINTS)
     this.productModel.ot_amount1 = parseFloat(this.productModel.unit_price + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
     this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
   }

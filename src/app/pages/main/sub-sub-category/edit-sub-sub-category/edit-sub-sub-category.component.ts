@@ -103,8 +103,7 @@ export class EditSubSubCategoryComponent {
       })
   }
 
-  updateSubSubCategory(event: Event): void {
-    event.preventDefault()
+  updateSubSubCategory(): void {
     this.loading = true
     const formData = new FormData()
     formData.append('parent_id', this.subSubCategoryModel.parent_id)

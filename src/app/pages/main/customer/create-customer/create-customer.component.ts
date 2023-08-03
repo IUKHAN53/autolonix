@@ -29,8 +29,7 @@ export class CreateCustomerComponent {
   errorMessage: string = ''
   errors: any = {}
 
-  saveCustomer(event: Event) {
-    event.preventDefault()
+  saveCustomer() {
     this.loading = true
     this.httpService.requestCall('account-head/store', ApiMethod.POST, this.customerModel)
       .subscribe({

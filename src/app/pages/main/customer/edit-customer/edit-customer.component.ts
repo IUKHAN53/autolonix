@@ -52,8 +52,7 @@ export class EditCustomerComponent implements OnInit{
         }
       })
   }
-  updateCustomer(event: Event) {
-    event.preventDefault()
+  updateCustomer() {
     this.loading = true
     this.httpService.requestCall('account-head/update/'+this.customerId, ApiMethod.POST, this.customerModel)
       .subscribe({
