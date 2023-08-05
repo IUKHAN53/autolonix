@@ -55,9 +55,11 @@ export class EditProductComponent implements OnInit {
     product_image: ''
   }
 
-  price_inclusive_margin: any = 0
-  vat_amount: any = 0
-  totalAmount: any = 0
+  margin_percentage: any = 0
+  margin_amount: any = 0
+  total_amount: any = 0
+  margin_inclusive_price: any = 0
+  vat_amount_inclusive_price: any = 0
 
   dropdowns: any = []
   subCategories: any = []
@@ -155,23 +157,22 @@ export class EditProductComponent implements OnInit {
                 if (key !== 'product_image') {
                   this.productModel[key] = response[key]
                 }
-                this.calculateMarginAmount()
-                this.getPriceWithVAT()
+                this.doCalculation('', '')
               }
             }
           }
           console.log(response)
           // this.productModel = response
-          let image = response.product_image.split("/")
-          let isDefaultImage = false
-          image.map((item: any) => {
-            if (item === "default_product.png") {
-              isDefaultImage = true
-            }
-          })
-          if (!isDefaultImage) {
+          // let image = response.product_image.split("/")
+          // let isDefaultImage = false
+          // image.map((item: any) => {
+          //   if (item === "default_product.png") {
+          //     isDefaultImage = true
+          //   }
+          // })
+          // if (!isDefaultImage) {
             this.imagePreview = response.product_image
-          }
+          // }
           if (response.sub_category_id) {
             this.getSubCategories('sub')
           }
@@ -188,6 +189,65 @@ export class EditProductComponent implements OnInit {
       })
   }
 
+  doCalculation(event: any = null, type: string) {
+    const inputValue: any = event.target ? event.target.value : 0
+    switch (type) {
+      case 'unit_price':
+        this.margin_amount = parseFloat(((this.margin_percentage * parseFloat(inputValue)) / 100).toFixed(AppConfig.DECIMAL_POINTS))
+        this.margin_inclusive_price = parseFloat(inputValue) + parseFloat(this.margin_amount)
+        this.productModel.ot_amount1 = parseFloat(((this.margin_inclusive_price * this.productModel.ot_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS))
+        if (this.productModel.ot_rate1 > 0) {
+          this.vat_amount_inclusive_price = this.margin_amount + this.productModel.ot_amount1
+        }
+        break
+      case 'margin_percentage':
+        this.margin_amount = parseFloat(((parseFloat(inputValue) * this.productModel.unit_price) / 100).toFixed(AppConfig.DECIMAL_POINTS))
+        this.margin_inclusive_price = parseFloat(this.productModel.unit_price) + parseFloat(this.margin_amount)
+        this.productModel.ot_amount1 = parseFloat(((this.margin_inclusive_price * this.productModel.ot_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS))
+        if (this.productModel.ot_rate1 > 0) {
+          this.vat_amount_inclusive_price = this.margin_amount + this.productModel.ot_amount1
+        }
+        break
+      case 'margin_amount':
+
+        this.margin_percentage = parseFloat(((parseFloat(inputValue) / this.productModel.unit_price) * 100).toFixed(AppConfig.DECIMAL_POINTS))
+        this.margin_inclusive_price = this.productModel.unit_price + parseFloat(inputValue)
+        this.productModel.ot_amount1 = parseFloat(((this.margin_inclusive_price * this.productModel.ot_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS))
+        if (this.productModel.ot_rate1 > 0) {
+          this.vat_amount_inclusive_price = this.margin_amount + this.productModel.ot_amount1
+        }
+        break
+      case 'margin_inclusive_price':
+        this.productModel.unit_price = parseFloat(inputValue) - this.margin_amount
+        this.productModel.ot_amount1 = parseFloat(((this.margin_inclusive_price * this.productModel.ot_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS))
+        if (this.productModel.ot_rate1 > 0) {
+          this.vat_amount_inclusive_price = this.margin_amount + this.productModel.ot_amount1
+        }
+        break
+      case 'ot_rate1':
+        this.productModel.ot_amount1 = parseFloat(((this.margin_inclusive_price * parseFloat(inputValue)) / 100).toFixed(AppConfig.DECIMAL_POINTS))
+        if (this.productModel.ot_rate1 > 0) {
+          this.vat_amount_inclusive_price = this.margin_amount + this.productModel.ot_amount1
+        }
+        break
+      case 'ot_amount1':
+        // this to be tested
+        // this.productModel.ot_rate1 = parseFloat((parseFloat(inputValue) / this.margin_amount).toFixed(AppConfig.DECIMAL_POINTS))
+        // this.vat_amount_inclusive_price = this.productModel.unit_price + this.productModel.ot_amount1
+        break
+      // case 'vat_amount_inclusive_price':
+      //   // this.productModel.ot_rate1 = parseFloat((this.productModel.ot_amount1 / parseFloat(inputValue)).toFixed(AppConfig.DECIMAL_POINTS))
+      //   // this.productModel.ot_amount1 = parseFloat(((this.margin_inclusive_price * this.productModel.ot_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS))
+      //   break
+      default:
+
+        break
+    }
+    this.productModel.last_purchase_cost = this.productModel.unit_price
+    this.total_amount = this.vat_amount_inclusive_price + this.productModel.unit_price
+  }
+
+
   calculateMarginAmount() {
     this.productModel.last_purchase_cost = parseFloat(this.productModel.unit_price).toFixed(AppConfig.DECIMAL_POINTS)
 
@@ -198,14 +258,14 @@ export class EditProductComponent implements OnInit {
 
 
 
-    this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS)
-    this.price_inclusive_margin = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1)).toFixed(AppConfig.DECIMAL_POINTS)
-    this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
+    // this.productModel.it_amount1 = ((this.productModel.unit_price * this.productModel.it_rate1) / 100).toFixed(AppConfig.DECIMAL_POINTS)
+    // this.price_inclusive_margin = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1)).toFixed(AppConfig.DECIMAL_POINTS)
+    // this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
   }
 
-  getPriceWithVAT() {
-    this.vat_amount = ((parseFloat(this.price_inclusive_margin) * parseFloat(this.productModel.ot_rate1)) / 100).toFixed(AppConfig.DECIMAL_POINTS)
-    this.productModel.ot_amount1 = parseFloat(this.productModel.unit_price + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
-    this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
-  }
+  // getPriceWithVAT() {
+  //   this.vat_amount = ((parseFloat(this.price_inclusive_margin) * parseFloat(this.productModel.ot_rate1)) / 100).toFixed(AppConfig.DECIMAL_POINTS)
+  //   this.productModel.ot_amount1 = parseFloat(this.productModel.unit_price + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
+  //   this.totalAmount = (parseFloat(this.productModel.unit_price) + parseFloat(this.productModel.it_amount1) + parseFloat(this.vat_amount)).toFixed(AppConfig.DECIMAL_POINTS)
+  // }
 }

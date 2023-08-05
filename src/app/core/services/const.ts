@@ -10,5 +10,5 @@ export enum ApiMethod {
 }
 
 export enum AppConfig {
-  DECIMAL_POINTS = 2
+  DECIMAL_POINTS = 4
 }
